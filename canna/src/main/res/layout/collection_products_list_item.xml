@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.shopify.canna.view.collections.ProductListView android:id="@+id/product_list"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/default_padding_half"
+    android:paddingTop="@dimen/default_padding_half">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:clipToPadding="false"/>
+
+</com.shopify.canna.view.collections.ProductListView>
