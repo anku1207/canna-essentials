@@ -9,9 +9,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.shopify.canna.R;
 
 public class createaccount extends AppCompatActivity {
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

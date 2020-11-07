@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/shop"
+        android:icon="@drawable/ic_close"
+        android:title="Shop"
+
+        />
+
+    <item
+        android:id="@+id/search"
+        android:icon="@drawable/ic_close"
+        android:title="Search"
+        />
+
+    <item
+        android:id="@+id/brands"
+        android:icon="@drawable/ic_close"
+        android:title="Brands" />
+
+    <item
+        android:id="@+id/bag"
+        android:icon="@drawable/ic_close"
+        android:title="Bag" />
+    <item
+        android:id="@+id/account"
+        android:icon="@drawable/ic_close"
+        android:title="Account" />
+
+</menu>

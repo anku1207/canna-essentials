@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
+import android.content.Intent;
+import android.net.wifi.hotspot2.pps.HomeSp;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,6 +14,8 @@ import android.widget.Button;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.shopify.canna.R;
+import com.shopify.canna.view.home.HomeActivity;
+import com.shopify.canna.view.splash.Splash_Screen;
 
 public class User_Login extends AppCompatActivity {
     BottomSheetBehavior behavior;
@@ -47,7 +51,10 @@ public class User_Login extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                //behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                Intent mainIntent = new Intent(User_Login.this, HomeActivity.class);
+                startActivity(mainIntent);
+                finish();
 
             }
         });
