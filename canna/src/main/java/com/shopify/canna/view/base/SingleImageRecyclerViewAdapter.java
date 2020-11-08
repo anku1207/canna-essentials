@@ -25,9 +25,9 @@ public class SingleImageRecyclerViewAdapter extends  RecyclerView.Adapter<Single
         int Activityname;
 
         public SingleImageRecyclerViewAdapter(Context mctx, JSONArray productslist, int Activityname) {
-        this.mctx = mctx;
-        this.productslist = productslist;
-        this.Activityname=Activityname;
+            this.mctx = mctx;
+            this.productslist = productslist;
+            this.Activityname=Activityname;
         }
 
         @Override
@@ -47,33 +47,21 @@ public class SingleImageRecyclerViewAdapter extends  RecyclerView.Adapter<Single
                 JSONObject jsonObject = productslist.getJSONObject(position);
 
                 if(jsonObject.has("image")){
-
                     Picasso.with(mctx)
                             .load(jsonObject.getString("image"))
                             .into(holder.imageView, new com.squareup.picasso.Callback() {
                                 @Override
                                 public void onSuccess() {
-
                                     //do smth when picture is loaded successfully
                                 }
                                 @Override
                                 public void onError() {
-
                                 }
                             });
-
                 }
-
-
             }catch (Exception e){
                 Toast.makeText(mctx, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
-
             }
-
-
-
-
-
         }
 
         @Override
@@ -81,14 +69,12 @@ public class SingleImageRecyclerViewAdapter extends  RecyclerView.Adapter<Single
             return productslist.length();
         }
         public  class ProdectViewHolder extends RecyclerView.ViewHolder {
-
             LinearLayout mailmenu;
             ImageView imageView;
             public ProdectViewHolder(View itemView) {
                 super(itemView);
                 imageView=itemView.findViewById(R.id.imageView);
                 mailmenu=itemView.findViewById(R.id.mailmenu);
-
             }
         }
 }

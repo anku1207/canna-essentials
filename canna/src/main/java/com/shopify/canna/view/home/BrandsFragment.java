@@ -95,8 +95,6 @@ public class BrandsFragment extends Fragment {
         recyclerView.setNestedScrollingEnabled(false);
         LinearLayoutManager verticalLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(verticalLayoutManager);
-
-
         try {
             HashMap<String, Object> params = new HashMap<String, Object>();
             ConnectionVO connectionVO = new ConnectionVO();
@@ -111,17 +109,10 @@ public class BrandsFragment extends Fragment {
                     JSONObject responseObject = (JSONObject) response;
                     singleImageRecyclerViewAdapter=new SingleImageRecyclerViewAdapter(getContext(), responseObject.getJSONArray("data"),R.layout.brandsimagerecyclerviewdesign);
                     recyclerView.setAdapter(singleImageRecyclerViewAdapter);
-                //    recyclerView.getAdapter().notifyDataSetChanged();
-
                 }
             });
-
-
-
         }catch (Exception e){
             Toast.makeText(getContext(), "sdfsdfsf", Toast.LENGTH_SHORT).show();
-
         }
-
     }
 }
