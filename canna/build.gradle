@@ -146,7 +146,7 @@ task downloadApolloSchema(type: DefaultTask, group: "GraphQL", description: "Dow
     if (schemaFile.exists()) {
       schemaFile.delete()
     }
-    new URL('https://app.shopify.com/services/graphql/introspection/storefront?api_client_api_key=4a6c829ec3cb12ef9004bf8ed27adf12').withInputStream { i ->
+    new URL('https://app.shopify.com/services/graphql/introspection/storefront?api_client_api_key=7f606dd04114363549b7aeaca0b01aab').withInputStream { i ->
       schemaFile.withOutputStream {
         it << i
       }

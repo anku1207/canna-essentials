@@ -27,6 +27,7 @@ package com.shopify.canna.view.products;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -52,9 +53,9 @@ public final class ProductListActivity extends AppCompatActivity {
   public static final String EXTRAS_COLLECTION_IMAGE_URL = "collection_image_url";
   public static final String EXTRAS_COLLECTION_TITLE = "collection_title";
 
-  @BindView(R2.id.toolbar) Toolbar toolbarView;
-  @BindView(R2.id.collection_image) ShopifyDraweeView collectionImageView;
   @BindView(R2.id.product_list) ProductListView productListView;
+  @BindView(R2.id.title)
+  TextView title;
 
   @Override
   protected void onCreate(@Nullable final Bundle savedInstanceState) {
@@ -69,10 +70,8 @@ public final class ProductListActivity extends AppCompatActivity {
     checkNotNull(collectionId, "collectionId == null");
     checkNotNull(collectionTitle, "collectionTitle == null");
 
-    setSupportActionBar(toolbarView);
-    getSupportActionBar().setTitle(collectionTitle);
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    collectionImageView.loadShopifyImage(collectionImageUrl);
+    title.setText(collectionTitle);
+
 
     initViewModels(collectionId);
   }

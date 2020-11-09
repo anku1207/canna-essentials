@@ -18,14 +18,12 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        if(getSupportActionBar()!=null)
-            getSupportActionBar().hide();
-
+        if(getSupportActionBar()!=null) getSupportActionBar().hide();
 
         navigation=findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        navigation.setSelectedItemId(R.id.brands);
+        navigation.setSelectedItemId(R.id.shop);
     }
 
     BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener =
@@ -35,14 +33,11 @@ public class HomeActivity extends AppCompatActivity {
                     Fragment fragment = null;
                     switch (item.getItemId()) {
                         case R.id.shop:
-                            Toast.makeText(HomeActivity.this, "shop", Toast.LENGTH_SHORT).show();
-                            //fragment=new Home_Menu();
-                            fragment=new BrandsFragment();
+                            fragment=new ShopFragment();
                             break;
                         case R.id.search:
                             // fragment=new Profile();
                             Toast.makeText(HomeActivity.this, "search", Toast.LENGTH_SHORT).show();
-
                             break;
                         case R.id.brands:
                             fragment=new BrandsFragment();

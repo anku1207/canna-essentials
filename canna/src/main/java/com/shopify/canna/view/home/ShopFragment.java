@@ -5,19 +5,15 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.shopify.canna.Interface.CallBackInterface;
 import com.shopify.canna.Interface.VolleyResponse;
 import com.shopify.canna.R;
 import com.shopify.canna.view.base.SingleImageRecyclerViewAdapter;
@@ -25,20 +21,17 @@ import com.shopify.canna.vo.ConnectionVO;
 import com.shopify.canna.volley.VolleyResponseListener;
 import com.shopify.canna.volley.VolleyUtils;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link BrandsFragment#newInstance} factory method to
+ * Use the {@link ShopFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BrandsFragment extends Fragment implements  SwipeRefreshLayout.OnRefreshListener  {
+public class ShopFragment extends Fragment implements  SwipeRefreshLayout.OnRefreshListener{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -53,7 +46,8 @@ public class BrandsFragment extends Fragment implements  SwipeRefreshLayout.OnRe
     SwipeRefreshLayout mSwipeRefreshLayout;
     SingleImageRecyclerViewAdapter singleImageRecyclerViewAdapter;
 
-    public BrandsFragment() {
+
+    public ShopFragment() {
         // Required empty public constructor
     }
 
@@ -63,11 +57,11 @@ public class BrandsFragment extends Fragment implements  SwipeRefreshLayout.OnRe
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment BrandsFragment.
+     * @return A new instance of fragment ShopFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static BrandsFragment newInstance(String param1, String param2) {
-        BrandsFragment fragment = new BrandsFragment();
+    public static ShopFragment newInstance(String param1, String param2) {
+        ShopFragment fragment = new ShopFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -88,7 +82,7 @@ public class BrandsFragment extends Fragment implements  SwipeRefreshLayout.OnRe
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_brands, container, false);
+        return inflater.inflate(R.layout.fragment_shop, container, false);
     }
 
     @Override
@@ -149,7 +143,7 @@ public class BrandsFragment extends Fragment implements  SwipeRefreshLayout.OnRe
         try {
             HashMap<String, Object> params = new HashMap<String, Object>();
             ConnectionVO connectionVO = new ConnectionVO();
-            connectionVO.setMethodName("category-brand-api.php?apicall=brands");
+            connectionVO.setMethodName("category-brand-api.php?apicall=collection");
             connectionVO.setRequestType(ConnectionVO.REQUEST_GET);
             connectionVO.setLoaderAvoided(true);
             VolleyUtils.makeJsonObjectRequest(getContext(),connectionVO, new VolleyResponseListener() {
