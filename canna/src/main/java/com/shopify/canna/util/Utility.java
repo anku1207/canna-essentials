@@ -194,6 +194,17 @@ public class Utility {
         throwable.printStackTrace(pw);
         return sw.getBuffer().toString();
     }
+    public static Drawable GetImage(Context c, String ImageName) {
+        Drawable drawable;
+        try {
+            String[] imagename=ImageName.split("\\.");
+            int id=c.getResources().getIdentifier(imagename[0],"drawable",c.getPackageName());
+            drawable= ContextCompat.getDrawable(c,id);
+        }catch (Exception e){
+            drawable=null;
+        }
+        return drawable;
+    }
 
 }
 
