@@ -1,7 +1,11 @@
 package com.shopify.canna.domain.usecases;
 
+import android.os.Handler;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.shopify.buy3.GraphCall;
 import com.shopify.buy3.GraphCallResult;
 import com.shopify.buy3.GraphClient;
 import com.shopify.buy3.QueryGraphCall;
@@ -46,6 +50,7 @@ public final class FetchCollectionsUseCaseImpl implements FetchCollectionsUseCas
             )
         )
     );
+
     final QueryGraphCall call = graphClient.queryGraph(query)
         .enqueue(callbackExecutors.handler(), result -> {
           if (result instanceof GraphCallResult.Success) {
