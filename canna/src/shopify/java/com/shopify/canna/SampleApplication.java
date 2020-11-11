@@ -30,6 +30,9 @@ import com.shopify.buy3.HttpCachePolicy;
 import com.shopify.canna.domain.usecases.UseCases;
 import com.shopify.canna.domain.usecases.UseCasesImpl;
 import com.shopify.canna.util.CallbackExecutors;
+
+import net.danlew.android.joda.JodaTimeAndroid;
+
 import kotlin.Unit;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -51,6 +54,7 @@ public class SampleApplication extends BaseApplication {
 
   @Override
   protected void initialize() {
+    JodaTimeAndroid.init(this);
     initializeGraphClient();
   }
 
