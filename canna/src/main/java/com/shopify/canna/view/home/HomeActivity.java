@@ -46,14 +46,14 @@ public class HomeActivity extends AppCompatActivity {
                             Toast.makeText(HomeActivity.this, "bag", Toast.LENGTH_SHORT).show();
                             break;
                         case R.id.account:
-                            Toast.makeText(HomeActivity.this, "account", Toast.LENGTH_SHORT).show();
+                            fragment=new AccountFragment();
                             break;
                     }
                     return loadFragment(fragment);
                 }
             };
 
-    private boolean loadFragment(Fragment fragment) {
+    public boolean loadFragment(Fragment fragment) {
         //switching fragment
         if (fragment != null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment)
