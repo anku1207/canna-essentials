@@ -28,6 +28,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import android.os.Bundle;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import com.shopify.canna.domain.interactor.CartWatchInteractor;
 import com.shopify.canna.domain.interactor.CheckoutCreateInteractor;
@@ -144,7 +146,9 @@ public final class RealCartViewModel extends BaseViewModel implements CartDetail
     cancelRequest(REQUEST_ID_CREATE_WEB_CHECKOUT);
     cancelRequest(REQUEST_ID_CREATE_ANDROID_PAY_CHECKOUT);
 
-    if (cart == null) return;
+    Timber.tag("carditmesize").w("%s", cart.cartItems().size());
+
+    if (cart == null || cart.cartItems().size()==0) return;
 
     showProgress(requestId);
     List<Checkout.LineItem> lineItems = mapItems(cart.cartItems(),

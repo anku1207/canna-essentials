@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.shopify.canna.R;
 import com.shopify.canna.view.base.AccountDesignRecyclerViewAdapter;
@@ -132,8 +133,7 @@ public class HelpCenterFragment extends Fragment {
             recyclerView.setAdapter(accountDesignRecyclerViewAdapter);
             recyclerView.getAdapter().notifyDataSetChanged();
         }catch (Exception e){
-
+            Toast.makeText(getContext(), ""+e.getMessage(), Toast.LENGTH_SHORT).show();
         }
-
     }
 }

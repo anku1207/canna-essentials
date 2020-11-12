@@ -58,7 +58,6 @@ public final class CartActivity extends AppCompatActivity {
   @BindView(R2.id.cart_list) CartListView cartListView;
   @BindView(R2.id.toolbar) Toolbar toolbarView;
 
-  private final LifecycleRegistry lifecycleRegistry = new LifecycleRegistry(this);
   private CartDetailsViewModel cartDetailsViewModel;
   private CartHeaderViewModel cartHeaderViewModel;
 
@@ -70,22 +69,7 @@ public final class CartActivity extends AppCompatActivity {
     return true;
   }
 
-  @Override public LifecycleRegistry getLifecycle() {
-    return lifecycleRegistry;
-  }
 
-//  @Override public void onConnected(@Nullable final Bundle bundle) {
-//    ShopSettings shopSettings = ((BaseApplication) getApplication()).shopSettings().getValue();
-//    PayHelper.isReadyToPay(getApplicationContext(), googleApiClient, shopSettings.acceptedCardBrands, result -> {
-//      if (lifecycleRegistry.getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
-//        cartDetailsViewModel.onGoogleApiClientConnectionChanged(true);
-//      }
-//    });
-//  }
-
-//  @Override public void onConnectionSuspended(final int i) {
-//    cartDetailsViewModel.onGoogleApiClientConnectionChanged(false);
-//  }
 
   @SuppressWarnings("ConstantConditions") @Override protected void onCreate(@Nullable final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -102,31 +86,10 @@ public final class CartActivity extends AppCompatActivity {
     initViewModels();
 //    connectGoogleApiClient();
 
-    lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_CREATE);
   }
 
-  @Override protected void onStart() {
-    super.onStart();
-    lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START);
-  }
-
-  @Override protected void onResume() {
-    super.onResume();
-    lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME);
-  }
-
-  @Override protected void onPause() {
-    lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE);
-    super.onPause();
-  }
-
-  @Override protected void onStop() {
-    lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP);
-    super.onStop();
-  }
 
   @Override protected void onDestroy() {
-    lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY);
 
     super.onDestroy();
 

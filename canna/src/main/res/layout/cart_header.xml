@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:animateLayoutChanges="true">
+    android:animateLayoutChanges="true"
+    android:background="@color/activitybackground">
 
     <TextView
         android:id="@+id/title1"
@@ -14,7 +15,8 @@
         android:textAppearance="@style/Shopify.TitleText"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/grey"/>
 
     <TextView
         android:id="@+id/subtotal"
@@ -38,7 +40,8 @@
         android:textAppearance="@style/Shopify.BodyText"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/subtotal" />
+        app:layout_constraintTop_toBottomOf="@+id/subtotal"
+        android:textColor="@color/grey"/>
 
     <ImageButton
         android:id="@+id/android_pay_checkout"

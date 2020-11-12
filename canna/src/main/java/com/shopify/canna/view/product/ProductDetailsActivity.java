@@ -69,12 +69,8 @@ public final class ProductDetailsActivity extends AppCompatActivity {
   @BindView(R2.id.image_gallery) ImageGalleryView imageGalleryView;
   @BindView(R2.id.product_description) ProductDescriptionView productDescriptionView;
 
-  private final LifecycleRegistry lifecycleRegistry = new LifecycleRegistry(this);
   private ProductViewModel productViewModel;
 
-  @Override public LifecycleRegistry getLifecycle() {
-    return lifecycleRegistry;
-  }
 
   @Override public boolean onSupportNavigateUp() {
     finish();
@@ -85,7 +81,7 @@ public final class ProductDetailsActivity extends AppCompatActivity {
     MenuInflater inflater = getMenuInflater();
     inflater.inflate(R.menu.menu, menu);
     menu.findItem(R.id.cart).getActionView().setOnClickListener(v -> {
-      ScreenRouter.route(this, new CartClickActionEvent());
+       ScreenRouter.route(this, new CartClickActionEvent());
     });
     return true;
   }
@@ -107,10 +103,8 @@ public final class ProductDetailsActivity extends AppCompatActivity {
     getSupportActionBar().setTitle(productTitle);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
     initViewModels(productId);
-
-
-    Timber.tag("imageList").w(Collections.singletonList(productImageUrl).toString());
 
     imageGalleryView.renderImages(TextUtils.isEmpty(productImageUrl) ? Collections.emptyList()
             : Collections.singletonList(productImageUrl));
@@ -118,33 +112,8 @@ public final class ProductDetailsActivity extends AppCompatActivity {
     productDescriptionView.renderProduct(productTitle, productPrice);
     productDescriptionView.setOnAddToCartClickListener(() -> productViewModel.addToCart());
 
-    lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_CREATE);
   }
 
-  @Override protected void onStart() {
-    super.onStart();
-    lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START);
-  }
-
-  @Override protected void onResume() {
-    super.onResume();
-    lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME);
-  }
-
-  @Override protected void onPause() {
-    lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE);
-    super.onPause();
-  }
-
-  @Override protected void onStop() {
-    lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP);
-    super.onStop();
-  }
-
-  @Override protected void onDestroy() {
-    lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY);
-    super.onDestroy();
-  }
 
   private void initViewModels(final String productId) {
     productViewModel = ViewModelProviders.of(this, new ViewModelProvider.Factory() {
@@ -168,12 +137,10 @@ public final class ProductDetailsActivity extends AppCompatActivity {
       }
     });
   }
-
   private void renderProduct(final ProductDetails product) {
     imageGalleryView.renderImages(product.images);
     productDescriptionView.renderProduct(product);
   }
-
   private void showDefaultErrorMessage() {
     Snackbar snackbar = Snackbar.make(rootView, R.string.default_error, Snackbar.LENGTH_LONG);
     snackbar.getView().setBackgroundResource(R.color.snackbar_error_background);

@@ -4,20 +4,23 @@
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_marginTop="30dp"
+    android:background="@color/activitybackground">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
-        android:background="?android:attr/colorPrimary"
-        app:contentInsetStartWithNavigation="0dp" />
+        app:contentInsetStartWithNavigation="0dp"
+        app:titleTextColor="@color/black"
+        android:background="@color/white"
+        />
 
     <com.shopify.canna.view.cart.CartHeaderView
         android:id="@+id/cart_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:attr/colorPrimary"
         android:paddingBottom="@dimen/default_padding">
 
         <include

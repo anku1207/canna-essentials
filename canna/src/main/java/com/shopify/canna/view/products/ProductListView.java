@@ -25,8 +25,10 @@
 package com.shopify.canna.view.products;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -38,11 +40,13 @@ import com.shopify.canna.R;
 import com.shopify.canna.R2;
 import com.shopify.canna.domain.model.Product;
 import com.shopify.canna.view.Constant;
+import com.shopify.canna.view.ScreenActionEvent;
 import com.shopify.canna.view.ScreenRouter;
 import com.shopify.canna.view.base.LifecycleSwipeRefreshLayout;
 import com.shopify.canna.view.base.ListItemViewModel;
 import com.shopify.canna.view.base.RecyclerViewAdapter;
 import com.shopify.canna.view.collections.CollectionListViewModel;
+import com.shopify.canna.view.product.ProductDetailsActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -71,6 +75,18 @@ public final class ProductListView extends LifecycleSwipeRefreshLayout implement
   @Override
   public void onItemClick(@NonNull final ListItemViewModel itemViewModel) {
     if (itemViewModel.payload() instanceof Product) {
+
+              Log.w("productID",  ((Product) itemViewModel.payload()).id.toString());
+
+     /* Intent intent = new Intent(getContext(), ProductDetailsActivity.class);
+
+      intent.putExtra(ProductDetailsActivity.EXTRAS_PRODUCT_ID,  ((Product) itemViewModel.payload()).id);
+      intent.putExtra(ProductDetailsActivity.EXTRAS_PRODUCT_IMAGE_URL,  ((Product) itemViewModel.payload()).image);
+      intent.putExtra(ProductDetailsActivity.EXTRAS_PRODUCT_TITLE,  ((Product) itemViewModel.payload()).title);
+      intent.putExtra(ProductDetailsActivity.EXTRAS_PRODUCT_PRICE,  ((Product) itemViewModel.payload()).price.doubleValue());
+      getContext().startActivity(intent);*/
+
+
       ScreenRouter.route(getContext(), new ProductClickActionEvent((Product) itemViewModel.payload()));
     }
   }
