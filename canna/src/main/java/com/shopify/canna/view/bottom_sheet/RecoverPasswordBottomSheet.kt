@@ -53,10 +53,11 @@ class RecoverPasswordBottomSheet : BaseRoundedBottomSheetFragment() {
 
         button_submit.setOnClickListener {
             progress.visibility = View.VISIBLE
+            button_submit.visibility = View.GONE
             if (validInput(edt_email.text.toString())) {
                 val mutationQuery = mutation { mutation: MutationQuery ->
                     mutation
-                            .customerRecover("amit.pandey@mreservicesindia.com"
+                            .customerRecover(edt_email.text.toString()
                             ) { query: CustomerRecoverPayloadQuery ->
                                 query
                                         .userErrors { userError: UserErrorQuery ->
@@ -69,21 +70,31 @@ class RecoverPasswordBottomSheet : BaseRoundedBottomSheetFragment() {
 
                 SampleApplication.graphClient().mutateGraph(mutationQuery).enqueue {
                     if (it is GraphCallResult.Success) {
-                        val customerRecoverPayload = it.response.data?.customerRecover
-                        customerRecoverPayload?.let { recoverPayload ->
-                            if (recoverPayload.userErrors.isNotEmpty()) {
-                                Utils.showToast(requireContext(), recoverPayload.userErrors[0].message)
-                            } else {
-                                Utils.showToast(requireContext(), getString(R.string.reset_password_success))
-                                dismissAllowingStateLoss()
+                        if (!it.response.errors.isNullOrEmpty()){
+                            Utils.showHideView(progress, View.GONE)
+                            Utils.showHideView(button_submit, View.VISIBLE)
+                            Utils.showToast(requireContext(), it.response.errors[0].message())
+                        }else{
+                            val customerRecoverPayload = it.response.data?.customerRecover
+                            customerRecoverPayload?.let { recoverPayload ->
+                                if (recoverPayload.userErrors.isNotEmpty()) {
+                                    Utils.showHideView(progress, View.GONE)
+                                    Utils.showHideView(button_submit, View.VISIBLE)
+                                    Utils.showToast(requireContext(), recoverPayload.userErrors[0].message)
+                                } else {
+                                    Utils.showToast(requireContext(), getString(R.string.reset_password_success))
+                                    dismissAllowingStateLoss()
+                                }
                             }
                         }
                     } else {
+                        Utils.showHideView(progress, View.GONE)
+                        Utils.showHideView(button_submit, View.VISIBLE)
                         Utils.showToast(requireContext(), getString(R.string.something_wrong))
                     }
-                    progress.visibility = View.GONE
                 }
             }else{
+                button_submit.visibility = View.VISIBLE
                 progress.visibility = View.GONE
             }
         }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Mobile Buy Sample</string>
+    <string name="app_name">Canna Essentials</string>
     <string name="collection_list_title">Collections</string>
     <string name="default_error">Oops, something went wrong, please try again …</string>
     <string name="price_from">From %s</string>
@@ -60,7 +60,7 @@
     <string name="email_validation">Please enter correct email address.</string>
     <string name="password_validation">Password should contain at least 6 characters.</string>
     <string name="sign_up_success">Sign up successful, please login to continue!</string>
-    <string name="reset_password_success">Sign up successful, please login to continue!</string>
+    <string name="reset_password_success">Please check your email!</string>
     <string name="privacy_policy_url">https://www.google.com/</string>
     <string name="terms_url">https://www.amazon.in/</string>
 

@@ -66,6 +66,7 @@ class CreateAccountBottomSheet : BaseRoundedBottomSheetFragment() {
 
         button_create_account.setOnClickListener {
             progress.visibility = View.VISIBLE
+            button_create_account.visibility = View.GONE
             if (validInput()) {
                 val input = CustomerCreateInput(edt_email.text.toString(), edt_password.text.toString())
                         .setFirstName(edt_first_name.text.toString())
@@ -94,21 +95,32 @@ class CreateAccountBottomSheet : BaseRoundedBottomSheetFragment() {
 
                 SampleApplication.graphClient().mutateGraph(mutationQuery).enqueue { graphCallResult ->
                     if (graphCallResult is GraphCallResult.Success) {
-                        val customerCreatePayloadQuery = graphCallResult.response.data?.customerCreate
-                        customerCreatePayloadQuery?.let { customerCreatePayload ->
-                            if (!customerCreatePayload.userErrors.isNullOrEmpty()) {
-                                Utils.showToast(requireContext(), customerCreatePayload.userErrors[0].message)
-                            } else {
-                                Utils.showToast(requireContext(), getString(R.string.sign_up_success))
-                                dismissAllowingStateLoss()
+                        if (!graphCallResult.response.errors.isNullOrEmpty()){
+                            Utils.showToast(requireContext(), getString(R.string.something_wrong))
+                            Utils.showHideView(progress, View.GONE)
+                            Utils.showToast(requireContext(), graphCallResult.response.errors[0].message())
+                        }else{
+                            val customerCreatePayloadQuery = graphCallResult.response.data?.customerCreate
+                            customerCreatePayloadQuery?.let { customerCreatePayload ->
+                                if (!customerCreatePayload.userErrors.isNullOrEmpty()) {
+                                    Utils.showToast(requireContext(), getString(R.string.something_wrong))
+                                    Utils.showHideView(progress, View.GONE)
+                                    Utils.showToast(requireContext(), customerCreatePayload.userErrors[0].message)
+                                } else {
+                                    Utils.showToast(requireContext(), getString(R.string.sign_up_success))
+                                    Utils.showHideView(progress, View.GONE)
+                                    dismissAllowingStateLoss()
+                                }
                             }
                         }
                     } else {
                         Utils.showToast(requireContext(), getString(R.string.something_wrong))
+                        Utils.showHideView(progress, View.GONE)
+                        Utils.showHideView(button_create_account, View.GONE)
                     }
-                    progress.visibility = View.GONE
                 }
             }else{
+                button_create_account.visibility = View.VISIBLE
                 progress.visibility = View.GONE
             }
         }
