@@ -1,11 +1,18 @@
 package com.shopify.canna.view.bottom_sheet
 
 import android.app.Dialog
+import android.graphics.Color
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.SpannableStringBuilder
+import android.text.TextPaint
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -16,6 +23,7 @@ import com.shopify.canna.R
 import com.shopify.canna.SampleApplication
 import com.shopify.canna.util.Utils
 import com.shopify.canna.view.base.BaseRoundedBottomSheetFragment
+import com.shopify.canna.view.webview.WebViewActivity
 import kotlinx.android.synthetic.main.bottomsheet_create_account.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -53,6 +61,8 @@ class CreateAccountBottomSheet : BaseRoundedBottomSheetFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setSpannableString()
 
         button_create_account.setOnClickListener {
             progress.visibility = View.VISIBLE
@@ -103,6 +113,42 @@ class CreateAccountBottomSheet : BaseRoundedBottomSheetFragment() {
             }
         }
 
+    }
+
+    private fun setSpannableString() {
+        val initialText = SpannableStringBuilder(text_terms_and_conditions.text.toString())
+
+        initialText.append(getString(R.string.privacy_policy))
+        initialText.setSpan(object : ClickableSpan(){
+            override fun onClick(widget: View) {
+                WebViewActivity.launchActivity(startingActivity = requireActivity(), title = getString(R.string.privacy_policy), url = getString(R.string.privacy_policy_url))
+            }
+
+            override fun updateDrawState(ds: TextPaint) {
+                ds.isUnderlineText = false
+                ds.color = Color.parseColor("#2C66E3")
+                text_terms_and_conditions.invalidate()
+            }
+
+        }, initialText.length - getString(R.string.privacy_policy).length, initialText.length, 0)
+
+        initialText.append(" and ")
+        initialText.append(getString(R.string.terms_conditions_text))
+        initialText.setSpan(object : ClickableSpan(){
+            override fun onClick(widget: View) {
+                WebViewActivity.launchActivity(startingActivity = requireActivity(), title = getString(R.string.terms_conditions_text), url = getString(R.string.terms_url))
+            }
+
+            override fun updateDrawState(ds: TextPaint) {
+                ds.isUnderlineText = false
+                ds.color = Color.parseColor("#2C66E3")
+                text_terms_and_conditions.invalidate()
+            }
+
+        }, initialText.length - getString(R.string.terms_conditions_text).length, initialText.length, 0)
+
+        text_terms_and_conditions.movementMethod = LinkMovementMethod.getInstance()
+        text_terms_and_conditions.setText(initialText, TextView.BufferType.SPANNABLE)
     }
 
     private fun validInput(): Boolean {

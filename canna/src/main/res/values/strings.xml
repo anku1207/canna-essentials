@@ -31,7 +31,7 @@
 
     <string name="Recover_Password"><u>Recover Password</u></string>
     <string name="Login_Btn">Login</string>
-    <string name="Sign_Up">Don\'t have an account?<u>SingUp</u></string>
+    <string name="Sign_Up">Don\'t have an account? <u>Sign Up</u></string>
 
     <string name="Skip"><u>Skip</u></string>
     <string name="title_activity_home">MainActivity</string>
@@ -46,7 +46,9 @@
     <string name="enter_email">Please enter email</string>
     <string name="enter_password">Please enter at least 6 digit password</string>
     <string name="create_account_button">Create an Account</string>
-    <string name="terms_conditions">By continuing you agree to our\nPrivacy Policy and Terms and Conditions</string>
+    <string name="terms_conditions">By continuing you agree to our\n</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="terms_conditions_text">Terms &amp; Conditions</string>
     <string name="email_hint">Email</string>
     <string name="password_assistance_text">We will send you an email to rest your password</string>
     <string name="password_assistance">Password Assistance</string>
@@ -59,5 +61,7 @@
     <string name="password_validation">Password should contain at least 6 characters.</string>
     <string name="sign_up_success">Sign up successful, please login to continue!</string>
     <string name="reset_password_success">Sign up successful, please login to continue!</string>
+    <string name="privacy_policy_url">https://www.google.com/</string>
+    <string name="terms_url">https://www.amazon.in/</string>
 
 </resources>

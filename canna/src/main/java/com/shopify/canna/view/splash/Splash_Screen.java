@@ -33,20 +33,17 @@ public class Splash_Screen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash__screen);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent mainIntent;
-                if (Prefs.INSTANCE.getAccessToken() != null && Prefs.INSTANCE.getAccessToken().length() > 4 &&
-                    Prefs.INSTANCE.getTokenExpiryTimestamp() > System.currentTimeMillis() &&
-                    Prefs.INSTANCE.fetchCustomerDetails() != null){
-                    mainIntent = new Intent(Splash_Screen.this, HomeActivity.class);
-                }else {
-                    mainIntent = new Intent(Splash_Screen.this, User_Login.class);
-                }
-                startActivity(mainIntent);
-                finish();
+        new Handler().postDelayed(() -> {
+            Intent mainIntent;
+            if (Prefs.INSTANCE.getAccessToken() != null && Prefs.INSTANCE.getAccessToken().length() > 4 &&
+                Prefs.INSTANCE.getTokenExpiryTimestamp() > System.currentTimeMillis() &&
+                Prefs.INSTANCE.fetchCustomerDetails() != null){
+                mainIntent = new Intent(Splash_Screen.this, HomeActivity.class);
+            }else {
+                mainIntent = new Intent(Splash_Screen.this, User_Login.class);
             }
-        }, 1000);
+            startActivity(mainIntent);
+            finish();
+        }, 1500);
     }
 }
