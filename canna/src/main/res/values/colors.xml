@@ -22,6 +22,7 @@
 
 
     <color name="grey">#B7464545</color>
+    <color name="light_grey">#818181</color>
 
     <color name="blue">#1666A1</color>
     <color name="disabledTextColor">#80000000</color>

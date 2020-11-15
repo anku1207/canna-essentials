@@ -27,4 +27,9 @@ object Utils {
 
         return true
     }
+
+    fun isUserAuthenticated(): Boolean{
+        return Prefs.accessToken.orEmpty().isNotEmpty() && Prefs.tokenExpiryTimestamp > System.currentTimeMillis() &&
+                Prefs.fetchCustomerDetails() != null
+    }
 }

@@ -12,8 +12,11 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.shopify.buy3.Storefront;
 import com.shopify.canna.R;
+import com.shopify.canna.util.Prefs;
 import com.shopify.canna.view.base.AccountDesignRecyclerViewAdapter;
 import com.shopify.canna.view.base.SingleImageRecyclerViewAdapter;
 
@@ -35,7 +38,8 @@ public class AccountFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    private TextView textViewName, textViewEmail;
+    private Storefront.Customer customer = Prefs.INSTANCE.fetchCustomerDetails();
     RecyclerView recyclerView;
 
     public AccountFragment() {
@@ -80,6 +84,12 @@ public class AccountFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView=view.findViewById(R.id.recyclerView);
+        textViewName = view.findViewById(R.id.text_name);
+        textViewEmail = view.findViewById(R.id.text_email);
+
+        textViewName.setText(String.format("%s %s", customer.getFirstName(), customer.getLastName()));
+        textViewEmail.setText(customer.getEmail());
+
         recyclerView.setHasFixedSize(true);
         recyclerView.setNestedScrollingEnabled(false);
         LinearLayoutManager verticalLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);

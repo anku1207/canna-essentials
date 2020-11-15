@@ -23,6 +23,7 @@
             android:layout_marginLeft="10dp"
             >
             <TextView
+                android:id="@+id/text_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
@@ -30,9 +31,11 @@
                 android:textSize="20dp"
                 android:fontFamily="@font/sweetsanspromedium"/>
             <TextView
+                android:id="@+id/text_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/disabledTextColor"
+                android:fontFamily="@font/sweetsansproregular"
                 android:text="manoj.shakya@anduriltechnologies.com"
                 android:textSize="13dp"
                 />

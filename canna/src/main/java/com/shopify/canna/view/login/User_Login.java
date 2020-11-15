@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.wifi.hotspot2.pps.HomeSp;
 import android.os.Bundle;
@@ -56,6 +57,11 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import timber.log.Timber;
 
 public class User_Login extends AppCompatActivity {
+
+    public static void launchActivity(Context startingActivity){
+        Intent intent = new Intent(startingActivity, User_Login.class);
+        startingActivity.startActivity(intent);
+    }
 
     CoordinatorLayout coordinatorLayout;
     EditText editTextEmail, editTextPassword;

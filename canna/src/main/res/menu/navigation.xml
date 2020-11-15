@@ -4,29 +4,29 @@
 
     <item
         android:id="@+id/shop"
-        android:icon="@drawable/ic_close"
+        android:icon="@drawable/tab_shop_icon"
         android:title="Shop"
 
         />
 
     <item
         android:id="@+id/search"
-        android:icon="@drawable/ic_close"
+        android:icon="@drawable/tab_search_icon"
         android:title="Search"
         />
 
     <item
         android:id="@+id/brands"
-        android:icon="@drawable/ic_close"
+        android:icon="@drawable/tab_brands_icon"
         android:title="Brands" />
 
     <item
         android:id="@+id/bag"
-        android:icon="@drawable/ic_close"
+        android:icon="@drawable/tab_bag_icon"
         android:title="Bag" />
     <item
         android:id="@+id/account"
-        android:icon="@drawable/ic_close"
+        android:icon="@drawable/tab_account_icon"
         android:title="Account" />
 
 </menu>

@@ -11,6 +11,10 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.shopify.canna.R;
+import com.shopify.canna.util.Prefs;
+import com.shopify.canna.util.Util;
+import com.shopify.canna.util.Utils;
+import com.shopify.canna.view.login.User_Login;
 
 public class HomeActivity extends AppCompatActivity {
     BottomNavigationView navigation;
@@ -46,7 +50,12 @@ public class HomeActivity extends AppCompatActivity {
                             Toast.makeText(HomeActivity.this, "bag", Toast.LENGTH_SHORT).show();
                             break;
                         case R.id.account:
-                            fragment=new AccountFragment();
+                            if (Utils.INSTANCE.isUserAuthenticated()){
+                                fragment=new AccountFragment();
+                            }else {
+                                User_Login.launchActivity(HomeActivity.this);
+                                finish();
+                            }
                             break;
                     }
                     return loadFragment(fragment);
