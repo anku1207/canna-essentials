@@ -73,12 +73,12 @@ public final class ProductDescriptionView extends NestedScrollView {
 
   public void renderProduct(final String title, final double price) {
     titleView.setText(title);
-    priceView.setText(getResources().getString(R.string.price_from, CURRENCY_FORMAT.format(price)));
+    priceView.setText(getResources().getString(R.string.price_from, String.valueOf(price)));
   }
 
   public void renderProduct(final ProductDetails product) {
     titleView.setText(product.title);
-    priceView.setText(getResources().getString(R.string.price_from, formatMinPrice(product)));
+    priceView.setText(getResources().getString(R.string.price_from, String.valueOf(formatMinPrice(product))));
     descriptionView.setText(Html.fromHtml(product.description));
   }
 
@@ -93,10 +93,10 @@ public final class ProductDescriptionView extends NestedScrollView {
     }
   }
 
-  private String formatMinPrice(final ProductDetails product) {
+  private Double formatMinPrice(final ProductDetails product) {
     List<BigDecimal> prices = mapItems(product.variants, variant -> variant.price);
     BigDecimal minPrice = minItem(prices, BigDecimal.ZERO, BigDecimal::compareTo);
-    return CURRENCY_FORMAT.format(minPrice);
+    return minPrice.doubleValue();
   }
 
   public interface OnAddToCartClickListener {

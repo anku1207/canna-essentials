@@ -2,7 +2,7 @@
     <string name="app_name">Canna Essentials</string>
     <string name="collection_list_title">Collections</string>
     <string name="default_error">Oops, something went wrong, please try again …</string>
-    <string name="price_from">From %s</string>
+    <string name="price_from">From Rs%s</string>
     <string name="quantity_title">Quantity:</string>
     <string name="android_pay">Android Pay</string>
     <string name="web_checkout">Web Checkout</string>
@@ -63,5 +63,6 @@
     <string name="reset_password_success">Please check your email!</string>
     <string name="privacy_policy_url">https://www.google.com/</string>
     <string name="terms_url">https://www.amazon.in/</string>
+    <string name="backpress_to_exit">Press back again to exit.</string>
 
 </resources>

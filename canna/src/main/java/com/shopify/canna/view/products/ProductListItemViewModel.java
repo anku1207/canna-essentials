@@ -86,7 +86,7 @@ final class ProductListItemViewModel extends ListItemViewModel<Product> {
       super.bindModel(listViewItemModel, position);
       imageView.loadShopifyImage(listViewItemModel.payload().image);
       titleView.setText(listViewItemModel.payload().title);
-      priceView.setText(CURRENCY_FORMAT.format(listViewItemModel.payload().price));
+      priceView.setText("Rs"+listViewItemModel.payload().price);
     }
 
     @SuppressWarnings("unchecked")

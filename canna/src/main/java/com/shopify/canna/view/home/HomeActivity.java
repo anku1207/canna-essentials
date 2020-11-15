@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -18,6 +19,8 @@ import com.shopify.canna.view.login.User_Login;
 
 public class HomeActivity extends AppCompatActivity {
     BottomNavigationView navigation;
+    Boolean doubleBackpress = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,5 +73,16 @@ public class HomeActivity extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackpress){
+            super.onBackPressed();
+        }else {
+            Utils.INSTANCE.showToast(HomeActivity.this, getString(R.string.backpress_to_exit));
+            doubleBackpress = true;
+            new Handler().postDelayed(() -> doubleBackpress = false, 2000);
+        }
     }
 }

@@ -66,6 +66,7 @@ public class User_Login extends AppCompatActivity {
     CoordinatorLayout coordinatorLayout;
     EditText editTextEmail, editTextPassword;
     ProgressBar progressBar;
+    Boolean doubleBackpress = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -180,4 +181,20 @@ public class User_Login extends AppCompatActivity {
         RecoverPasswordBottomSheet.Companion.showDialog(getSupportFragmentManager());
     }
 
+    public void skip(View view) {
+        Intent mainIntent = new Intent(User_Login.this, HomeActivity.class);
+        startActivity(mainIntent);
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackpress){
+            super.onBackPressed();
+        }else {
+            Utils.INSTANCE.showToast(User_Login.this, getString(R.string.backpress_to_exit));
+            doubleBackpress = true;
+            new Handler().postDelayed(() -> doubleBackpress = false, 2000);
+        }
+    }
 }

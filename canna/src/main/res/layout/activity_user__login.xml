@@ -7,9 +7,7 @@
     android:layout_height="match_parent"
     android:id="@+id/coordinatorLayout">
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
@@ -118,6 +116,7 @@
                 android:text="@string/Skip"
                 android:fontFamily="@font/sweetsanspromedium"
                 android:gravity="center"
+                android:onClick="skip"
                 android:textSize="16dp"
                 android:layout_marginTop="40dp"
                 android:textColor="@color/white"
