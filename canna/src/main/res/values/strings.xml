@@ -40,5 +40,24 @@
     <string name="title_notifications">Notifications</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="create_account">Create Account</string>
+    <string name="enter_first_name">Please enter first name</string>
+    <string name="enter_last_name">Please enter last name</string>
+    <string name="enter_email">Please enter email</string>
+    <string name="enter_password">Please enter at least 6 digit password</string>
+    <string name="create_account_button">Create an Account</string>
+    <string name="terms_conditions">By continuing you agree to our\nPrivacy Policy and Terms and Conditions</string>
+    <string name="email_hint">Email</string>
+    <string name="password_assistance_text">We will send you an email to rest your password</string>
+    <string name="password_assistance">Password Assistance</string>
+    <string name="submit">Submit</string>
+    <string name="invalid_input">Please check you input</string>
+    <string name="something_wrong">Something went wrong!</string>
+    <string name="first_name_validation">Please enter your first name.</string>
+    <string name="last_name_validation">Please enter your last name.</string>
+    <string name="email_validation">Please enter correct email address.</string>
+    <string name="password_validation">Password should contain at least 6 characters.</string>
+    <string name="sign_up_success">Sign up successful, please login to continue!</string>
+    <string name="reset_password_success">Sign up successful, please login to continue!</string>
 
 </resources>

@@ -29,4 +29,6 @@
     <color name="green">#7CB342</color>
 
     <color name="blue_dark">#024DA1</color>
+    <color name="translucent">#99000000</color>
+
 </resources>

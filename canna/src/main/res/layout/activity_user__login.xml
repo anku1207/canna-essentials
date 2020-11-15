@@ -43,10 +43,11 @@
                 />
 
             <EditText
-                android:id="@+id/text"
+                android:id="@+id/edt_email"
                 android:background="@drawable/edit_text_border"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
+                android:imeOptions="actionDone"
                 android:textColor="@color/black"
                 android:textAlignment="center"
                 android:gravity="center"
@@ -57,13 +58,15 @@
                 />
 
             <EditText
-                android:id="@+id/text2"
+                android:id="@+id/edt_password"
                 android:background="@drawable/edit_text_border"
                 android:layout_width="match_parent"
+                android:imeOptions="actionDone"
                 android:layout_height="40dp"
                 android:textColor="@color/black"
                 android:textColorHint="@color/disabledTextColor"
                 android:hint="Password"
+                android:inputType="textPassword"
                 android:textAlignment="center"
                 android:gravity="center"
                 android:layout_marginTop="10dp"
@@ -75,11 +78,12 @@
                 android:text="@string/Recover_Password"
                 android:gravity="center"
                 android:textSize="16dp"
+                android:onClick="recoverPassword"
                 android:layout_marginTop="10dp"
                 android:textColor="@color/white">
             </TextView>
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/newuser"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
@@ -91,9 +95,11 @@
                 android:textAllCaps="false"
                 />
             <TextView
+                android:id="@+id/text_sign_up"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/Sign_Up"
+                android:onClick="signUp"
                 android:gravity="center"
                 android:textSize="16dp"
                 android:layout_marginTop="10dp"
@@ -111,6 +117,12 @@
             </TextView>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
 </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -122,7 +134,7 @@
         android:id="@+id/createAccount"
         android:background="@android:color/white"
         app:layout_behavior="@string/bottom_sheet_behavior">
-        <include layout="@layout/activity_createaccount" />
+        <include layout="@layout/bottomsheet_create_account" />
     </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -2,6 +2,7 @@ package com.shopify.canna.view.login;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import android.content.Intent;
@@ -14,6 +15,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.gson.Gson;
@@ -29,6 +32,11 @@ import com.shopify.buy3.Storefront;
 import com.shopify.canna.BuildConfig;
 import com.shopify.canna.R;
 import com.shopify.canna.SampleApplication;
+import com.shopify.canna.util.Prefs;
+import com.shopify.canna.util.Util;
+import com.shopify.canna.util.Utils;
+import com.shopify.canna.view.bottom_sheet.CreateAccountBottomSheet;
+import com.shopify.canna.view.bottom_sheet.RecoverPasswordBottomSheet;
 import com.shopify.canna.view.home.HomeActivity;
 import com.shopify.canna.view.splash.Splash_Screen;
 import com.shopify.graphql.support.AbstractResponse;
@@ -45,12 +53,13 @@ import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
+import timber.log.Timber;
 
 public class User_Login extends AppCompatActivity {
-    BottomSheetBehavior behavior;
 
     CoordinatorLayout coordinatorLayout;
-
+    EditText editTextEmail, editTextPassword;
+    ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,36 +68,55 @@ public class User_Login extends AppCompatActivity {
         WebView webview = (WebView)findViewById(R.id.webview);
         coordinatorLayout=findViewById(R.id.coordinatorLayout);
 
+        editTextEmail = findViewById(R.id.edt_email);
+        editTextPassword = findViewById(R.id.edt_password);
+        progressBar = findViewById(R.id.progress);
 
-        View bottomSheet = findViewById(R.id.createAccount);
-        behavior = BottomSheetBehavior.from(bottomSheet);
+        AppCompatButton button= findViewById(R.id.newuser);
+        button.setOnClickListener(view -> {
+            progressBar.setVisibility(View.VISIBLE);
+            if (validInput()){
+                Storefront.CustomerAccessTokenCreateInput input = new Storefront.CustomerAccessTokenCreateInput(editTextEmail.getText().toString(), editTextPassword.getText().toString());
+                Storefront.MutationQuery mutationQuery = Storefront.mutation(mutation -> mutation
+                        .customerAccessTokenCreate(input, query -> query
+                                .customerAccessToken(customerAccessToken -> customerAccessToken
+                                        .accessToken()
+                                        .expiresAt()
+                                )
+                                .userErrors(userError -> userError
+                                        .field()
+                                        .message()
+                                )
+                        )
+                );
 
-        behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-            @Override
-            public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                // React to state change
+                SampleApplication.graphClient().mutateGraph(mutationQuery).enqueue(new Handler(Looper.getMainLooper()), result -> {
+                    if (result instanceof GraphCallResult.Success){
+                        if (((GraphCallResult.Success<Storefront.Mutation>) result).getResponse().getData().getCustomerAccessTokenCreate() != null){
+                            Storefront.CustomerAccessTokenCreatePayload token = Objects.requireNonNull(((GraphCallResult.Success<Storefront.Mutation>) result).getResponse().getData()).getCustomerAccessTokenCreate();
+                            if (token.getUserErrors() != null && !token.getUserErrors().isEmpty()){
+                                Utils.INSTANCE.showToast(User_Login.this, token.getUserErrors().get(0).getMessage());
+                            }else {
+                                Prefs.INSTANCE.setAccessToken(token.getCustomerAccessToken().getAccessToken());
+                                Prefs.INSTANCE.setTokenExpiryTimestamp(token.getCustomerAccessToken().getExpiresAt().getMillis());
+                                getUserProfile();
+                                Timber.d("Expiry time : %s", token.getCustomerAccessToken().getExpiresAt().getMillis());
+                            }
+                        }else{
+                            Utils.INSTANCE.showToast(User_Login.this, getString(R.string.something_wrong));
+                        }
+                    }else {
+                        Utils.INSTANCE.showToast(User_Login.this, getString(R.string.something_wrong));
+                    }
+                    progressBar.setVisibility(View.GONE);
+                    return Unit.INSTANCE;
+                });
+            }else {
+                Utils.INSTANCE.showToast(User_Login.this, getString(R.string.invalid_input));
+                progressBar.setVisibility(View.GONE);
             }
 
-            @Override
-            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-                // React to dragging events
-            }
         });
-
-
-        Button button= findViewById(R.id.newuser);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                Intent mainIntent = new Intent(User_Login.this, HomeActivity.class);
-                startActivity(mainIntent);
-                finish();
-
-            }
-        });
-
-        //dfgcfbcbcbcfg
 
 
         webview.getSettings().setJavaScriptEnabled(true);
@@ -99,91 +127,51 @@ public class User_Login extends AppCompatActivity {
         webview.getSettings().setUseWideViewPort(true);
 
         // disable scroll on touch
-        webview.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return (event.getAction() == MotionEvent.ACTION_MOVE);
-            }
-        });
+        webview.setOnTouchListener((v, event) -> (event.getAction() == MotionEvent.ACTION_MOVE));
 
-        /*Storefront.CustomerCreateInput input = new Storefront.CustomerCreateInput("akashchauhan.er@gmail.com","123456")
-                .setFirstName("Akash")
-                .setLastName("Chauhan")
-                .setAcceptsMarketing(true)
-                .setPhone("917065908608");
+    }
 
-        Storefront.MutationQuery mutationQuery = Storefront.mutation(mutation -> mutation
-                .customerCreate(input, query -> query
-                        .customer(customer -> customer
-                                .id()
-                                .email()
-                                .firstName()
-                                .lastName()
-                        )
-                        .userErrors(userError -> userError
-                                .field()
-                                .message()
-                        )
-                )
-        );*/
-        OkHttpClient httpClient = new OkHttpClient.Builder()
-                .addNetworkInterceptor(new HttpLoggingInterceptor().setLevel(BuildConfig.OKHTTP_LOG_LEVEL))
-                .build();
-        GraphClient g = GraphClient.Companion.build(this, BuildConfig.SHOP_DOMAIN, BuildConfig.API_KEY,
-                builder -> {
-                    builder.setHttpClient(httpClient);
-                    builder.httpCache(getCacheDir(), config -> {
-                        config.setCacheMaxSizeBytes(1024 * 1024 * 10);
-                        config.setDefaultCachePolicy(HttpCachePolicy.Default.CACHE_FIRST.expireAfter(20, TimeUnit.MINUTES));
-                        return Unit.INSTANCE;
-                    });
-                    return Unit.INSTANCE;
-                }, BuildConfig.DEFAULT_LOCALE);
-
-        /*MutationGraphCall graphCall = g.mutateGraph(mutationQuery);
-        graphCall.enqueue(new Handler(Looper.getMainLooper()), result -> {
-            if (result instanceof GraphCallResult.Success){
-                Log.d("RES_CALL","Success : "+((GraphCallResult.Success<Storefront.Mutation>) result).getResponse()+"\n"+
-                        ((GraphCallResult.Success<Storefront.Mutation>) result).getResponse().getData().responseData);
-            }else {
-                Log.d("RES_CALL","Fails : "+result);
-            }
-            return Unit.INSTANCE;
-        });*/
-
-        Storefront.CustomerAccessTokenCreateInput input = new Storefront.CustomerAccessTokenCreateInput("amit.pandey@mreservicesindia.com", "123456");
-        Storefront.MutationQuery mutationQuery = Storefront.mutation(mutation -> mutation
-                .customerAccessTokenCreate(input, query -> query
-                        .customerAccessToken(customerAccessToken -> customerAccessToken
-                                .accessToken()
-                                .expiresAt()
-                        )
-                        .userErrors(userError -> userError
-                                .field()
-                                .message()
-                        )
+    private void getUserProfile() {
+        progressBar.setVisibility(View.VISIBLE);
+        Storefront.QueryRootQuery query = Storefront.query(root -> root
+                .customer(Prefs.INSTANCE.getAccessToken(), customer -> customer
+                        .firstName()
+                        .lastName()
+                        .email()
                 )
         );
 
-        MutationGraphCall graphCall = g.mutateGraph(mutationQuery);
-        graphCall.enqueue(new Handler(Looper.getMainLooper()), result -> {
+        SampleApplication.graphClient().queryGraph(query).enqueue(new Handler(Looper.getMainLooper()), result -> {
             if (result instanceof GraphCallResult.Success){
-                if (((GraphCallResult.Success<Storefront.Mutation>) result).getResponse().getData().getCustomerAccessTokenCreate() != null){
-                    final Storefront.CustomerAccessTokenCreatePayload token = Objects.requireNonNull(((GraphCallResult.Success<Storefront.Mutation>) result).getResponse().getData()).getCustomerAccessTokenCreate();
-                    if (token.getUserErrors() != null && !token.getUserErrors().isEmpty()){
-                        Log.d("RES_CALL","Success : "+token.getUserErrors().get(0).getMessage());
-                    }else {
-                        Log.d("RES_CALL","Success : "+token.getCustomerAccessToken().getExpiresAt()+"\n"+
-                                token.getCustomerAccessToken().getAccessToken());
-                    }
-                }else{
-
+                progressBar.setVisibility(View.GONE);
+                if (((GraphCallResult.Success<Storefront.QueryRoot>) result).getResponse().getData().getCustomer() != null){
+                    Storefront.Customer customer = ((GraphCallResult.Success<Storefront.QueryRoot>) result).getResponse().getData().getCustomer();
+                    Prefs.INSTANCE.storeCustomerDetails(customer);
+                    Intent mainIntent = new Intent(User_Login.this, HomeActivity.class);
+                    startActivity(mainIntent);
+                    finish();
+                }else {
+                    Utils.INSTANCE.showToast(User_Login.this, getString(R.string.something_wrong));
                 }
             }else {
-//                Log.d("RES_CALL","Fails : "+result);
+                Utils.INSTANCE.showToast(User_Login.this, getString(R.string.something_wrong));
+                progressBar.setVisibility(View.GONE);
             }
             return Unit.INSTANCE;
         });
-
     }
+
+    private boolean validInput() {
+        return Utils.INSTANCE.isValidEmail(editTextEmail.getText().toString()) &&
+                Utils.INSTANCE.isValidPassword(editTextPassword.getText().toString());
+    }
+
+    public void signUp(View view) {
+        CreateAccountBottomSheet.Companion.showDialog(getSupportFragmentManager());
+    }
+
+    public void recoverPassword(View view) {
+        RecoverPasswordBottomSheet.Companion.showDialog(getSupportFragmentManager());
+    }
+
 }

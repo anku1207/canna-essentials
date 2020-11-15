@@ -18,6 +18,8 @@ import com.shopify.buy3.Storefront;
 import com.shopify.canna.R;
 import com.shopify.canna.SampleApplication;
 import com.shopify.canna.data.graphql.Converter;
+import com.shopify.canna.util.Prefs;
+import com.shopify.canna.view.home.HomeActivity;
 import com.shopify.canna.view.login.User_Login;
 
 import kotlin.Unit;
@@ -34,12 +36,16 @@ public class Splash_Screen extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                /* Create an Intent that will start the MainActivity. */
-                Intent mainIntent = new Intent(Splash_Screen.this, User_Login.class);
+                Intent mainIntent;
+                if (Prefs.INSTANCE.getAccessToken() != null && Prefs.INSTANCE.getAccessToken().length() > 4 &&
+                    Prefs.INSTANCE.getTokenExpiryTimestamp() > System.currentTimeMillis() &&
+                    Prefs.INSTANCE.fetchCustomerDetails() != null){
+                    mainIntent = new Intent(Splash_Screen.this, HomeActivity.class);
+                }else {
+                    mainIntent = new Intent(Splash_Screen.this, User_Login.class);
+                }
                 startActivity(mainIntent);
                 finish();
-
-
             }
         }, 1000);
     }

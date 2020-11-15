@@ -19,11 +19,10 @@
         <activity
             android:name=".view.home.HomeActivity"
             android:label="@string/title_activity_home" />
-        <activity android:name=".view.login.createaccount" />
         <activity
             android:name=".view.login.User_Login"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".view.splash.Splash_Screen"
             android:theme="@style/AppTheme.NoActionBar">
