@@ -18,6 +18,7 @@ import com.shopify.canna.R;
 import com.shopify.canna.util.Utility;
 import com.shopify.canna.view.home.HelpCenterFragment;
 import com.shopify.canna.view.home.HomeActivity;
+import com.shopify.canna.view.home.ShippingAddressFragment;
 import com.shopify.canna.view.home.SubCategory;
 import com.shopify.canna.view.products.ProductListActivity;
 import com.squareup.picasso.Picasso;
@@ -59,6 +60,10 @@ public class AccountDesignRecyclerViewAdapter extends  RecyclerView.Adapter<Acco
                             if(jsonObject.getString("heading").equalsIgnoreCase("Help Center")){
                                 ((FragmentActivity)mctx).getSupportFragmentManager().beginTransaction()
                                         .replace(R.id.fragment_container, new HelpCenterFragment())
+                                        .commit();
+                            }else if(jsonObject.getString("heading").equalsIgnoreCase("Saved Address")){
+                                ((FragmentActivity)mctx).getSupportFragmentManager().beginTransaction()
+                                        .replace(R.id.fragment_container, new ShippingAddressFragment())
                                         .commit();
                             }
                         }catch (Exception e){

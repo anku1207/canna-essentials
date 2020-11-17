@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:orientation="horizontal"
+    android:background="@color/white"
+    android:id="@+id/mainLayout"
+    android:layout_marginHorizontal="10dp"
+    >
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight=".4">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/no_product_image"
+            android:scaleType="center"
+            android:id="@+id/image">
+
+        </ImageView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/usericon"
+            android:text="sfsf"
+            android:textColor="@color/black"
+            android:textSize="18dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:id="@+id/desc"
+            android:maxLines="2">
+
+        </TextView>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight=".4">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/usericon"
+            android:text="sfsf"
+            android:textColor="@color/black"
+            android:textSize="18dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:id="@+id/price">
+
+        </TextView>
+    </LinearLayout>
+
+</LinearLayout>

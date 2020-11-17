@@ -44,7 +44,7 @@ public class HomeActivity extends AppCompatActivity {
                             break;
                         case R.id.search:
                             // fragment=new Profile();
-                            Toast.makeText(HomeActivity.this, "search", Toast.LENGTH_SHORT).show();
+                            fragment=new SearchFragment();
                             break;
                         case R.id.brands:
                             fragment=new BrandsFragment();
