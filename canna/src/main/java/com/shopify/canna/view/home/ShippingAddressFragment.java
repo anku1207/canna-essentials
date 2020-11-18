@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.shopify.buy3.GraphCallResult;
+import com.shopify.buy3.QueryGraphCall;
 import com.shopify.buy3.Storefront;
 import com.shopify.canna.R;
 import com.shopify.canna.SampleApplication;
@@ -52,6 +53,8 @@ public class ShippingAddressFragment extends Fragment implements View.OnClickLis
     RecyclerView recyclerView;
     TextView add_address;
     Animation animation;
+
+    QueryGraphCall dd;
 
     public ShippingAddressFragment() {
         // Required empty public constructor
@@ -109,6 +112,7 @@ public class ShippingAddressFragment extends Fragment implements View.OnClickLis
         getCustomerAddressList(Prefs.INSTANCE.getAccessToken(),new VolleyResponse((VolleyResponse.OnSuccess)(success)->{
             List<Storefront.MailingAddressEdge> customerAddress = (List<Storefront.MailingAddressEdge>) success;
 
+
             ShippingAddressRecyclerViewAdapter s = new ShippingAddressRecyclerViewAdapter(getActivity(),customerAddress,R.layout.shipping_address_design);
             recyclerView.setAdapter(s);
             recyclerView.getAdapter().notifyDataSetChanged();
@@ -131,7 +135,6 @@ public class ShippingAddressFragment extends Fragment implements View.OnClickLis
                                                 .lastName()
                                                 .phone()
                                                 .zip()
-
                                         )
                                 )
                         )
