@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".view.home.AddressFragment"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:fontFamily="@font/sweetsansproregular"
+        android:text="@string/create_account"
+        android:textAlignment="center"
+        android:textColor="@color/black" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:hint="@string/enter_first_name"
+        app:boxStrokeColor="#306CE3"
+        android:textColorHint="@color/grey"
+        android:layout_marginVertical="5dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_first_name"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="start"
+            android:imeOptions="actionDone"
+            android:fontFamily="@font/sweetsansproregular"
+            android:paddingTop="10dp"
+            android:paddingBottom="2dp"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+           />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:hint="@string/enter_last_name"
+        app:boxStrokeColor="#306CE3"
+        android:textColorHint="@color/grey"
+        android:layout_marginVertical="5dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_last_name"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="start"
+            android:imeOptions="actionDone"
+            android:fontFamily="@font/sweetsansproregular"
+            android:paddingTop="10dp"
+            android:paddingBottom="2dp"
+            android:textColor="@color/black"
+            android:textSize="13sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:hint="@string/enter_address"
+        app:boxStrokeColor="#306CE3"
+        android:textColorHint="@color/grey"
+        android:layout_marginVertical="5dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/address"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="start"
+            android:imeOptions="actionDone"
+            android:fontFamily="@font/sweetsansproregular"
+            android:paddingTop="10dp"
+            android:paddingBottom="2dp"
+            android:textColor="@color/black"
+            android:textSize="13sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:hint="@string/enter_apartment"
+        app:boxStrokeColor="#306CE3"
+        android:textColorHint="@color/grey"
+        android:layout_marginVertical="5dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/apartment"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="start"
+            android:imeOptions="actionDone"
+            android:fontFamily="@font/sweetsansproregular"
+            android:paddingTop="10dp"
+            android:paddingBottom="2dp"
+            android:textColor="@color/black"
+            android:textSize="13sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:hint="@string/enter_city"
+        app:boxStrokeColor="#306CE3"
+        android:textColorHint="@color/grey"
+        android:layout_marginVertical="5dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/city"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="start"
+            android:imeOptions="actionDone"
+            android:fontFamily="@font/sweetsansproregular"
+            android:paddingTop="10dp"
+            android:paddingBottom="2dp"
+            android:textColor="@color/black"
+            android:textSize="13sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:hint="@string/enter_country"
+        app:boxStrokeColor="#306CE3"
+        android:textColorHint="@color/grey"
+        android:layout_marginVertical="5dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/country"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="start"
+            android:imeOptions="actionDone"
+            android:fontFamily="@font/sweetsansproregular"
+            android:paddingTop="10dp"
+            android:paddingBottom="2dp"
+            android:textColor="@color/black"
+            android:textSize="13sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:hint="@string/enter_province"
+        app:boxStrokeColor="#306CE3"
+        android:textColorHint="@color/grey"
+        android:layout_marginVertical="5dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/province"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="start"
+            android:imeOptions="actionDone"
+            android:fontFamily="@font/sweetsansproregular"
+            android:paddingTop="10dp"
+            android:paddingBottom="2dp"
+            android:textColor="@color/black"
+            android:textSize="13sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:hint="@string/enter_postal"
+        app:boxStrokeColor="#306CE3"
+        android:textColorHint="@color/grey"
+        android:layout_marginVertical="5dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/postal"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="start"
+            android:imeOptions="actionDone"
+            android:fontFamily="@font/sweetsansproregular"
+            android:paddingTop="10dp"
+            android:paddingBottom="2dp"
+            android:textColor="@color/black"
+            android:textSize="13sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:hint="@string/enter_phone_number"
+        app:boxStrokeColor="#306CE3"
+        android:textColorHint="@color/grey"
+        android:layout_marginVertical="5dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/phone_number"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="start"
+            android:imeOptions="actionDone"
+            android:fontFamily="@font/sweetsansproregular"
+            android:paddingTop="10dp"
+            android:paddingBottom="2dp"
+            android:textColor="@color/black"
+            android:textSize="13sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:fontFamily="@font/sweetsanspromedium"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="30dp"
+        android:textColor="@color/white"
+        android:background="#306CE3"
+        android:text="@string/save_close"
+        android:textAllCaps="false" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -65,4 +65,15 @@
     <string name="terms_url">https://www.amazon.in/</string>
     <string name="backpress_to_exit">Press back again to exit.</string>
 
+    <string name="enter_address">Press enter Address</string>
+    <string name="enter_apartment">Press enter Apartment ,suite ,etc.</string>
+    <string name="enter_city">Press enter City</string>
+    <string name="enter_country">Press enter Country</string>
+    <string name="enter_province">Press enter Province</string>
+    <string name="enter_postal">Press enter 6 digit Postal/Zip Code</string>
+    <string name="enter_phone_number">Press enter 10 digit Phone Number</string>
+    <string name="save_close">Save &amp; Close</string>
+
+
+
 </resources>

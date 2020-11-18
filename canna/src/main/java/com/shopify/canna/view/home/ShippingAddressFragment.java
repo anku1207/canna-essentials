@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,6 +28,7 @@ import com.shopify.canna.SampleApplication;
 import com.shopify.canna.util.Prefs;
 import com.shopify.canna.util.Utils;
 import com.shopify.canna.util.VolleyResponse;
+import com.shopify.canna.view.base.ShippingAddressRecyclerViewAdapter;
 
 import java.util.List;
 
@@ -107,7 +109,9 @@ public class ShippingAddressFragment extends Fragment implements View.OnClickLis
         getCustomerAddressList(Prefs.INSTANCE.getAccessToken(),new VolleyResponse((VolleyResponse.OnSuccess)(success)->{
             List<Storefront.MailingAddressEdge> customerAddress = (List<Storefront.MailingAddressEdge>) success;
 
-            Log.w("customerAddress",new Gson().toJson(customerAddress));
+            ShippingAddressRecyclerViewAdapter s = new ShippingAddressRecyclerViewAdapter(getActivity(),customerAddress,R.layout.shipping_address_design);
+            recyclerView.setAdapter(s);
+            recyclerView.getAdapter().notifyDataSetChanged();
         }));
 
     }
@@ -123,6 +127,11 @@ public class ShippingAddressFragment extends Fragment implements View.OnClickLis
                                                 .city()
                                                 .province()
                                                 .country()
+                                                .firstName()
+                                                .lastName()
+                                                .phone()
+                                                .zip()
+
                                         )
                                 )
                         )
@@ -150,8 +159,9 @@ public class ShippingAddressFragment extends Fragment implements View.OnClickLis
         switch (view.getId()){
             case R.id.add_address:
                 add_address.startAnimation(animation);
-
-                Toast.makeText(getContext(), "sdfsdfsdf", Toast.LENGTH_SHORT).show();
+                ((FragmentActivity)getActivity()).getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, new AddressFragment())
+                        .commit();
                 break;
         }
 
