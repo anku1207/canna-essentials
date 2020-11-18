@@ -14,6 +14,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.shopify.buy3.GraphCallResult;
@@ -33,7 +37,7 @@ import kotlin.Unit;
  * Use the {@link ShippingAddressFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ShippingAddressFragment extends Fragment {
+public class ShippingAddressFragment extends Fragment implements View.OnClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -44,6 +48,8 @@ public class ShippingAddressFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     RecyclerView recyclerView;
+    TextView add_address;
+    Animation animation;
 
     public ShippingAddressFragment() {
         // Required empty public constructor
@@ -86,9 +92,12 @@ public class ShippingAddressFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        animation = AnimationUtils.loadAnimation(getContext(), R.anim.imageviewclickeffect);
 
         recyclerView=view.findViewById(R.id.recyclerView);
+        add_address=view.findViewById(R.id.add_address);
 
+        add_address.setOnClickListener(this);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setNestedScrollingEnabled(false);
@@ -134,5 +143,17 @@ public class ShippingAddressFragment extends Fragment {
             }
             return Unit.INSTANCE;
         });
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.add_address:
+                add_address.startAnimation(animation);
+
+                Toast.makeText(getContext(), "sdfsdfsdf", Toast.LENGTH_SHORT).show();
+                break;
+        }
+
     }
 }

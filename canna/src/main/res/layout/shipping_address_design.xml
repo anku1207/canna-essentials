@@ -39,7 +39,7 @@
             android:layout_height="50dp"
             android:layout_weight="1"
             android:text="Edit"
-            android:textColor="@color/black"
+            android:textColor="@color/blue"
             android:gravity="center">
 
         </TextView>
@@ -54,7 +54,7 @@
             android:layout_height="50dp"
             android:layout_weight="1"
             android:text="Remove"
-            android:textColor="@color/black"
+            android:textColor="@color/blue"
             android:gravity="center">
 
         </TextView>
