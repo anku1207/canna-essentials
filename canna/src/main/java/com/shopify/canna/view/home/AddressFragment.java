@@ -130,20 +130,11 @@ public class AddressFragment extends Fragment {
                         saveAddress(jsonObject,Prefs.INSTANCE.getAccessToken(),new VolleyResponse((VolleyResponse.OnSuccess)(success)->{
                             Storefront.CustomerAddressCreatePayload token= (Storefront.CustomerAddressCreatePayload) success;
 
-                            Log.w("respdata",new Gson().toJson(token));
+                            Toast.makeText(getContext(), "Successfully Save Address", Toast.LENGTH_SHORT).show();
                         }));
-
-
-                    }catch (Exception e){
+                     }catch (Exception e){
                         Toast.makeText(getContext(), ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
-
-
-
-
-
-
-
                 }
 
             }

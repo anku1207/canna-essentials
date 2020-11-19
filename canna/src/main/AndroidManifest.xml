@@ -15,9 +15,10 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
-        <activity android:name=".view.webview.WebViewActivity"
-            android:theme="@style/AppTheme.NoActionBar.Custom"/>
+        <activity android:name=".view.home.WebView"></activity>
+        <activity
+            android:name=".view.webview.WebViewActivity"
+            android:theme="@style/AppTheme.NoActionBar.Custom" />
         <activity android:name=".view.home.SubCategory" />
         <activity
             android:name=".view.home.HomeActivity"

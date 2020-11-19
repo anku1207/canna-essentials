@@ -111,13 +111,10 @@ public class ShippingAddressFragment extends Fragment implements View.OnClickLis
 
         getCustomerAddressList(Prefs.INSTANCE.getAccessToken(),new VolleyResponse((VolleyResponse.OnSuccess)(success)->{
             List<Storefront.MailingAddressEdge> customerAddress = (List<Storefront.MailingAddressEdge>) success;
-
-
             ShippingAddressRecyclerViewAdapter s = new ShippingAddressRecyclerViewAdapter(getActivity(),customerAddress,R.layout.shipping_address_design);
             recyclerView.setAdapter(s);
             recyclerView.getAdapter().notifyDataSetChanged();
         }));
-
     }
 
     public void getCustomerAddressList(String tokenId, VolleyResponse volleyResponse){

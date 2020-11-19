@@ -43,6 +43,13 @@ public class ShippingAddressRecyclerViewAdapter extends  RecyclerView.Adapter<Sh
                 holder.name.setText(collectionEdge.getFirstName()+" "+collectionEdge.getLastName());
                 holder.address.setText(collectionEdge.getAddress1()+"\n"+collectionEdge.getAddress2()+"\n"+collectionEdge.getCity()+"\n"+collectionEdge.getCountry()+"\n"
                         +collectionEdge.getProvince()+ ","+collectionEdge.getZip()+"\n"+collectionEdge.getPhone() );
+
+                holder.remove.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Toast.makeText(mctx, ""+collectionEdge.getId(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }catch (Exception e){
                 Toast.makeText(mctx, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
             }
@@ -55,13 +62,15 @@ public class ShippingAddressRecyclerViewAdapter extends  RecyclerView.Adapter<Sh
         public  class ProdectViewHolder extends RecyclerView.ViewHolder {
             LinearLayout mainLayout;
 
-            TextView name,address;
+            TextView name,address,edit,remove;
 
             public ProdectViewHolder(View itemView) {
                 super(itemView);
                 mainLayout=itemView.findViewById(R.id.mainLayout);
                 name=itemView.findViewById(R.id.name);
                 address=itemView.findViewById(R.id.address);
+                edit=itemView.findViewById(R.id.edit);
+                remove=itemView.findViewById(R.id.remove);
             }
         }
 }

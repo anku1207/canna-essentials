@@ -17,11 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.shopify.canna.R;
 import com.shopify.canna.util.Utility;
 import com.shopify.canna.view.home.HelpCenterFragment;
-import com.shopify.canna.view.home.HomeActivity;
+import com.shopify.canna.view.home.WebView;
 import com.shopify.canna.view.home.ShippingAddressFragment;
-import com.shopify.canna.view.home.SubCategory;
-import com.shopify.canna.view.products.ProductListActivity;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -65,6 +62,42 @@ public class AccountDesignRecyclerViewAdapter extends  RecyclerView.Adapter<Acco
                                 ((FragmentActivity)mctx).getSupportFragmentManager().beginTransaction()
                                         .replace(R.id.fragment_container, new ShippingAddressFragment())
                                         .commit();
+                            }else if(jsonObject.getString("heading").equalsIgnoreCase("Privacy Policy")){
+                                Intent intent = new Intent(mctx, WebView.class);
+                                intent.putExtra("url","file:///android_asset/privacy_policy.html");
+                                intent.putExtra("title","Privacy Policy");
+
+                                ((Activity)mctx).startActivity(intent);
+                            }else if(jsonObject.getString("heading").equalsIgnoreCase("About Us")){
+                                Intent intent = new Intent(mctx, WebView.class);
+                                intent.putExtra("url","file:///android_asset/about.html");
+                                intent.putExtra("title","About Us");
+
+                                ((Activity)mctx).startActivity(intent);
+                            }else if(jsonObject.getString("heading").equalsIgnoreCase("Terms And Condition")){
+                                Intent intent = new Intent(mctx, WebView.class);
+                                intent.putExtra("url","file:///android_asset/terms_of_service.html");
+                                intent.putExtra("title","Terms And Condition");
+
+                                ((Activity)mctx).startActivity(intent);
+                            }else if(jsonObject.getString("heading").equalsIgnoreCase("Shipping")){
+                                Intent intent = new Intent(mctx, WebView.class);
+                                intent.putExtra("url","file:///android_asset/shipping_policy.html");
+                                intent.putExtra("title","Shipping Policy");
+
+                                ((Activity)mctx).startActivity(intent);
+                            }else if(jsonObject.getString("heading").equalsIgnoreCase("Refund")){
+                                Intent intent = new Intent(mctx, WebView.class);
+                                intent.putExtra("url","file:///android_asset/refund_policy.html");
+                                intent.putExtra("title","Refund Policy");
+
+                                ((Activity)mctx).startActivity(intent);
+                            }else if(jsonObject.getString("heading").equalsIgnoreCase("Frequently Asked Questions")){
+                                Intent intent = new Intent(mctx, WebView.class);
+                                intent.putExtra("url","file:///android_asset/faqs.html");
+                                intent.putExtra("title","FAQ");
+
+                                ((Activity)mctx).startActivity(intent);
                             }
                         }catch (Exception e){
                             Toast.makeText(mctx, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
