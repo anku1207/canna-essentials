@@ -145,6 +145,7 @@ public class User_Login extends AppCompatActivity {
                         .firstName()
                         .lastName()
                         .email()
+                        .id()
                 )
         );
 
@@ -155,6 +156,7 @@ public class User_Login extends AppCompatActivity {
                     Storefront.Customer customer = ((GraphCallResult.Success<Storefront.QueryRoot>) result).getResponse().getData().getCustomer();
                     Prefs.INSTANCE.storeCustomerDetails(customer);
                     Intent mainIntent = new Intent(User_Login.this, HomeActivity.class);
+                    Log.w("customerID",customer.getId()+"");
                     startActivity(mainIntent);
                     finish();
                 }else {
