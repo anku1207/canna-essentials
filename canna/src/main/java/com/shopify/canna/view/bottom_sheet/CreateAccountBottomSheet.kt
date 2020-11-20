@@ -1,9 +1,10 @@
 package com.shopify.canna.view.bottom_sheet
 
+import android.app.Activity
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.TextPaint
 import android.text.method.LinkMovementMethod
@@ -13,7 +14,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -23,11 +23,8 @@ import com.shopify.canna.R
 import com.shopify.canna.SampleApplication
 import com.shopify.canna.util.Utils
 import com.shopify.canna.view.base.BaseRoundedBottomSheetFragment
-import com.shopify.canna.view.webview.WebViewActivity
+import com.shopify.canna.view.home.WebView
 import kotlinx.android.synthetic.main.bottomsheet_create_account.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 
 class CreateAccountBottomSheet : BaseRoundedBottomSheetFragment() {
@@ -133,7 +130,11 @@ class CreateAccountBottomSheet : BaseRoundedBottomSheetFragment() {
         initialText.append(getString(R.string.privacy_policy))
         initialText.setSpan(object : ClickableSpan(){
             override fun onClick(widget: View) {
-                WebViewActivity.launchActivity(startingActivity = requireActivity(), title = getString(R.string.privacy_policy), url = getString(R.string.privacy_policy_url))
+               // WebViewActivity.launchActivity(startingActivity = requireActivity(), title = getString(R.string.privacy_policy), url = getString(R.string.privacy_policy_url))
+                val intent = Intent(requireActivity(), WebView::class.java)
+                intent.putExtra("url", "file:///android_asset/privacy_policy.html")
+                intent.putExtra("title", "Privacy Policy")
+                startActivity(intent)
             }
 
             override fun updateDrawState(ds: TextPaint) {
@@ -148,7 +149,11 @@ class CreateAccountBottomSheet : BaseRoundedBottomSheetFragment() {
         initialText.append(getString(R.string.terms_conditions_text))
         initialText.setSpan(object : ClickableSpan(){
             override fun onClick(widget: View) {
-                WebViewActivity.launchActivity(startingActivity = requireActivity(), title = getString(R.string.terms_conditions_text), url = getString(R.string.terms_url))
+               // WebViewActivity.launchActivity(startingActivity = requireActivity(), title = getString(R.string.terms_conditions_text), url = getString(R.string.terms_url))
+                val intent = Intent(requireActivity(), WebView::class.java)
+                intent.putExtra("url", "file:///android_asset/terms_of_service.html")
+                intent.putExtra("title", "Terms And Condition")
+                (requireActivity() as Activity).startActivity(intent)
             }
 
             override fun updateDrawState(ds: TextPaint) {

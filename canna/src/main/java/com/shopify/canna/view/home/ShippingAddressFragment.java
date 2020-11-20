@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,6 +54,7 @@ public class ShippingAddressFragment extends Fragment implements View.OnClickLis
     RecyclerView recyclerView;
     TextView add_address;
     Animation animation;
+    ProgressBar progress;
 
     QueryGraphCall dd;
 
@@ -101,6 +103,7 @@ public class ShippingAddressFragment extends Fragment implements View.OnClickLis
 
         recyclerView=view.findViewById(R.id.recyclerView);
         add_address=view.findViewById(R.id.add_address);
+        progress=view.findViewById(R.id.progress);
 
         add_address.setOnClickListener(this);
 
@@ -109,7 +112,10 @@ public class ShippingAddressFragment extends Fragment implements View.OnClickLis
         LinearLayoutManager verticalLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(verticalLayoutManager);
 
+
+        progress.setVisibility(View.VISIBLE);
         getCustomerAddressList(Prefs.INSTANCE.getAccessToken(),new VolleyResponse((VolleyResponse.OnSuccess)(success)->{
+            progress.setVisibility(View.GONE);
             List<Storefront.MailingAddressEdge> customerAddress = (List<Storefront.MailingAddressEdge>) success;
             ShippingAddressRecyclerViewAdapter s = new ShippingAddressRecyclerViewAdapter(getActivity(),customerAddress,R.layout.shipping_address_design);
             recyclerView.setAdapter(s);
@@ -120,7 +126,7 @@ public class ShippingAddressFragment extends Fragment implements View.OnClickLis
     public void getCustomerAddressList(String tokenId, VolleyResponse volleyResponse){
         Storefront.QueryRootQuery query = Storefront.query(root -> root
                 .customer(tokenId, customer -> customer
-                        .addresses(arg -> arg.first(10), connection -> connection
+                        .addresses(arg -> arg.first(30), connection -> connection
                                 .edges(edge -> edge
                                         .node(node -> node
                                                 .address1()
@@ -145,9 +151,11 @@ public class ShippingAddressFragment extends Fragment implements View.OnClickLis
                     List<Storefront.MailingAddressEdge> customer= ((GraphCallResult.Success<Storefront.QueryRoot>) result).getResponse().getData().getCustomer().getAddresses().getEdges();
                     volleyResponse.onSuccess(customer);
                 }else {
+                    progress.setVisibility(View.GONE);
                     Utils.INSTANCE.showToast(getContext(), getString(R.string.something_wrong));
                 }
             }else {
+                progress.setVisibility(View.GONE);
                 Utils.INSTANCE.showToast(getContext(), getString(R.string.something_wrong));
             }
             return Unit.INSTANCE;

@@ -1,11 +1,16 @@
 package com.shopify.canna.view.home;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -13,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -55,6 +61,7 @@ public class AddressFragment extends Fragment {
     AppCompatButton save;
 
     TextInputEditText [] textInputEditTexts;
+    ProgressBar progress;
 
     public AddressFragment() {
         // Required empty public constructor
@@ -108,6 +115,7 @@ public class AddressFragment extends Fragment {
         postal=view.findViewById(R.id.postal);
         phone_number=view.findViewById(R.id.phone_number);
         save =view.findViewById(R.id.save);
+        progress=view.findViewById(R.id.progress);
 
         textInputEditTexts = new TextInputEditText[]{edt_first_name,edit_last_name,address,apartment,city,country,province,postal,phone_number};
 
@@ -129,8 +137,7 @@ public class AddressFragment extends Fragment {
 
                         saveAddress(jsonObject,Prefs.INSTANCE.getAccessToken(),new VolleyResponse((VolleyResponse.OnSuccess)(success)->{
                             Storefront.CustomerAddressCreatePayload token= (Storefront.CustomerAddressCreatePayload) success;
-
-                            Toast.makeText(getContext(), "Successfully Save Address", Toast.LENGTH_SHORT).show();
+                            myDialog(getContext(),"Alert","Successfully Save Address","Ok");
                         }));
                      }catch (Exception e){
                         Toast.makeText(getContext(), ""+e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -155,6 +162,7 @@ public class AddressFragment extends Fragment {
     }
 
     public void saveAddress(JSONObject dataObject , String customerTokenId , VolleyResponse volleyResponse) throws JSONException {
+        progress.setVisibility(View.VISIBLE);
         Storefront.MailingAddressInput input = new Storefront.MailingAddressInput()
                 .setAddress1(dataObject.getString("address"))
                 .setAddress2(dataObject.getString("apartment"))
@@ -179,6 +187,7 @@ public class AddressFragment extends Fragment {
                 )
         );
         SampleApplication.graphClient().mutateGraph(mutationQuery).enqueue(new Handler(Looper.getMainLooper()), result -> {
+            progress.setVisibility(View.GONE);
             if (result instanceof GraphCallResult.Success){
                 if (((GraphCallResult.Success<Storefront.Mutation>) result).getResponse().getData().getCustomerAddressCreate() != null){
                     Storefront.CustomerAddressCreatePayload token = Objects.requireNonNull(((GraphCallResult.Success<Storefront.Mutation>) result).getResponse().getData()).getCustomerAddressCreate();
@@ -194,5 +203,23 @@ public class AddressFragment extends Fragment {
             }
             return Unit.INSTANCE;
         });
+    }
+
+    public static void  myDialog(Context context, String title , String msg , String buttonname){
+
+        AlertDialog alertDialog;
+        alertDialog = new AlertDialog.Builder(context).create();
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(msg);
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, buttonname, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                ((FragmentActivity)context).getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, new ShippingAddressFragment())
+                        .commit();
+            }
+        });
+        if(!((Activity)context).isFinishing() && !alertDialog.isShowing())  alertDialog.show();
+
+
     }
 }
