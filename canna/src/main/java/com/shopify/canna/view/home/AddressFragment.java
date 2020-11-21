@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
+import com.google.gson.internal.LinkedTreeMap;
 import com.shopify.buy3.GraphCallResult;
 import com.shopify.buy3.Storefront;
 import com.shopify.canna.R;
@@ -30,8 +31,7 @@ import com.shopify.canna.SampleApplication;
 import com.shopify.canna.util.Prefs;
 import com.shopify.canna.util.Utils;
 import com.shopify.canna.util.VolleyResponse;
-import com.shopify.canna.view.login.User_Login;
-import com.shopify.graphql.support.Input;
+import com.shopify.graphql.support.ID;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,7 +39,6 @@ import org.json.JSONObject;
 import java.util.Objects;
 
 import kotlin.Unit;
-import timber.log.Timber;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -53,6 +52,8 @@ public class AddressFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    public static final String EXTRAS_ADDRESS_DETAILS = "address_details";
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -62,6 +63,7 @@ public class AddressFragment extends Fragment {
 
     TextInputEditText [] textInputEditTexts;
     ProgressBar progress;
+    Storefront.MailingAddress collectionEdge = null;
 
     public AddressFragment() {
         // Required empty public constructor
@@ -119,6 +121,11 @@ public class AddressFragment extends Fragment {
 
         textInputEditTexts = new TextInputEditText[]{edt_first_name,edit_last_name,address,apartment,city,country,province,postal,phone_number};
 
+        if((getArguments() != null ? getArguments().getSerializable(EXTRAS_ADDRESS_DETAILS) : null) !=null){
+            collectionEdge = (Storefront.MailingAddress) getArguments().getSerializable(EXTRAS_ADDRESS_DETAILS);
+            setDateInEditText(collectionEdge);
+        }
+
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -135,19 +142,37 @@ public class AddressFragment extends Fragment {
                         jsonObject.put("postal",postal.getText().toString().trim());
                         jsonObject.put("phone",phone_number.getText().toString().trim());
 
-                        saveAddress(jsonObject,Prefs.INSTANCE.getAccessToken(),new VolleyResponse((VolleyResponse.OnSuccess)(success)->{
-                            Storefront.CustomerAddressCreatePayload token= (Storefront.CustomerAddressCreatePayload) success;
-                            myDialog(getContext(),"Alert","Successfully Save Address","Ok");
-                        }));
+                        if(collectionEdge!=null ){
+                            updateAddress(jsonObject,Prefs.INSTANCE.getAccessToken(),collectionEdge.getId() ,new VolleyResponse((VolleyResponse.OnSuccess)(success)->{
+                                Storefront.CustomerAddressUpdatePayload token= (Storefront.CustomerAddressUpdatePayload) success;
+                                myDialog(getContext(),"Alert","Update Successfully ","Ok");
+                            }));
+                        }else {
+                            saveAddress(jsonObject,Prefs.INSTANCE.getAccessToken(),new VolleyResponse((VolleyResponse.OnSuccess)(success)->{
+                                Storefront.CustomerAddressCreatePayload token= (Storefront.CustomerAddressCreatePayload) success;
+                                myDialog(getContext(),"Alert","Successfully Save Address","Ok");
+                            }));
+                        }
                      }catch (Exception e){
+                        Log.w("error",e.getMessage());
                         Toast.makeText(getContext(), ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
 
             }
         });
+    }
 
-
+    private void setDateInEditText( Storefront.MailingAddress collectionEdge) {
+        edt_first_name.setText(collectionEdge.getFirstName());
+        edit_last_name.setText(collectionEdge.getLastName());
+        address.setText(collectionEdge.getAddress1());
+        apartment.setText(collectionEdge.getAddress2());
+        city.setText(collectionEdge.getCity());
+        country.setText(collectionEdge.getCountry());
+        province.setText(collectionEdge.getProvince());
+        postal.setText(collectionEdge.getZip());
+        phone_number.setText(collectionEdge.getPhone());
     }
 
     public boolean validInput(TextInputEditText [] textInputEditTexts){
@@ -159,6 +184,55 @@ public class AddressFragment extends Fragment {
             }
         }
         return validate;
+    }
+
+
+     public void  updateAddress(JSONObject dataObject , String customerTokenId , ID  addressId, VolleyResponse volleyResponse) throws JSONException {
+        progress.setVisibility(View.VISIBLE);
+
+
+        Log.w("addressID",addressId.toString());
+
+        Storefront.MailingAddressInput input = new Storefront.MailingAddressInput()
+                .setAddress1(dataObject.getString("address"))
+                .setAddress2(dataObject.getString("apartment"))
+                .setCity(dataObject.getString("city"))
+                .setCountry(dataObject.getString("country"))
+                .setFirstName(dataObject.getString("firstname"))
+                .setLastName(dataObject.getString("lastname"))
+                .setPhone(dataObject.getString("phone"))
+                .setProvince(dataObject.getString("province"))
+                .setZip(dataObject.getString("postal"));
+
+        Storefront.MutationQuery mutationQuery = Storefront.mutation(mutation -> mutation
+                .customerAddressUpdate(customerTokenId, addressId,input, query -> query
+                        .customerAddress(customerAddress -> customerAddress
+                                .address1()
+                                .address2()
+                        )
+                        .customerUserErrors(userError -> userError
+                                .field()
+                                .message()
+                        )
+                )
+        );
+        SampleApplication.graphClient().mutateGraph(mutationQuery).enqueue(new Handler(Looper.getMainLooper()), result -> {
+            progress.setVisibility(View.GONE);
+            if (result instanceof GraphCallResult.Success){
+                if (((GraphCallResult.Success<Storefront.Mutation>) result).getResponse().getData().getCustomerAddressUpdate() != null){
+                    Storefront.CustomerAddressUpdatePayload token = Objects.requireNonNull(((GraphCallResult.Success<Storefront.Mutation>) result).getResponse().getData()).getCustomerAddressUpdate();
+                    if (token.getCustomerUserErrors() != null && !token.getCustomerUserErrors().isEmpty()){
+                        Utils.INSTANCE.showToast(getContext(), token.getCustomerUserErrors().get(0).getMessage());
+                    }else {
+                        volleyResponse.onSuccess(token);                    }
+                }else{
+                    Utils.INSTANCE.showToast(getContext(), getString(R.string.something_wrong));
+                }
+            }else {
+                Utils.INSTANCE.showToast(getContext(), getString(R.string.something_wrong));
+            }
+            return Unit.INSTANCE;
+        });
     }
 
     public void saveAddress(JSONObject dataObject , String customerTokenId , VolleyResponse volleyResponse) throws JSONException {

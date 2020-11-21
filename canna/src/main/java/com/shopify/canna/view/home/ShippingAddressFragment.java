@@ -1,9 +1,13 @@
 package com.shopify.canna.view.home;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -31,8 +35,10 @@ import com.shopify.canna.util.Prefs;
 import com.shopify.canna.util.Utils;
 import com.shopify.canna.util.VolleyResponse;
 import com.shopify.canna.view.base.ShippingAddressRecyclerViewAdapter;
+import com.shopify.graphql.support.ID;
 
 import java.util.List;
+import java.util.Objects;
 
 import kotlin.Unit;
 
@@ -117,13 +123,14 @@ public class ShippingAddressFragment extends Fragment implements View.OnClickLis
         getCustomerAddressList(Prefs.INSTANCE.getAccessToken(),new VolleyResponse((VolleyResponse.OnSuccess)(success)->{
             progress.setVisibility(View.GONE);
             List<Storefront.MailingAddressEdge> customerAddress = (List<Storefront.MailingAddressEdge>) success;
-            ShippingAddressRecyclerViewAdapter s = new ShippingAddressRecyclerViewAdapter(getActivity(),customerAddress,R.layout.shipping_address_design);
+            ShippingAddressRecyclerViewAdapter s = new ShippingAddressRecyclerViewAdapter(getActivity(),customerAddress,R.layout.shipping_address_design,ShippingAddressFragment.this);
             recyclerView.setAdapter(s);
             recyclerView.getAdapter().notifyDataSetChanged();
         }));
     }
 
     public void getCustomerAddressList(String tokenId, VolleyResponse volleyResponse){
+        progress.setVisibility(View.VISIBLE);
         Storefront.QueryRootQuery query = Storefront.query(root -> root
                 .customer(tokenId, customer -> customer
                         .addresses(arg -> arg.first(30), connection -> connection
@@ -143,10 +150,8 @@ public class ShippingAddressFragment extends Fragment implements View.OnClickLis
                         )
                 )
         );
-
         SampleApplication.graphClient().queryGraph(query).enqueue(new Handler(Looper.getMainLooper()), result -> {
             if (result instanceof GraphCallResult.Success){
-
                 if (((GraphCallResult.Success<Storefront.QueryRoot>) result).getResponse() != null){
                     List<Storefront.MailingAddressEdge> customer= ((GraphCallResult.Success<Storefront.QueryRoot>) result).getResponse().getData().getCustomer().getAddresses().getEdges();
                     volleyResponse.onSuccess(customer);
@@ -162,6 +167,60 @@ public class ShippingAddressFragment extends Fragment implements View.OnClickLis
         });
     }
 
+
+
+    public  void removeCustomerAddress(String accessId , ID addressId){
+        progress.setVisibility(View.VISIBLE);
+        Storefront.MutationQuery mutationQuery = Storefront.mutation(mutation -> mutation
+                .customerAddressDelete(addressId, accessId,query -> query
+                        .customerUserErrors(userError -> userError
+                                .field()
+                                .message()
+                        )
+                        .deletedCustomerAddressId()
+                )
+        );
+        SampleApplication.graphClient().mutateGraph(mutationQuery).enqueue(new Handler(Looper.getMainLooper()), result -> {
+            progress.setVisibility(View.GONE);
+            if (result instanceof GraphCallResult.Success){
+                if (((GraphCallResult.Success<Storefront.Mutation>) result).getResponse().getData().getCustomerAddressDelete() != null){
+                    Storefront.CustomerAddressDeletePayload token = Objects.requireNonNull(((GraphCallResult.Success<Storefront.Mutation>) result).getResponse().getData()).getCustomerAddressDelete();
+                    if (token.getCustomerUserErrors() != null && !token.getCustomerUserErrors().isEmpty()){
+                        Utils.INSTANCE.showToast(getContext(), token.getCustomerUserErrors().get(0).getMessage());
+                    }else {
+                        myDialog(getActivity(),"Alert","Remove SuccessFully","Ok" );                   }
+                }else{
+                    Utils.INSTANCE.showToast(getContext(), getString(R.string.something_wrong));
+                }
+            }else {
+                Utils.INSTANCE.showToast(getContext(), getString(R.string.something_wrong));
+            }
+            return Unit.INSTANCE;
+        });
+    }
+
+
+    public  void  myDialog(Context context, String title , String msg , String buttonname ){
+
+        AlertDialog alertDialog;
+        alertDialog = new AlertDialog.Builder(context).create();
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(msg);
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, buttonname, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                getCustomerAddressList(Prefs.INSTANCE.getAccessToken(),new VolleyResponse((VolleyResponse.OnSuccess)(success)->{
+                    progress.setVisibility(View.GONE);
+                    List<Storefront.MailingAddressEdge> customerAddress = (List<Storefront.MailingAddressEdge>) success;
+                    ShippingAddressRecyclerViewAdapter s = new ShippingAddressRecyclerViewAdapter(getActivity(),customerAddress,R.layout.shipping_address_design,ShippingAddressFragment.this);
+                    recyclerView.setAdapter(s);
+                    recyclerView.getAdapter().notifyDataSetChanged();
+                }));
+            }
+        });
+        if(!((Activity)context).isFinishing() && !alertDialog.isShowing())  alertDialog.show();
+
+
+    }
     @Override
     public void onClick(View view) {
         switch (view.getId()){
