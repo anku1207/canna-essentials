@@ -2,7 +2,7 @@
     <string name="app_name">Canna Essentials</string>
     <string name="collection_list_title">Collections</string>
     <string name="default_error">Oops, something went wrong, please try again …</string>
-    <string name="price_from">From Rs%s</string>
+    <string name="price_from">Rs%s</string>
     <string name="quantity_title">Quantity:</string>
     <string name="android_pay">Android Pay</string>
     <string name="web_checkout">Web Checkout</string>
@@ -73,6 +73,7 @@
     <string name="enter_postal">Press enter 6 digit Postal/Zip Code</string>
     <string name="enter_phone_number">Press enter 10 digit Phone Number</string>
     <string name="save_close">Save &amp; Close</string>
+    <string name="add_to_cart">Add to Cart</string>
 
 
 </resources>

@@ -57,10 +57,12 @@ public class AccountDesignRecyclerViewAdapter extends  RecyclerView.Adapter<Acco
                             if(jsonObject.getString("heading").equalsIgnoreCase("Help Center")){
                                 ((FragmentActivity)mctx).getSupportFragmentManager().beginTransaction()
                                         .replace(R.id.fragment_container, new HelpCenterFragment())
+                                        .addToBackStack(null)
                                         .commit();
                             }else if(jsonObject.getString("heading").equalsIgnoreCase("Saved Address")){
                                 ((FragmentActivity)mctx).getSupportFragmentManager().beginTransaction()
                                         .replace(R.id.fragment_container, new ShippingAddressFragment())
+                                        .addToBackStack(null)
                                         .commit();
                             }else if(jsonObject.getString("heading").equalsIgnoreCase("Privacy Policy")){
                                 Intent intent = new Intent(mctx, WebView.class);
