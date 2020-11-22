@@ -69,6 +69,7 @@ public class ShippingAddressRecyclerViewAdapter extends  RecyclerView.Adapter<Sh
                         AddressFragment addressFragment = new AddressFragment();
                         Bundle args = new Bundle();
                         args.putSerializable(AddressFragment.EXTRAS_ADDRESS_DETAILS, collectionEdge);
+                        args.putString(AddressFragment.EXTRAS_TITLE, "Update Address");
                         addressFragment.setArguments(args);
                         ((FragmentActivity)mctx).getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.fragment_container, addressFragment)

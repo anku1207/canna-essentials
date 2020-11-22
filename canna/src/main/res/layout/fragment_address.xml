@@ -16,7 +16,8 @@
         android:fontFamily="@font/sweetsansproregular"
         android:text="@string/create_account"
         android:textAlignment="center"
-        android:textColor="@color/black" />
+        android:textColor="@color/black"
+        android:id="@+id/title"/>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

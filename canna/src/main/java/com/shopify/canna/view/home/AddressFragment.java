@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -53,6 +54,8 @@ public class AddressFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     public static final String EXTRAS_ADDRESS_DETAILS = "address_details";
+    public static final String EXTRAS_TITLE = "title";
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -119,9 +122,13 @@ public class AddressFragment extends Fragment {
         save =view.findViewById(R.id.save);
         progress=view.findViewById(R.id.progress);
 
-        textInputEditTexts = new TextInputEditText[]{edt_first_name,edit_last_name,address,apartment,city,country,province,postal,phone_number};
+        TextView title = view.findViewById(R.id.title);
 
+
+        title.setText("Add Address");
+        textInputEditTexts = new TextInputEditText[]{edt_first_name,edit_last_name,address,apartment,city,country,province,postal,phone_number};
         if((getArguments() != null ? getArguments().getSerializable(EXTRAS_ADDRESS_DETAILS) : null) !=null){
+            title.setText(getArguments().getString(EXTRAS_TITLE) );
             collectionEdge = (Storefront.MailingAddress) getArguments().getSerializable(EXTRAS_ADDRESS_DETAILS);
             setDateInEditText(collectionEdge);
         }

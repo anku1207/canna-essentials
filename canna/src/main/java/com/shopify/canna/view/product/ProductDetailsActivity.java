@@ -45,8 +45,10 @@ import com.google.android.material.snackbar.Snackbar;
 import com.shopify.canna.R;
 import com.shopify.canna.R2;
 import com.shopify.canna.domain.model.ProductDetails;
+import com.shopify.canna.util.Utils;
 import com.shopify.canna.view.ScreenRouter;
 import com.shopify.canna.view.cart.CartClickActionEvent;
+import com.shopify.canna.view.login.User_Login;
 import com.shopify.canna.view.widget.image.ImageGalleryView;
 
 import java.util.Collections;
@@ -81,7 +83,12 @@ public final class ProductDetailsActivity extends AppCompatActivity {
     MenuInflater inflater = getMenuInflater();
     inflater.inflate(R.menu.menu, menu);
     menu.findItem(R.id.cart).getActionView().setOnClickListener(v -> {
-       ScreenRouter.route(this, new CartClickActionEvent());
+      if (Utils.INSTANCE.isUserAuthenticated()){
+        ScreenRouter.route(this, new CartClickActionEvent());
+      }else {
+        User_Login.launchActivity(ProductDetailsActivity.this);
+        finish();
+      }
     });
     return true;
   }
