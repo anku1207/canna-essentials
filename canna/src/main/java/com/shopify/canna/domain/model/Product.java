@@ -37,14 +37,16 @@ public final class Product {
   @Nullable public final String image;
   @NonNull public final BigDecimal price;
   @NonNull public final String cursor;
+  @NonNull public final Boolean isAvailable;
 
   public Product(@NonNull final String id, @NonNull final String title, @Nullable final String image,
-    @NonNull final BigDecimal price, @NonNull final String cursor) {
+    @NonNull final BigDecimal price, @NonNull final String cursor, @NonNull final Boolean isAvailable) {
     this.id = checkNotNull(id, "id == null");
     this.title = checkNotNull(title, "title == null");
     this.image = image;
     this.price = price;
     this.cursor = checkNotNull(cursor, "cursor == null");
+    this.isAvailable = isAvailable;
   }
 
   @Override public String toString() {

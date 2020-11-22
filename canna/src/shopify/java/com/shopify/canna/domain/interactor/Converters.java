@@ -48,7 +48,7 @@ final class Converters {
         image -> image != null ? image.getNode().getSrc() : null);
       List<BigDecimal> prices = mapItems(product.getVariants().getEdges(), variantEdge -> variantEdge.getNode().getPrice());
       BigDecimal minPrice = minItem(prices, BigDecimal.ZERO, BigDecimal::compareTo);
-      return new Product(product.getId().toString(), product.getTitle(), productImageUrl, minPrice, productEdge.getCursor());
+      return new Product(product.getId().toString(), product.getTitle(), productImageUrl, minPrice, productEdge.getCursor(), product.getAvailableForSale());
     });
   }
 
@@ -79,7 +79,7 @@ final class Converters {
           image -> image != null ? image.getNode().getSrc() : null);
         List<BigDecimal> prices = mapItems(product.getVariants().getEdges(), variantEdge -> variantEdge.getNode().getPrice());
         BigDecimal minPrice = minItem(prices, BigDecimal.ZERO, BigDecimal::compareTo);
-        return new Product(product.getId().toString(), product.getTitle(), productImageUrl, minPrice, productEdge.getCursor());
+        return new Product(product.getId().toString(), product.getTitle(), productImageUrl, minPrice, productEdge.getCursor(), product.getAvailableForSale());
       }));
     });
   }

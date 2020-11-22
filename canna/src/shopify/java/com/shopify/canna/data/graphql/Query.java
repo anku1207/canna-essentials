@@ -27,6 +27,7 @@ public final class Query {
           .node(Storefront.ImageQuery::src)
         )
       )
+      .availableForSale()
       .variants(args -> args.first(1), variantConnection -> variantConnection
         .edges(variantEdge -> variantEdge
           .node(Storefront.ProductVariantQuery::price)

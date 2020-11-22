@@ -1,5 +1,7 @@
 package com.shopify.canna.data.graphql;
 
+import android.util.Log;
+
 import com.shopify.buy3.Storefront;
 import com.shopify.canna.domain.model.Collection;
 import com.shopify.canna.domain.model.Product;
@@ -38,8 +40,10 @@ public final class Converter {
         product.getTitle(),
         Util.reduce(images, (acc, val) -> val.getNode().getSrc(), null),
         Util.reduce(variants, (acc, val) -> val.getNode().getPrice(), BigDecimal.ZERO),
-        productEdge.getCursor()
+        productEdge.getCursor(),
+        product.getAvailableForSale()
       ));
+      Log.d("PRODUCT_AVAILABLE",""+product.getAvailableForSale());
     }
     return products;
   }

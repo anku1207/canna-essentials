@@ -24,17 +24,19 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.Currency;
 import java.util.List;
 
 public class SearchItemRecyclerViewAdapter extends  RecyclerView.Adapter<SearchItemRecyclerViewAdapter.ProdectViewHolder>{
         Context mctx ;
         List<Storefront.Product>  productslist;
         int Activityname;
-
-        public SearchItemRecyclerViewAdapter(Context mctx, List<Storefront.Product> productslist, int Activityname) {
+        OnItemClick onItemClick;
+        public SearchItemRecyclerViewAdapter(Context mctx, List<Storefront.Product> productslist, int Activityname, OnItemClick onItemClick) {
             this.mctx = mctx;
             this.productslist = productslist;
             this.Activityname=Activityname;
+            this.onItemClick = onItemClick;
         }
 
         @Override
@@ -64,12 +66,13 @@ public class SearchItemRecyclerViewAdapter extends  RecyclerView.Adapter<SearchI
                 }
                 holder.desc.setText(collectionEdge.getTitle());
                 if (collectionEdge.getPriceRange().getMinVariantPrice() != null &&collectionEdge.getPriceRange().getMinVariantPrice() != null)
-                holder.price.setText(collectionEdge.getPriceRange().getMinVariantPrice().getAmount());
+                holder.price.setText(Currency.getInstance("INR").getSymbol()+collectionEdge.getPriceRange().getMinVariantPrice().getAmount());
 
                 holder.itemView.setOnClickListener(v -> {
                     if (collectionEdge.getId() != null &&
                             collectionEdge.getPriceRange().getMinVariantPrice() != null &&collectionEdge.getPriceRange().getMinVariantPrice() != null &&
                             collectionEdge.getImages() !=null &&  !collectionEdge.getImages().getEdges().isEmpty()){
+                        onItemClick.onSearchItemClick();
                         Intent intent = new Intent(mctx, ProductDetailsActivity.class);
                         intent.putExtra(ProductDetailsActivity.EXTRAS_PRODUCT_ID, collectionEdge.getId().toString());
                         intent.putExtra(ProductDetailsActivity.EXTRAS_PRODUCT_IMAGE_URL, collectionEdge.getImages().getEdges().get(0).getNode().getSrc());
@@ -99,5 +102,9 @@ public class SearchItemRecyclerViewAdapter extends  RecyclerView.Adapter<SearchI
                 desc=itemView.findViewById(R.id.desc);
                 price=itemView.findViewById(R.id.price);
             }
+        }
+
+        public interface OnItemClick{
+            public void onSearchItemClick();
         }
 }

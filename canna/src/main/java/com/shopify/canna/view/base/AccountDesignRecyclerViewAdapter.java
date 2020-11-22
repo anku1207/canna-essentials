@@ -64,16 +64,19 @@ public class AccountDesignRecyclerViewAdapter extends  RecyclerView.Adapter<Acco
                         try {
                             if(jsonObject.getString("heading").equalsIgnoreCase("Help Center")){
                                 ((FragmentActivity)mctx).getSupportFragmentManager().beginTransaction()
+                                        .setCustomAnimations(R.anim.enter_left, R.anim.exit_right, R.anim.enter_left, R.anim.exit_right)
                                         .replace(R.id.fragment_container, new HelpCenterFragment())
                                         .addToBackStack(null)
                                         .commit();
                             }else if(jsonObject.getString("heading").equalsIgnoreCase("Saved Address")){
                                 ((FragmentActivity)mctx).getSupportFragmentManager().beginTransaction()
+                                        .setCustomAnimations(R.anim.enter_left, R.anim.exit_right, R.anim.enter_left, R.anim.exit_right)
                                         .replace(R.id.fragment_container, new ShippingAddressFragment())
                                         .addToBackStack(null)
                                         .commit();
                             }else if(jsonObject.getString("heading").equalsIgnoreCase("My Order")){
                                 ((FragmentActivity)mctx).getSupportFragmentManager().beginTransaction()
+                                        .setCustomAnimations(R.anim.enter_left, R.anim.exit_right, R.anim.enter_left, R.anim.exit_right)
                                         .replace(R.id.fragment_container, new OrderFragment())
                                         .addToBackStack(null)
                                         .commit();
@@ -123,6 +126,10 @@ public class AccountDesignRecyclerViewAdapter extends  RecyclerView.Adapter<Acco
                                 shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID +"\n\n";
                                 shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
                                 ((FragmentActivity)mctx).startActivity(Intent.createChooser(shareIntent, "Share app"));
+                            }else if (jsonObject.getString("heading").equalsIgnoreCase("Share Feedback")){
+                                Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:support@cannaessentials.in"));
+                                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Canna Essentials android app feedback");
+                                ((FragmentActivity)mctx).startActivity(Intent.createChooser(emailIntent, ""));
                             }
                         }catch (Exception e){
                             Log.w("error",e.getMessage());

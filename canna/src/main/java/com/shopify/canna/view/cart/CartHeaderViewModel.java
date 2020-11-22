@@ -26,7 +26,10 @@ package com.shopify.canna.view.cart;
 
 import androidx.lifecycle.LiveData;
 
+import com.shopify.canna.domain.model.CartItem;
+
 import java.math.BigDecimal;
+import java.util.List;
 
 @SuppressWarnings("WeakerAccess")
 public interface CartHeaderViewModel {
@@ -34,6 +37,8 @@ public interface CartHeaderViewModel {
   LiveData<Boolean> googleApiClientConnectionData();
 
   LiveData<BigDecimal> cartTotalLiveData();
+
+  LiveData<List<CartItem>> cartItemsLiveData();
 
   void webCheckout();
 

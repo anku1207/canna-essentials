@@ -36,6 +36,7 @@ import com.shopify.canna.domain.interactor.CheckoutCreateInteractor;
 import com.shopify.canna.domain.interactor.RealCartWatchInteractor;
 import com.shopify.canna.domain.interactor.RealCheckoutCreateInteractor;
 import com.shopify.canna.domain.model.Cart;
+import com.shopify.canna.domain.model.CartItem;
 import com.shopify.canna.domain.model.Checkout;
 import com.shopify.canna.domain.model.ShopSettings;
 import com.shopify.canna.util.WeakObserver;
@@ -60,6 +61,7 @@ public final class RealCartViewModel extends BaseViewModel implements CartDetail
   private final LifeCycleBoundCallback<Cart> androidPayStartCheckoutCallback = new LifeCycleBoundCallback<>();
   private final LifeCycleBoundCallback<AndroidPayCheckout> androidPayCheckoutCallback = new LifeCycleBoundCallback<>();
   private final MutableLiveData<Cart> cartLiveData = new MutableLiveData<>();
+  private final MutableLiveData<Cart> cartItemsLiveData = new MutableLiveData<>();
   private final MutableLiveData<Boolean> googleApiClientConnectionData = new MutableLiveData<>();
 
   private String checkoutId;
@@ -79,7 +81,11 @@ public final class RealCartViewModel extends BaseViewModel implements CartDetail
   }
 
   @Override public void webCheckout() {
-    createCheckout(REQUEST_ID_CREATE_WEB_CHECKOUT, cartLiveData.getValue());
+    try {
+      createCheckout(REQUEST_ID_CREATE_WEB_CHECKOUT, cartLiveData.getValue());
+    }catch (Throwable throwable){
+
+    }
   }
 
   @Override public void androidPayCheckout() {
@@ -96,6 +102,10 @@ public final class RealCartViewModel extends BaseViewModel implements CartDetail
 
   @Override public LiveData<BigDecimal> cartTotalLiveData() {
     return Transformations.map(cartLiveData, cart -> cart != null ? cart.totalPrice() : BigDecimal.ZERO);
+  }
+
+  @Override public LiveData<List<CartItem>> cartItemsLiveData() {
+    return Transformations.map(cartItemsLiveData, cart -> cart != null ? cart.cartItems() : null);
   }
 
   @Override public LifeCycleBoundCallback<Checkout> webCheckoutCallback() {
@@ -143,27 +153,31 @@ public final class RealCartViewModel extends BaseViewModel implements CartDetail
   }
 
   private void createCheckout(final int requestId, final Cart cart) {
-    cancelRequest(REQUEST_ID_CREATE_WEB_CHECKOUT);
-    cancelRequest(REQUEST_ID_CREATE_ANDROID_PAY_CHECKOUT);
+    try {
+      cancelRequest(REQUEST_ID_CREATE_WEB_CHECKOUT);
+      cancelRequest(REQUEST_ID_CREATE_ANDROID_PAY_CHECKOUT);
 
-    Timber.tag("carditmesize").w("%s", cart.cartItems().size());
+      Timber.tag("carditmesize").w("%s", cart.cartItems().size());
 
-    if (cart == null || cart.cartItems().size()==0) return;
+      if (cart == null || cart.cartItems().size()==0) return;
 
-    showProgress(requestId);
-    List<Checkout.LineItem> lineItems = mapItems(cart.cartItems(),
-      cartItem -> new Checkout.LineItem(cartItem.productVariantId, cartItem.variantTitle, cartItem.quantity, cartItem.price));
+      showProgress(requestId);
+      List<Checkout.LineItem> lineItems = mapItems(cart.cartItems(),
+              cartItem -> new Checkout.LineItem(cartItem.productVariantId, cartItem.variantTitle, cartItem.quantity, cartItem.price));
 
-    registerRequest(
-      requestId,
-      checkoutCreateInteractor.execute(lineItems)
-        .toObservable()
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribeWith(WeakObserver.<RealCartViewModel, Checkout>forTarget(this)
-          .delegateOnNext((presenter, checkout) -> presenter.onCreateCheckout(requestId, checkout))
-          .delegateOnError((presenter, t) -> presenter.onCreateCheckoutError(requestId, t))
-          .create())
-    );
+      registerRequest(
+              requestId,
+              checkoutCreateInteractor.execute(lineItems)
+                      .toObservable()
+                      .observeOn(AndroidSchedulers.mainThread())
+                      .subscribeWith(WeakObserver.<RealCartViewModel, Checkout>forTarget(this)
+                              .delegateOnNext((presenter, checkout) -> presenter.onCreateCheckout(requestId, checkout))
+                              .delegateOnError((presenter, t) -> presenter.onCreateCheckoutError(requestId, t))
+                              .create())
+      );
+    }catch (Throwable t){
+
+    }
   }
 
   private void onCreateCheckout(final int requestId, @NonNull final Checkout checkout) {

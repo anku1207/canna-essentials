@@ -1,49 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/root"
-    android:layout_width="match_parent"
+<RelativeLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_marginTop="30dp"
-    android:background="@color/activitybackground">
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/root"
         android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize"
-        app:contentInsetStartWithNavigation="0dp"
-        app:titleTextColor="@color/black"
-        android:background="@color/white"
-        />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="30dp"
+        android:background="@color/activitybackground">
 
-    <com.shopify.canna.view.cart.CartHeaderView
-        android:id="@+id/cart_header"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            app:contentInsetStartWithNavigation="0dp"
+            app:titleTextColor="@color/black"
+            android:background="@color/white"
+            />
+
+        <com.shopify.canna.view.cart.CartHeaderView
+            android:id="@+id/cart_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/default_padding">
+
+            <include
+                layout="@layout/cart_header"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </com.shopify.canna.view.cart.CartHeaderView>
+
+        <com.shopify.canna.view.cart.CartListView
+            android:id="@+id/cart_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:clipToPadding="false"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        </com.shopify.canna.view.cart.CartListView>
+
+    </LinearLayout>
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/linear_cart_empty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/default_padding">
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
 
-        <include
-            layout="@layout/cart_header"
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/text_no_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/sweetsanspromedium"
+            android:text="@string/no_order"
+            android:textSize="20sp"
+            android:textColor="@color/light_grey"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_continue_shopping"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </com.shopify.canna.view.cart.CartHeaderView>
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="30dp"
+            android:layout_marginStart="30dp"
+            android:textSize="20sp"
+            android:text="@string/continue_shopping"
+            android:background="@color/green"
+            android:fontFamily="@font/sweetsanspromedium"
+            android:textAllCaps="false"/>
+    </LinearLayout>
 
-    <com.shopify.canna.view.cart.CartListView
-        android:id="@+id/cart_list"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:clipToPadding="false"
-            android:orientation="vertical"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-    </com.shopify.canna.view.cart.CartListView>
-
-</LinearLayout>
+</RelativeLayout>

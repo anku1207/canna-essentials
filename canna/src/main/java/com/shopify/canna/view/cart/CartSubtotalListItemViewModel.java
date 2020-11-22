@@ -40,6 +40,7 @@ import com.shopify.canna.view.base.ListItemViewHolder;
 import com.shopify.canna.view.base.ListItemViewModel;
 
 import java.text.NumberFormat;
+import java.util.Currency;
 
 import butterknife.BindView;
 
@@ -82,7 +83,7 @@ final class CartSubtotalListItemViewModel extends ListItemViewModel<Cart> {
     @Override public void bindModel(@NonNull final ListItemViewModel<Cart> listViewItemModel, final int position) {
       super.bindModel(listViewItemModel, position);
 
-      String price = CURRENCY_FORMAT.format(listViewItemModel.payload().totalPrice());
+      String price = Currency.getInstance("INR").getSymbol()+listViewItemModel.payload().totalPrice();
       String text = subtotalView.getResources().getString(R.string.cart_subtotal_price, price);
       SpannableStringBuilder textBuilder = new SpannableStringBuilder(text);
       textBuilder.setSpan(new ForegroundColorSpan(colorAccent), text.length() - price.length(), text.length(),

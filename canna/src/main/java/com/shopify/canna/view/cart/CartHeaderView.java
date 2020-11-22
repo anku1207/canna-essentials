@@ -26,8 +26,10 @@ package com.shopify.canna.view.cart;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.AttrRes;
@@ -36,12 +38,17 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LifecycleRegistry;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.Transformations;
 
 import com.shopify.canna.R;
 import com.shopify.canna.R2;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.math.BigDecimal;
 import java.text.NumberFormat;
+import java.util.Currency;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,6 +59,8 @@ public final class CartHeaderView extends FrameLayout implements LifecycleOwner 
 
   @BindView(R2.id.android_pay_checkout) View androidPayCheckoutView;
   @BindView(R2.id.subtotal) TextView subtotalView;
+//  @BindView(R2.id.linear_cart_empty) LinearLayout linearLayoutEmptyCart;
+//  @BindView(R2.id.root) LinearLayout linearLayoutRoot;
 
   private final LifecycleRegistry lifecycleRegistry = new LifecycleRegistry(this);
 
@@ -77,22 +86,30 @@ public final class CartHeaderView extends FrameLayout implements LifecycleOwner 
       throw new IllegalStateException("Already bound");
     }
     this.viewModel = viewModel;
+    viewModel.cartTotalLiveData().observe(this, bigDecimal -> subtotalView.setText(getResources().getString(R.string.price_from, bigDecimal != null ? bigDecimal.toString()  : "0.0") ));
 
-    Transformations.map(viewModel.cartTotalLiveData(), CURRENCY_FORMAT::format)
-      .observe(this, (total) -> subtotalView.setText(total));
+    /*viewModel.cartItemsLiveData().observe(this, cartItems -> {
+        if (cartItems != null && !cartItems.isEmpty()){
+            linearLayoutEmptyCart.setVisibility(GONE);
+            linearLayoutRoot.setVisibility(VISIBLE);
+        }else {
+            linearLayoutEmptyCart.setVisibility(VISIBLE);
+            linearLayoutRoot.setVisibility(GONE);
+        }
+    });*/
 
     viewModel.googleApiClientConnectionData().observe(this, connected ->
       androidPayCheckoutView.setVisibility(connected == Boolean.TRUE ? VISIBLE : GONE));
   }
 
-  @Override public LifecycleRegistry getLifecycle() {
+  @Override public @NotNull LifecycleRegistry getLifecycle() {
     return lifecycleRegistry;
   }
 
   @Override protected void onFinishInflate() {
     super.onFinishInflate();
     ButterKnife.bind(this);
-    subtotalView.setText(CURRENCY_FORMAT.format(0));
+    subtotalView.setText(Currency.getInstance("INR").getSymbol()+"0");
   }
 
   @Override protected void onAttachedToWindow() {
@@ -106,7 +123,11 @@ public final class CartHeaderView extends FrameLayout implements LifecycleOwner 
   }
 
   @OnClick(R2.id.web_checkout) void onWebCheckoutClick() {
-    viewModel.webCheckout();
+    try {
+      viewModel.webCheckout();
+    }catch (Throwable r){
+
+    }
   }
 
   @OnClick(R2.id.android_pay_checkout) void onAndroidPayCheckoutClick() {

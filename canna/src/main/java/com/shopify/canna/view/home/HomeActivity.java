@@ -76,7 +76,7 @@ public class HomeActivity extends AppCompatActivity {
     public boolean loadFragment(Fragment fragment) {
         //switching fragment
         if (fragment != null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment)
+            getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fadein, R.anim.fadeout).replace(R.id.fragment_container, fragment)
                     .commit();
             return true;
         }
@@ -97,5 +97,10 @@ public class HomeActivity extends AppCompatActivity {
                 new Handler().postDelayed(() -> doubleBackpress = false, 2000);
             }
         }
+    }
+
+    public void onContinueShoppingClick(){
+        this.navigation.setSelectedItemId(navigation.getMenu().getItem(0).getItemId());
+        this.mOnNavigationItemSelectedListener.onNavigationItemSelected(navigation.getMenu().getItem(0));
     }
 }

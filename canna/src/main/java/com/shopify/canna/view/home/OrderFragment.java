@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,6 +14,7 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.shopify.buy3.GraphCallResult;
@@ -47,6 +49,9 @@ public class OrderFragment extends Fragment {
 
     RecyclerView recyclerView;
     ProgressBar progress;
+    LinearLayout linearLayoutNoOrders;
+    AppCompatButton buttonContinueShopping;
+
     public OrderFragment() {
         // Required empty public constructor
     }
@@ -91,6 +96,9 @@ public class OrderFragment extends Fragment {
 
         recyclerView=view.findViewById(R.id.recyclerView);
         progress=view.findViewById(R.id.progress);
+        linearLayoutNoOrders = view.findViewById(R.id.linear_no_orders);
+        buttonContinueShopping = view.findViewById(R.id.button_continue_shopping);
+
         recyclerView.setHasFixedSize(true);
         recyclerView.setNestedScrollingEnabled(false);
         LinearLayoutManager verticalLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
@@ -99,11 +107,22 @@ public class OrderFragment extends Fragment {
 
         getOrderList(Prefs.INSTANCE.getAccessToken(),new VolleyResponse((VolleyResponse.OnSuccess)(success)->{
             List<Storefront.OrderEdge> customer  = (List<Storefront.OrderEdge>) success;
+            if (customer == null || customer.isEmpty()){
+                linearLayoutNoOrders.setVisibility(View.VISIBLE);
+            }else {
+                linearLayoutNoOrders.setVisibility(View.GONE);
+            }
             OrderListRecyclerViewAdapter s = new OrderListRecyclerViewAdapter(getActivity(),customer,R.layout.order_list_design);
             recyclerView.setAdapter(s);
             recyclerView.getAdapter().notifyDataSetChanged();
 
         }));
+
+        buttonContinueShopping.setOnClickListener(v -> {
+            if (getActivity() instanceof HomeActivity){
+                ((HomeActivity) getActivity()).onContinueShoppingClick();
+            }
+        });
     }
 
 

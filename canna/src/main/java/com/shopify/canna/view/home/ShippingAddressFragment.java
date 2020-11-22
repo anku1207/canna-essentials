@@ -231,6 +231,7 @@ public class ShippingAddressFragment extends Fragment implements View.OnClickLis
         alertDialog = new AlertDialog.Builder(context).create();
         alertDialog.setTitle(title);
         alertDialog.setMessage(msg);
+        alertDialog.setCancelable(false);
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, buttonname, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 getCustomerAddressList(Prefs.INSTANCE.getAccessToken(),new VolleyResponse((VolleyResponse.OnSuccess)(success)->{

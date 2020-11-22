@@ -83,7 +83,7 @@ public class User_Login extends AppCompatActivity {
         button.setOnClickListener(view -> {
             progressBar.setVisibility(View.VISIBLE);
             if (validInput()){
-                Storefront.CustomerAccessTokenCreateInput input = new Storefront.CustomerAccessTokenCreateInput(editTextEmail.getText().toString(), editTextPassword.getText().toString());
+                Storefront.CustomerAccessTokenCreateInput input = new Storefront.CustomerAccessTokenCreateInput(editTextEmail.getText().toString().trim(), editTextPassword.getText().toString().trim());
                 Storefront.MutationQuery mutationQuery = Storefront.mutation(mutation -> mutation
                         .customerAccessTokenCreate(input, query -> query
                                 .customerAccessToken(customerAccessToken -> customerAccessToken
@@ -171,8 +171,8 @@ public class User_Login extends AppCompatActivity {
     }
 
     private boolean validInput() {
-        return Utils.INSTANCE.isValidEmail(editTextEmail.getText().toString()) &&
-                Utils.INSTANCE.isValidPassword(editTextPassword.getText().toString());
+        return Utils.INSTANCE.isValidEmail(editTextEmail.getText().toString().trim()) &&
+                Utils.INSTANCE.isValidPassword(editTextPassword.getText().toString().trim());
     }
 
     public void signUp(View view) {

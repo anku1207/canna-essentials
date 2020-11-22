@@ -36,6 +36,7 @@ import com.shopify.canna.view.base.ListItemViewModel;
 import com.shopify.canna.view.widget.image.ShopifyDraweeView;
 
 import java.text.NumberFormat;
+import java.util.Currency;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -86,7 +87,7 @@ final class ProductListItemViewModel extends ListItemViewModel<Product> {
       super.bindModel(listViewItemModel, position);
       imageView.loadShopifyImage(listViewItemModel.payload().image);
       titleView.setText(listViewItemModel.payload().title);
-      priceView.setText("Rs"+listViewItemModel.payload().price);
+      priceView.setText(Currency.getInstance("INR").getSymbol()+listViewItemModel.payload().price);
     }
 
     @SuppressWarnings("unchecked")

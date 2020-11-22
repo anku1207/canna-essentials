@@ -9,14 +9,22 @@ import kotlinx.coroutines.launch
 
 object Utils {
     fun showToast(context: Context, message: String) {
-        CoroutineScope(Dispatchers.Main).launch {
-            Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+        try {
+            CoroutineScope(Dispatchers.Main).launch {
+                Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+            }
+        }catch (t : Throwable){
+
         }
     }
 
     fun showHideView(view : View, showHide : Int){
-        CoroutineScope(Dispatchers.Main).launch {
-            view.visibility = showHide
+        try {
+            CoroutineScope(Dispatchers.Main).launch {
+                view.visibility = showHide
+            }
+        }catch (t : Throwable){
+
         }
     }
 

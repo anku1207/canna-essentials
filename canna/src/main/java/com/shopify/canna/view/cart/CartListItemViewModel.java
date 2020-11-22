@@ -37,6 +37,7 @@ import com.shopify.canna.view.base.ListItemViewModel;
 import com.shopify.canna.view.widget.image.ShopifyDraweeView;
 
 import java.text.NumberFormat;
+import java.util.Currency;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -93,9 +94,13 @@ final class CartListItemViewModel extends ListItemViewModel<CartItem> {
       super.bindModel(listViewItemModel, position);
       imageView.loadShopifyImage(listViewItemModel.payload().image);
       titleView.setText(listViewItemModel.payload().productTitle);
-      variantView.setText(listViewItemModel.payload().variantTitle);
+      if (listViewItemModel.payload().variantTitle != null && !listViewItemModel.payload().variantTitle.isEmpty()){
+        variantView.setText(listViewItemModel.payload().variantTitle);
+      }else {
+        variantView.setVisibility(View.GONE);
+      }
       quantityView.setText(String.valueOf(listViewItemModel.payload().quantity));
-      priceView.setText(CURRENCY_FORMAT.format(listViewItemModel.payload().quantity * listViewItemModel.payload().price.doubleValue()));
+      priceView.setText(Currency.getInstance("INR").getSymbol()+listViewItemModel.payload().quantity * listViewItemModel.payload().price.doubleValue());
       dividerView.setVisibility(position == 0 ? View.INVISIBLE : View.VISIBLE);
     }
 

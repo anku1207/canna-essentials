@@ -2,7 +2,7 @@
     <string name="app_name">Canna Essentials</string>
     <string name="collection_list_title">Collections</string>
     <string name="default_error">Oops, something went wrong, please try again …</string>
-    <string name="price_from">Rs%s</string>
+    <string name="price_from">\u20B9%s</string>
     <string name="quantity_title">Quantity:</string>
     <string name="android_pay">Android Pay</string>
     <string name="web_checkout">Web Checkout</string>
@@ -65,18 +65,17 @@
     <string name="terms_url">https://www.amazon.in/</string>
     <string name="backpress_to_exit">Press back again to exit.</string>
 
-    <string name="enter_address">Press enter Address</string>
-    <string name="enter_apartment">Press enter Apartment ,suite ,etc.</string>
-    <string name="enter_city">Press enter City</string>
-    <string name="enter_country">Press enter Country</string>
-    <string name="enter_province">Press enter Province</string>
-    <string name="enter_postal">Press enter 6 digit postal/zip Code</string>
-    <string name="enter_phone_number">Press enter 10 digit phone number</string>
+    <string name="enter_address">Please enter Address</string>
+    <string name="enter_apartment">Please enter Apartment ,suite ,etc.</string>
+    <string name="enter_city">Please enter City</string>
+    <string name="enter_country">Please enter Country</string>
+    <string name="enter_province">Please enter Province</string>
+    <string name="enter_postal">Please enter 6 digit postal/zip Code</string>
+    <string name="enter_phone_number">Please enter 10 digit phone number</string>
     <string name="save_close">Save &amp; Close</string>
     <string name="add_to_cart">Add to Cart</string>
-
     <string name="Rs">\u20B9</string>
-
-
-
+    <string name="no_data_found">No data found</string>
+    <string name="no_order">No order placed!</string>
+    <string name="continue_shopping">Continue Shopping</string>
 </resources>

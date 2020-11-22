@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,7 +41,7 @@ import kotlin.Unit;
  * Use the {@link SearchFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SearchFragment extends Fragment {
+public class SearchFragment extends Fragment implements SearchItemRecyclerViewAdapter.OnItemClick{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -55,7 +56,7 @@ public class SearchFragment extends Fragment {
     RecyclerView recyclerView;
     SearchItemRecyclerViewAdapter searchItemRecyclerViewAdapter;
     ProgressBar progressBar;
-
+    AppCompatTextView textViewNoData;
     public SearchFragment() {
         // Required empty public constructor
     }
@@ -100,7 +101,7 @@ public class SearchFragment extends Fragment {
         searchView=view.findViewById(R.id.search_view);
         recyclerView=view.findViewById(R.id.recyclerView);
         progressBar=view.findViewById(R.id.progress);
-
+        textViewNoData = view.findViewById(R.id.text_no_data);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setNestedScrollingEnabled(false);
@@ -121,16 +122,21 @@ public class SearchFragment extends Fragment {
             public boolean onQueryTextChange(String newText) {
                 // search goes here !!
 
-                if(newText==null || newText.isEmpty()){
+                if(newText==null || newText.isEmpty() || newText.length() < 3){
                     List<Storefront.Product> collection = new ArrayList<>();
-                    searchItemRecyclerViewAdapter=new SearchItemRecyclerViewAdapter(getContext(), collection,R.layout.product_search_design);
+                    searchItemRecyclerViewAdapter=new SearchItemRecyclerViewAdapter(getContext(), collection,R.layout.product_search_design, SearchFragment.this);
                     recyclerView.setAdapter(searchItemRecyclerViewAdapter);
                     recyclerView.getAdapter().notifyDataSetChanged();
                 }else {
                     searchItemBykey(newText , new VolleyResponse((VolleyResponse.OnSuccess)(success)->{
                         List<Storefront.Product> collection = (List<Storefront.Product>) success;
                         Log.w("length",collection.size()+"");
-                        searchItemRecyclerViewAdapter=new SearchItemRecyclerViewAdapter(getContext(), collection,R.layout.product_search_design);
+                        if (collection.isEmpty()){
+                            textViewNoData.setVisibility(View.VISIBLE);
+                        }else {
+                            textViewNoData.setVisibility(View.GONE);
+                        }
+                        searchItemRecyclerViewAdapter=new SearchItemRecyclerViewAdapter(getContext(), collection,R.layout.product_search_design, SearchFragment.this);
                         recyclerView.setAdapter(searchItemRecyclerViewAdapter);
                         recyclerView.getAdapter().notifyDataSetChanged();
                     }));
@@ -159,6 +165,7 @@ public class SearchFragment extends Fragment {
                                                                                         .node(Storefront.ImageQuery::src)))
                                                                         .productType()
                                                                         .description()
+                                                                        .availableForSale()
                                                                         .priceRange(range -> range
                                                                         .minVariantPrice(Storefront.MoneyV2Query::amount))
                                                                 )
@@ -195,5 +202,11 @@ public class SearchFragment extends Fragment {
             }
             return Unit.INSTANCE;
         });
+    }
+
+    @Override
+    public void onSearchItemClick() {
+        searchView.clearFocus();
+        searchView.invalidate();
     }
 }
