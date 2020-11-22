@@ -84,8 +84,8 @@ public class SampleApplication extends BaseApplication {
         builder -> {
           builder.setHttpClient(httpClient);
           builder.httpCache(getCacheDir(), config -> {
-            config.setCacheMaxSizeBytes(1024 * 1024 * 10);
-            config.setDefaultCachePolicy(HttpCachePolicy.Default.CACHE_FIRST.expireAfter(20, TimeUnit.MINUTES));
+            //config.setCacheMaxSizeBytes(1024 * 1024 * 10);
+           // config.setDefaultCachePolicy(HttpCachePolicy.Default.CACHE_FIRST.expireAfter(20, TimeUnit.MINUTES));
             return Unit.INSTANCE;
           });
           return Unit.INSTANCE;
