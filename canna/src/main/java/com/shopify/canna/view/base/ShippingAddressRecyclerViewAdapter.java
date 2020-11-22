@@ -81,7 +81,7 @@ public class ShippingAddressRecyclerViewAdapter extends  RecyclerView.Adapter<Sh
                 holder.remove.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        ((ShippingAddressFragment)fragment).removeCustomerAddress(Prefs.INSTANCE.getAccessToken(),collectionEdge.getId());
+                        ((ShippingAddressFragment)fragment).myDialogDoubleButton(mctx,"Alert","Are you sure remove this Address ?",Prefs.INSTANCE.getAccessToken(),collectionEdge.getId());
 
                     }
                 });

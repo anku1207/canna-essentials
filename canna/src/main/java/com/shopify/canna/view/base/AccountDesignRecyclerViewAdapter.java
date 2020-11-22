@@ -24,6 +24,7 @@ import com.shopify.canna.BuildConfig;
 import com.shopify.canna.R;
 import com.shopify.canna.util.Utility;
 import com.shopify.canna.view.home.HelpCenterFragment;
+import com.shopify.canna.view.home.OrderFragment;
 import com.shopify.canna.view.home.WebView;
 import com.shopify.canna.view.home.ShippingAddressFragment;
 
@@ -69,6 +70,11 @@ public class AccountDesignRecyclerViewAdapter extends  RecyclerView.Adapter<Acco
                             }else if(jsonObject.getString("heading").equalsIgnoreCase("Saved Address")){
                                 ((FragmentActivity)mctx).getSupportFragmentManager().beginTransaction()
                                         .replace(R.id.fragment_container, new ShippingAddressFragment())
+                                        .addToBackStack(null)
+                                        .commit();
+                            }else if(jsonObject.getString("heading").equalsIgnoreCase("My Order")){
+                                ((FragmentActivity)mctx).getSupportFragmentManager().beginTransaction()
+                                        .replace(R.id.fragment_container, new OrderFragment())
                                         .addToBackStack(null)
                                         .commit();
                             }else if(jsonObject.getString("heading").equalsIgnoreCase("Privacy Policy")){
