@@ -80,7 +80,12 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if (doubleBackpress){
-            super.onBackPressed();
+            if (Utils.INSTANCE.isUserAuthenticated()){
+                super.onBackPressed();
+            }else {
+                User_Login.launchActivity(HomeActivity.this);
+                finish();
+            }
         }else {
             Utils.INSTANCE.showToast(HomeActivity.this, getString(R.string.backpress_to_exit));
             doubleBackpress = true;

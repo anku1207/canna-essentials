@@ -1,8 +1,13 @@
 package com.shopify.canna.view.base;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -98,8 +104,11 @@ public class AccountDesignRecyclerViewAdapter extends  RecyclerView.Adapter<Acco
                                 intent.putExtra("title","FAQ");
 
                                 ((Activity)mctx).startActivity(intent);
+                            }else if(jsonObject.getString("heading").equalsIgnoreCase("Call Us")){
+                                ((FragmentActivity)mctx).startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", jsonObject.getString("desc"), null)));
                             }
                         }catch (Exception e){
+                            Log.w("error",e.getMessage());
                             Toast.makeText(mctx, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
 
@@ -110,6 +119,17 @@ public class AccountDesignRecyclerViewAdapter extends  RecyclerView.Adapter<Acco
             }catch (Exception e){
                 Toast.makeText(mctx, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
             }
+        }
+
+        private static boolean hasPermissions(Context context, String... permissions) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
+                for (String permission : permissions) {
+                    if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
 
         @Override
