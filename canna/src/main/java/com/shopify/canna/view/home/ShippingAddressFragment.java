@@ -251,8 +251,9 @@ public class ShippingAddressFragment extends Fragment implements View.OnClickLis
         switch (view.getId()){
             case R.id.add_address:
                 add_address.startAnimation(animation);
-                ((FragmentActivity)getActivity()).getSupportFragmentManager().beginTransaction()
+                ((FragmentActivity)getContext()).getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, new AddressFragment())
+                        .addToBackStack(null)
                         .commit();
                 break;
         }
