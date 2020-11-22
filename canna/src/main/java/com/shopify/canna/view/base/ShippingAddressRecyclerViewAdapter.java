@@ -73,6 +73,7 @@ public class ShippingAddressRecyclerViewAdapter extends  RecyclerView.Adapter<Sh
                         addressFragment.setArguments(args);
                         ((FragmentActivity)mctx).getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.fragment_container, addressFragment)
+                                .addToBackStack(null)
                                 .commit();
                     }
                 });

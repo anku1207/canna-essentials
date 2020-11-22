@@ -85,6 +85,7 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        Log.d("BACK_HOME",""+getSupportFragmentManager().getBackStackEntryCount()+"\n"+getFragmentManager().getBackStackEntryCount());
         if (getSupportFragmentManager().getBackStackEntryCount() > 0){
             getSupportFragmentManager().popBackStack();
         }else{

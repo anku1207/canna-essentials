@@ -47,6 +47,7 @@
                 android:paddingTop="6dp"
                 android:paddingBottom="6dp"
                 android:imeOptions="actionDone"
+                android:inputType="textEmailAddress"
                 android:textColor="@color/black"
                 android:textAlignment="center"
                 android:fontFamily="@font/sweetsanspromedium"
@@ -111,9 +112,15 @@
                 android:textColor="@color/white">
             </TextView>
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/Skip"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:fontFamily="@font/sweetsanspromedium"
                 android:gravity="center"
                 android:onClick="skip"

@@ -20,6 +20,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.shopify.canna.BuildConfig;
 import com.shopify.canna.R;
 import com.shopify.canna.util.Utility;
 import com.shopify.canna.view.home.HelpCenterFragment;
@@ -108,6 +109,14 @@ public class AccountDesignRecyclerViewAdapter extends  RecyclerView.Adapter<Acco
                                 ((Activity)mctx).startActivity(intent);
                             }else if(jsonObject.getString("heading").equalsIgnoreCase("Call Us")){
                                 ((FragmentActivity)mctx).startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", jsonObject.getString("desc"), null)));
+                            }else if(jsonObject.getString("heading").equalsIgnoreCase("Share App")){
+                                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                                shareIntent.setType("text/plain");
+                                shareIntent.putExtra(Intent.EXTRA_SUBJECT, mctx.getResources().getString(R.string.app_name));
+                                String shareMessage= "\nTry out this cool app\n\n";
+                                shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID +"\n\n";
+                                shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+                                ((FragmentActivity)mctx).startActivity(Intent.createChooser(shareIntent, "Share app"));
                             }
                         }catch (Exception e){
                             Log.w("error",e.getMessage());

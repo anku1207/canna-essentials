@@ -70,8 +70,8 @@
     <string name="enter_city">Press enter City</string>
     <string name="enter_country">Press enter Country</string>
     <string name="enter_province">Press enter Province</string>
-    <string name="enter_postal">Press enter 6 digit Postal/Zip Code</string>
-    <string name="enter_phone_number">Press enter 10 digit Phone Number</string>
+    <string name="enter_postal">Press enter 6 digit postal/zip Code</string>
+    <string name="enter_phone_number">Press enter 10 digit phone number</string>
     <string name="save_close">Save &amp; Close</string>
     <string name="add_to_cart">Add to Cart</string>
 
