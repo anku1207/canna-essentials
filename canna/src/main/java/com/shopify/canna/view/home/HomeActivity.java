@@ -53,7 +53,12 @@ public class HomeActivity extends AppCompatActivity {
                             fragment=new BrandsFragment();
                             break;
                         case R.id.bag:
-                            ScreenRouter.route(HomeActivity.this, new CartClickActionEvent());
+                            if (Utils.INSTANCE.isUserAuthenticated()){
+                                ScreenRouter.route(HomeActivity.this, new CartClickActionEvent());
+                            }else {
+                                User_Login.launchActivity(HomeActivity.this);
+                                finish();
+                            }
                             break;
                         case R.id.account:
                             if (Utils.INSTANCE.isUserAuthenticated()){
@@ -80,8 +85,7 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-          User_Login.launchActivity(HomeActivity.this);
-                finish();if (getSupportFragmentManager().getBackStackEntryCount() > 0){
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0){
             getSupportFragmentManager().popBackStack();
         }else{
             if (doubleBackpress){
