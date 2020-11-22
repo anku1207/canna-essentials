@@ -53,7 +53,12 @@ public class HomeActivity extends AppCompatActivity {
                             fragment=new BrandsFragment();
                             break;
                         case R.id.bag:
-                            ScreenRouter.route(HomeActivity.this, new CartClickActionEvent());
+                            if (Utils.INSTANCE.isUserAuthenticated()){
+                                ScreenRouter.route(HomeActivity.this, new CartClickActionEvent());
+                            }else {
+                                User_Login.launchActivity(HomeActivity.this);
+                                finish();
+                            }
                             break;
                         case R.id.account:
                             if (Utils.INSTANCE.isUserAuthenticated()){
