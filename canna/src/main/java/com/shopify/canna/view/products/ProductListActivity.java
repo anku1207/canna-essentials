@@ -27,6 +27,8 @@ package com.shopify.canna.view.products;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -56,6 +58,7 @@ public final class ProductListActivity extends AppCompatActivity {
   @BindView(R2.id.product_list) ProductListView productListView;
   @BindView(R2.id.title)
   TextView title;
+  ImageView back_activity_button;
 
   @Override
   protected void onCreate(@Nullable final Bundle savedInstanceState) {
@@ -67,8 +70,17 @@ public final class ProductListActivity extends AppCompatActivity {
     String collectionTitle = getIntent().getStringExtra(EXTRAS_COLLECTION_TITLE);
     String collectionImageUrl = getIntent().getStringExtra(EXTRAS_COLLECTION_IMAGE_URL);
 
+    back_activity_button=findViewById(R.id.back_activity_button);
+
     checkNotNull(collectionId, "collectionId == null");
     checkNotNull(collectionTitle, "collectionTitle == null");
+
+    back_activity_button.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        finish();
+      }
+    });
 
     title.setText(collectionTitle);
 
