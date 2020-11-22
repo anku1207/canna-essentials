@@ -94,7 +94,8 @@ final class CartListItemViewModel extends ListItemViewModel<CartItem> {
       super.bindModel(listViewItemModel, position);
       imageView.loadShopifyImage(listViewItemModel.payload().image);
       titleView.setText(listViewItemModel.payload().productTitle);
-      if (listViewItemModel.payload().variantTitle != null && !listViewItemModel.payload().variantTitle.isEmpty()){
+      if (listViewItemModel.payload().variantTitle != null && !listViewItemModel.payload().variantTitle.isEmpty() &&
+              !listViewItemModel.payload().variantTitle.equalsIgnoreCase("Default Title")){
         variantView.setText(listViewItemModel.payload().variantTitle);
       }else {
         variantView.setVisibility(View.GONE);
