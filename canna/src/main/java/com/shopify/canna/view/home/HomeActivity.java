@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -79,17 +80,17 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (doubleBackpress){
-            if (Utils.INSTANCE.isUserAuthenticated()){
+          User_Login.launchActivity(HomeActivity.this);
+                finish();if (getSupportFragmentManager().getBackStackEntryCount() > 0){
+            getSupportFragmentManager().popBackStack();
+        }else{
+            if (doubleBackpress){
                 super.onBackPressed();
             }else {
-                User_Login.launchActivity(HomeActivity.this);
-                finish();
+                Utils.INSTANCE.showToast(HomeActivity.this, getString(R.string.backpress_to_exit));
+                doubleBackpress = true;
+                new Handler().postDelayed(() -> doubleBackpress = false, 2000);
             }
-        }else {
-            Utils.INSTANCE.showToast(HomeActivity.this, getString(R.string.backpress_to_exit));
-            doubleBackpress = true;
-            new Handler().postDelayed(() -> doubleBackpress = false, 2000);
         }
     }
 }
