@@ -169,6 +169,31 @@ public class ShippingAddressFragment extends Fragment implements View.OnClickLis
 
 
 
+
+    public void  myDialogDoubleButton(Context context, String title, String msg, String accessId, ID addressId){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(title);
+        builder.setMessage(msg);
+        builder.setMessage("Are you sure you want to exit?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        removeCustomerAddress(accessId,addressId);
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        if(!((Activity)context).isFinishing() && !alert.isShowing())  alert.show();
+
+
+    }
+
+
     public  void removeCustomerAddress(String accessId , ID addressId){
         progress.setVisibility(View.VISIBLE);
         Storefront.MutationQuery mutationQuery = Storefront.mutation(mutation -> mutation

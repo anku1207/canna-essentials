@@ -75,5 +75,8 @@
     <string name="save_close">Save &amp; Close</string>
     <string name="add_to_cart">Add to Cart</string>
 
+    <string name="Rs">\u20B9</string>
+
+
 
 </resources>
