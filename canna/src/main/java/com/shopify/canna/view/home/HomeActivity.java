@@ -15,6 +15,8 @@ import com.shopify.canna.R;
 import com.shopify.canna.util.Prefs;
 import com.shopify.canna.util.Util;
 import com.shopify.canna.util.Utils;
+import com.shopify.canna.view.ScreenRouter;
+import com.shopify.canna.view.cart.CartClickActionEvent;
 import com.shopify.canna.view.login.User_Login;
 
 public class HomeActivity extends AppCompatActivity {
@@ -50,7 +52,7 @@ public class HomeActivity extends AppCompatActivity {
                             fragment=new BrandsFragment();
                             break;
                         case R.id.bag:
-                            Toast.makeText(HomeActivity.this, "bag", Toast.LENGTH_SHORT).show();
+                            ScreenRouter.route(HomeActivity.this, new CartClickActionEvent());
                             break;
                         case R.id.account:
                             if (Utils.INSTANCE.isUserAuthenticated()){
