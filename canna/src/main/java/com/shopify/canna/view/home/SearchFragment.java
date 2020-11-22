@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 
 import com.google.gson.Gson;
@@ -53,7 +54,7 @@ public class SearchFragment extends Fragment {
     SearchView searchView;
     RecyclerView recyclerView;
     SearchItemRecyclerViewAdapter searchItemRecyclerViewAdapter;
-
+    ProgressBar progressBar;
 
     public SearchFragment() {
         // Required empty public constructor
@@ -98,6 +99,7 @@ public class SearchFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         searchView=view.findViewById(R.id.search_view);
         recyclerView=view.findViewById(R.id.recyclerView);
+        progressBar=view.findViewById(R.id.progress);
 
 
         recyclerView.setHasFixedSize(true);
@@ -120,13 +122,13 @@ public class SearchFragment extends Fragment {
                 // search goes here !!
 
                 if(newText==null || newText.isEmpty()){
-                    List<Storefront.CollectionEdge> collection = new ArrayList<>();
+                    List<Storefront.Product> collection = new ArrayList<>();
                     searchItemRecyclerViewAdapter=new SearchItemRecyclerViewAdapter(getContext(), collection,R.layout.product_search_design);
                     recyclerView.setAdapter(searchItemRecyclerViewAdapter);
                     recyclerView.getAdapter().notifyDataSetChanged();
                 }else {
                     searchItemBykey(newText , new VolleyResponse((VolleyResponse.OnSuccess)(success)->{
-                        List<Storefront.CollectionEdge> collection = (List<Storefront.CollectionEdge>) success;
+                        List<Storefront.Product> collection = (List<Storefront.Product>) success;
                         Log.w("length",collection.size()+"");
                         searchItemRecyclerViewAdapter=new SearchItemRecyclerViewAdapter(getContext(), collection,R.layout.product_search_design);
                         recyclerView.setAdapter(searchItemRecyclerViewAdapter);
@@ -141,37 +143,55 @@ public class SearchFragment extends Fragment {
     }
 
     public void searchItemBykey(String item , VolleyResponse volleyResponse){
-        Storefront.QueryRootQuery query =  Storefront.query(root -> root
-                .shop(shop -> shop
-                        .collections(
-                                arg -> arg
-                                        .first(10)
-                                        .query(item),
-                                connection -> connection
-
-                                        .edges(edges -> edges
-                                                .node(node -> node
-                                                        .title()
-                                                        .description()
-                                                        .image(_queryBuilder -> _queryBuilder
-                                                                .src())
+        progressBar.setVisibility(View.VISIBLE);
+        Storefront.QueryRootQuery query1 = Storefront.query(rootQuery -> rootQuery
+                .shop(shopQuery -> shopQuery
+                        .collections(arg -> arg.first(10).query(item), collectionConnectionQuery -> collectionConnectionQuery
+                                .edges(collectionEdgeQuery -> collectionEdgeQuery
+                                        .node(collectionQuery -> collectionQuery
+                                                .title()
+                                                .products(arg -> arg.first(10), productConnectionQuery -> productConnectionQuery
+                                                        .edges(productEdgeQuery -> productEdgeQuery
+                                                                .node(productQuery -> productQuery
+                                                                        .title()
+                                                                        .images(args ->  args.first(1), imageConnection -> imageConnection
+                                                                                .edges(imageEdge -> imageEdge
+                                                                                        .node(Storefront.ImageQuery::src)))
+                                                                        .productType()
+                                                                        .description()
+                                                                        .priceRange(range -> range
+                                                                        .minVariantPrice(Storefront.MoneyV2Query::amount))
+                                                                )
+                                                        )
                                                 )
                                         )
+                                )
                         )
                 )
         );
-
-        SampleApplication.graphClient().queryGraph(query).enqueue(new Handler(Looper.getMainLooper()), result -> {
+        SampleApplication.graphClient().queryGraph(query1).enqueue(new Handler(Looper.getMainLooper()), result -> {
             if (result instanceof GraphCallResult.Success){
+                List<Storefront.Product> products = new ArrayList<>();
 
                 if (((GraphCallResult.Success<Storefront.QueryRoot>) result).getResponse() != null){
-                    List<Storefront.CollectionEdge> collection= ((GraphCallResult.Success<Storefront.QueryRoot>) result).getResponse().getData().getShop().getCollections().getEdges();
-                    volleyResponse.onSuccess(collection);
+                    List<Storefront.Collection> collections = new ArrayList<>();
+                    for (Storefront.CollectionEdge collectionEdge : ((GraphCallResult.Success<Storefront.QueryRoot>) result).getResponse().getData().getShop().getCollections().getEdges()) {
+                        collections.add(collectionEdge.getNode());
+
+                        if (collectionEdge.getNode() != null && collectionEdge.getNode().getProducts() != null && collectionEdge.getNode().getProducts().getEdges() != null)
+                        for (Storefront.ProductEdge productEdge : collectionEdge.getNode().getProducts().getEdges()) {
+                            products.add(productEdge.getNode());
+                        }
+                    }
+
+                    volleyResponse.onSuccess(products);
                 }else {
                     Utils.INSTANCE.showToast(getContext(), getString(R.string.something_wrong));
                 }
+                Utils.INSTANCE.showHideView(progressBar, View.GONE);
             }else {
                 Utils.INSTANCE.showToast(getContext(), getString(R.string.something_wrong));
+                Utils.INSTANCE.showHideView(progressBar, View.GONE);
             }
             return Unit.INSTANCE;
         });

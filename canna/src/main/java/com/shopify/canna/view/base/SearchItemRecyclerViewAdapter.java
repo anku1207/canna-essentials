@@ -15,7 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.shopify.buy3.Storefront;
 import com.shopify.canna.R;
+import com.shopify.canna.view.ScreenActionEvent;
 import com.shopify.canna.view.home.SubCategory;
+import com.shopify.canna.view.product.ProductDetailsActivity;
 import com.shopify.canna.view.products.ProductListActivity;
 import com.squareup.picasso.Picasso;
 
@@ -26,10 +28,10 @@ import java.util.List;
 
 public class SearchItemRecyclerViewAdapter extends  RecyclerView.Adapter<SearchItemRecyclerViewAdapter.ProdectViewHolder>{
         Context mctx ;
-        List<Storefront.CollectionEdge>  productslist;
+        List<Storefront.Product>  productslist;
         int Activityname;
 
-        public SearchItemRecyclerViewAdapter(Context mctx, List<Storefront.CollectionEdge> productslist, int Activityname) {
+        public SearchItemRecyclerViewAdapter(Context mctx, List<Storefront.Product> productslist, int Activityname) {
             this.mctx = mctx;
             this.productslist = productslist;
             this.Activityname=Activityname;
@@ -45,12 +47,11 @@ public class SearchItemRecyclerViewAdapter extends  RecyclerView.Adapter<SearchI
         @Override
         public void onBindViewHolder(ProdectViewHolder holder, int position) {
             try {
-                Storefront.CollectionEdge collectionEdge = productslist.get(position);
+                Storefront.Product collectionEdge = productslist.get(position);
 
-
-                if(collectionEdge.getNode().getImage()!=null &&  collectionEdge.getNode().getImage().getSrc()!=null){
+                if(collectionEdge.getImages() !=null &&  !collectionEdge.getImages().getEdges().isEmpty()){
                     Picasso.with(mctx)
-                    .load(collectionEdge.getNode().getImage().getSrc())
+                    .load(collectionEdge.getImages().getEdges().get(0).getNode().getSrc())
                     .into(holder.image, new com.squareup.picasso.Callback() {
                         @Override
                         public void onSuccess() {
@@ -61,8 +62,22 @@ public class SearchItemRecyclerViewAdapter extends  RecyclerView.Adapter<SearchI
                         }
                     });
                 }
-                holder.desc.setText(collectionEdge.getNode().getDescription());
-                holder.price.setText(null);
+                holder.desc.setText(collectionEdge.getTitle());
+                if (collectionEdge.getPriceRange().getMinVariantPrice() != null &&collectionEdge.getPriceRange().getMinVariantPrice() != null)
+                holder.price.setText(collectionEdge.getPriceRange().getMinVariantPrice().getAmount());
+
+                holder.itemView.setOnClickListener(v -> {
+                    if (collectionEdge.getId() != null &&
+                            collectionEdge.getPriceRange().getMinVariantPrice() != null &&collectionEdge.getPriceRange().getMinVariantPrice() != null &&
+                            collectionEdge.getImages() !=null &&  !collectionEdge.getImages().getEdges().isEmpty()){
+                        Intent intent = new Intent(mctx, ProductDetailsActivity.class);
+                        intent.putExtra(ProductDetailsActivity.EXTRAS_PRODUCT_ID, collectionEdge.getId().toString());
+                        intent.putExtra(ProductDetailsActivity.EXTRAS_PRODUCT_IMAGE_URL, collectionEdge.getImages().getEdges().get(0).getNode().getSrc());
+                        intent.putExtra(ProductDetailsActivity.EXTRAS_PRODUCT_TITLE, collectionEdge.getTitle());
+                        intent.putExtra(ProductDetailsActivity.EXTRAS_PRODUCT_PRICE, Double.valueOf(collectionEdge.getPriceRange().getMinVariantPrice().getAmount()));
+                        mctx.startActivity(intent);
+                    }
+                });
             }catch (Exception e){
                 Toast.makeText(mctx, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
             }
