@@ -27,6 +27,7 @@ package com.shopify.canna.view.product;
 import android.content.Context;
 import android.text.Html;
 import android.util.AttributeSet;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.core.widget.NestedScrollView;
@@ -52,6 +53,7 @@ public final class ProductDescriptionView extends NestedScrollView {
   @BindView(R2.id.title) TextView titleView;
   @BindView(R2.id.price) TextView priceView;
   @BindView(R2.id.description) TextView descriptionView;
+  @BindView(R2.id.linear_price) LinearLayout linearLayoutPrice;
   private OnAddToCartClickListener onAddToCartClickListener;
 
   public ProductDescriptionView(final Context context) {
@@ -86,7 +88,7 @@ public final class ProductDescriptionView extends NestedScrollView {
     this.onAddToCartClickListener = onAddToCartClickListener;
   }
 
-  @OnClick(R2.id.price)
+  @OnClick(R2.id.linear_price)
   void onAddToCartClick() {
     if (onAddToCartClickListener != null) {
       onAddToCartClickListener.onAddToCartClick();

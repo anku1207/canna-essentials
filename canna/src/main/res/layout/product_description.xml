@@ -14,47 +14,47 @@
         android:layout_marginEnd="@dimen/default_padding_half"
         android:layout_marginStart="@dimen/default_padding"
         android:textAppearance="@style/Shopify.HeaderText"
-        app:layout_constraintBottom_toBottomOf="@+id/price"
+        app:layout_constraintBottom_toBottomOf="@+id/linear_price"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/price"
-        app:layout_constraintTop_toTopOf="@+id/price"
+        app:layout_constraintRight_toLeftOf="@+id/linear_price"
+        app:layout_constraintTop_toTopOf="@+id/linear_price"
         tools:text="Product Title"
         android:textColor="@color/grey"/>
 
-    <TextView
-        android:id="@+id/price"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:id="@+id/linear_price"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/default_padding"
-        android:layout_marginTop="@dimen/default_padding"
-        android:fontFamily="@font/sweetsansproregular"
-        android:background="?android:attr/colorAccent"
-        android:drawableStart="@drawable/ic_add_shopping_cart"
-        android:foreground="?android:attr/selectableItemBackground"
+        android:orientation="vertical"
         android:gravity="center"
+        android:layout_marginEnd="@dimen/default_padding"
+        android:background="?android:attr/colorAccent"
+        android:layout_marginTop="@dimen/default_padding"
         android:paddingBottom="@dimen/default_padding_half"
         android:paddingEnd="@dimen/default_padding"
         android:paddingStart="@dimen/default_padding"
         android:paddingTop="@dimen/default_padding_half"
-        android:textAppearance="@style/Shopify.BodyText"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="From $29.00"
-        android:textColor="@color/white"/>
+        app:layout_constraintTop_toTopOf="parent" >
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sweetsansproregular"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:gravity="center"
+            android:textAppearance="@style/Shopify.BodyText"
+            tools:text="@string/price_from"
+            android:textColor="@color/white"/>
 
-    <TextView
-        android:id="@+id/text_add_to_cart"
-        android:layout_width="0dp"
-        android:gravity="center"
-        android:background="?android:attr/colorAccent"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:layout_height="wrap_content"
-        android:text="@string/add_to_cart"
-        android:textColor="@color/white"
-        android:fontFamily="@font/sweetsansproregular"
-        app:layout_constraintTop_toBottomOf="@id/price"
-        app:layout_constraintStart_toStartOf="@id/price"
-        app:layout_constraintEnd_toEndOf="@id/price"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_to_cart"
+            android:fontFamily="@font/sweetsansproregular"
+            android:textSize="12sp"/>
+    </LinearLayout>
+
     <TextView
         android:id="@+id/description"
         android:layout_width="365dp"
@@ -67,7 +67,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_add_to_cart"
+        app:layout_constraintTop_toBottomOf="@id/linear_price"
         android:textColor="@color/grey"
         tools:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
         dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
