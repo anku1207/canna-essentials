@@ -141,6 +141,12 @@ public class AccountFragment extends Fragment {
             jsonArray.put(jsonObject);
 
 
+            jsonObject = new JSONObject();
+            jsonObject.put("image","terms_and_condition");
+            jsonObject.put("heading","Logout");
+            jsonObject.put("desc","Logout");
+            jsonArray.put(jsonObject);
+
             AccountDesignRecyclerViewAdapter accountDesignRecyclerViewAdapter=new AccountDesignRecyclerViewAdapter(getContext(), jsonArray,R.layout.account_desing);
             recyclerView.setAdapter(accountDesignRecyclerViewAdapter);
             recyclerView.getAdapter().notifyDataSetChanged();

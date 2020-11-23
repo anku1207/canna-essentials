@@ -3,6 +3,7 @@ package com.shopify.canna.view.base;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -16,17 +17,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.shopify.canna.BuildConfig;
 import com.shopify.canna.R;
+import com.shopify.canna.util.Prefs;
 import com.shopify.canna.util.Utility;
 import com.shopify.canna.view.home.HelpCenterFragment;
+import com.shopify.canna.view.home.HomeActivity;
 import com.shopify.canna.view.home.OrderFragment;
 import com.shopify.canna.view.home.WebView;
 import com.shopify.canna.view.home.ShippingAddressFragment;
+import com.shopify.canna.view.login.User_Login;
+import com.shopify.graphql.support.ID;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -130,6 +136,8 @@ public class AccountDesignRecyclerViewAdapter extends  RecyclerView.Adapter<Acco
                                 Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:support@cannaessentials.in"));
                                 emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Canna Essentials android app feedback");
                                 ((FragmentActivity)mctx).startActivity(Intent.createChooser(emailIntent, ""));
+                            }else if (jsonObject.getString("heading").equalsIgnoreCase("Logout")){
+                                myDialogDoubleButton(mctx,"Logout","myDialogDoubleButton");
                             }
                         }catch (Exception e){
                             Log.w("error",e.getMessage());
@@ -145,7 +153,36 @@ public class AccountDesignRecyclerViewAdapter extends  RecyclerView.Adapter<Acco
             }
         }
 
-        private static boolean hasPermissions(Context context, String... permissions) {
+
+    public void  myDialogDoubleButton(Context context, String title, String msg){
+    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(title);
+        builder.setMessage(msg);
+        builder.setMessage("Are you sure you want to logout?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Prefs.INSTANCE.clear();
+                        User_Login.launchActivity(mctx);
+                        ((Activity)mctx).finish();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        if(!((Activity)context).isFinishing() && !alert.isShowing())  alert.show();
+
+
+    }
+
+
+
+
+
+    private static boolean hasPermissions(Context context, String... permissions) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
                 for (String permission : permissions) {
                     if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {

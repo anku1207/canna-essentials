@@ -131,6 +131,8 @@ public class HelpCenterFragment extends Fragment {
             jsonArray.put(jsonObject);
 
 
+
+
             AccountDesignRecyclerViewAdapter accountDesignRecyclerViewAdapter=new AccountDesignRecyclerViewAdapter(getContext(), jsonArray,R.layout.account_desing);
             recyclerView.setAdapter(accountDesignRecyclerViewAdapter);
             recyclerView.getAdapter().notifyDataSetChanged();
