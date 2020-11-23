@@ -74,6 +74,13 @@ public class SingleImageRecyclerViewAdapter extends  RecyclerView.Adapter<Single
                                 intent.putExtra(ProductListActivity.EXTRAS_COLLECTION_TITLE,jsonObject.getString("cb_name"));
                                 ((Activity)mctx).startActivity(intent);
 
+                            }else if(jsonObject.has("sub_ctg_id") && jsonObject.has("image") && jsonObject.has("sub_catg_name")){
+                                Intent intent = new Intent(mctx, ProductListActivity.class);
+                                intent.putExtra(ProductListActivity.EXTRAS_COLLECTION_ID,jsonObject.getString("sub_enc_id"));
+                                intent.putExtra(ProductListActivity.EXTRAS_COLLECTION_IMAGE_URL,jsonObject.getString("image"));
+                                intent.putExtra(ProductListActivity.EXTRAS_COLLECTION_TITLE,jsonObject.getString("sub_catg_name"));
+                                ((Activity)mctx).startActivity(intent);
+
                             }
                         }catch (Exception e ){
                             Toast.makeText(mctx, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
