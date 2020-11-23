@@ -23,7 +23,7 @@
             android:gravity="center"
             android:textStyle="bold"
             android:id="@+id/back_activity_button"
-            android:tint="@color/appbar"
+            android:tint="@color/black"
             />
         <LinearLayout
             android:id="@+id/saveshipmenticonintop"

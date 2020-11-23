@@ -10,8 +10,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/imageView"
-        android:maxHeight="260dp"
+        android:maxHeight="300dp"
+        android:minHeight="260dp"
+        android:scaleType="fitXY"
         android:adjustViewBounds="true"
-        android:minHeight="260dp">
+        >
     </ImageView>
 </LinearLayout>

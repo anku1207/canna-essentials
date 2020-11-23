@@ -1,146 +1,183 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="120dp"
     android:background="@android:color/white"
-    android:paddingBottom="@dimen/default_padding_half"
-    android:paddingEnd="@dimen/default_padding_half"
-    android:paddingStart="@dimen/default_padding_half">
-
-    <com.shopify.canna.view.widget.image.ShopifyDraweeView
-        android:id="@+id/image"
-        style="@style/ShopifyDraweeView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="@dimen/default_padding_half"
-        app:actualImageScaleType="fitCenter"
-        app:layout_constraintDimensionRatio="w,1:1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.25"
-        tools:layout_editor_absoluteX="92dp"
-        tools:layout_editor_absoluteY="0dp" />
-
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/default_padding_half"
-        android:layout_marginStart="@dimen/default_padding_half"
-        android:layout_marginTop="@dimen/default_padding"
-        android:ellipsize="end"
-        android:maxLines="2"
-        android:fontFamily="@font/sweetsanspromedium"
-        android:textAppearance="@style/Shopify.TitleText.Inverse"
-        app:layout_constraintLeft_toLeftOf="@+id/guideline"
-        app:layout_constraintRight_toLeftOf="@+id/price"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Product Title" />
-
-    <TextView
-        android:id="@+id/variant"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/default_padding_half"
-        android:layout_marginLeft="@dimen/default_padding_half"
-        android:layout_marginRight="@dimen/default_padding_half"
-        android:layout_marginStart="@dimen/default_padding_half"
-        android:ellipsize="end"
-        android:maxLines="3"
-        android:fontFamily="@font/sweetsansproregular"
-        android:textAppearance="@style/Shopify.SubTitleText.Inverse"
-        android:textColor="?android:attr/colorAccent"
-        app:layout_constraintLeft_toLeftOf="@+id/guideline"
-        app:layout_constraintRight_toLeftOf="@+id/price"
-        app:layout_constraintTop_toBottomOf="@+id/title"
-        app:layout_constraintVertical_bias="0.0"
-        tools:text="Small / Blue / Circle" />
-
-    <TextView
-        android:id="@+id/price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/default_padding_half"
-        android:layout_marginTop="@dimen/default_padding"
-        android:ellipsize="end"
-        android:lines="1"
-        android:fontFamily="@font/sweetsansproregular"
-        android:textAppearance="@style/Shopify.SubTitleText.Inverse"
-        android:textColor="?android:attr/colorAccent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="$50.99" />
-
-    <View
-        android:layout_width="32dp"
-        android:layout_height="48dp"
-        app:layout_constraintLeft_toLeftOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/variant" />
-
+    android:orientation="vertical"
+    android:padding="10dp">
     <LinearLayout
-        android:id="@+id/quantity_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="32dp"
-        android:layout_marginBottom="@dimen/default_padding_half"
-        android:layout_marginEnd="@dimen/default_padding_half"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
-
-        <ImageButton
-            android:id="@+id/decrement_quantity"
-            android:layout_width="32dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:background="@android:color/white"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:src="@drawable/variant_decrease" />
-
-        <TextView
-            android:id="@+id/quantity"
-            android:layout_width="28dp"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="@dimen/default_padding_half"
-            android:layout_marginStart="@dimen/default_padding_half"
-            android:gravity="center"
-            android:fontFamily="@font/sweetsansproregular"
-            android:maxLines="1"
-            android:textAppearance="@style/Shopify.SubTitleText.Inverse"
-            android:textColor="?android:attr/colorAccent"
-            tools:text="100" />
-
-        <ImageButton
-            android:id="@+id/increment_quantity"
-            android:layout_width="32dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:background="@android:color/white"
-            android:foreground="?android:attr/selectableItemBackground"
-
-            android:src="@drawable/variant_increase" />
-
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/default_padding_half"
-        android:gravity="center"
-        android:text="@string/quantity_title"
-        android:fontFamily="@font/sweetsansproregular"
-        android:textAppearance="@style/Shopify.BodyText.Inverse"
-        app:layout_constraintBottom_toBottomOf="@+id/quantity_layout"
-        app:layout_constraintRight_toLeftOf="@+id/quantity_layout"
-        app:layout_constraintTop_toTopOf="@+id/quantity_layout" />
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight=".3"
+            android:layout_height="match_parent">
+            <com.shopify.canna.view.widget.image.ShopifyDraweeView
+                android:id="@+id/image"
+                style="@style/ShopifyDraweeView"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                app:actualImageScaleType="fitXY"
+                android:layout_weight="1"
+                />
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="2"
+                            android:fontFamily="@font/sweetsanspromedium"
+                            android:textAppearance="@style/Shopify.TitleText.Inverse"
+                            tools:text="Product Title"
+                            android:textColor="?android:attr/colorAccent"/>
+                        <TextView
+                            android:id="@+id/variant"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:fontFamily="@font/sweetsansproregular"
+                            android:textAppearance="@style/Shopify.SubTitleText.Inverse"
+                            android:textColor="?android:attr/colorAccent"
+                            tools:text="Small / Blue / Circle"
+                            android:visibility="gone"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight=".5"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="end"
+                        android:gravity="end">
+                        <TextView
+                            android:id="@+id/price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:fontFamily="@font/sweetsansproregular"
+                            android:textAppearance="@style/Shopify.SubTitleText.Inverse"
+                            android:textColor="?android:attr/colorAccent"
+                            tools:text="$50.99" />
+                    </LinearLayout>
+                </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:orientation="horizontal"
+                    android:id="@+id/quantity_layout"
+                    android:layout_marginTop="10dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="10dp"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/quantity_title"
+                            android:textColor="?android:attr/colorAccent"
+                            android:fontFamily="@font/sweetsansproregular"
+                            android:textAppearance="@style/Shopify.BodyText.Inverse"
+                          />
+                        <TextView
+                            android:id="@+id/quantity"
+                            android:layout_width="28dp"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/sweetsansproregular"
+                            android:maxLines="1"
+                            android:textAppearance="@style/Shopify.SubTitleText.Inverse"
+                            android:textColor="?android:attr/colorAccent"
+                            tools:text="100"
+                            />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight=".5"
+                        android:orientation="horizontal"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:background="@drawable/edittext_round_border_redcolor">
+                        <ImageButton
+                            android:id="@+id/decrement_quantity"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:background="@android:color/white"
+                            android:foreground="?android:attr/selectableItemBackground"
+                            android:src="@drawable/variant_decrease"
+                            android:layout_weight="1"/>
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/text_grey">
+                        </View>
+                        <ImageButton
+                            android:id="@+id/increment_quantity"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:background="@android:color/white"
+                            android:foreground="?android:attr/selectableItemBackground"
+                            android:layout_weight="1"
+                            android:src="@drawable/variant_increase" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#68818181"
+                    android:layout_alignParentBottom="true"
+                    />
+            </RelativeLayout>
+        </LinearLayout>
+      </LinearLayout>
+
+
+
 
     <View
         android:id="@+id/divider"
@@ -148,9 +185,7 @@
         android:layout_height="1dp"
         android:layout_marginStart="@dimen/default_padding_half"
         android:background="?android:attr/colorAccent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="@+id/guideline"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:visibility="gone"
+      />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

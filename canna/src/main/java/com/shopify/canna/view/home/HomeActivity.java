@@ -16,9 +16,14 @@ import com.shopify.canna.R;
 import com.shopify.canna.util.Prefs;
 import com.shopify.canna.util.Util;
 import com.shopify.canna.util.Utils;
+import com.shopify.canna.view.ScreenActionEvent;
 import com.shopify.canna.view.ScreenRouter;
+import com.shopify.canna.view.cart.CartActivity;
 import com.shopify.canna.view.cart.CartClickActionEvent;
 import com.shopify.canna.view.login.User_Login;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
     BottomNavigationView navigation;
@@ -54,7 +59,9 @@ public class HomeActivity extends AppCompatActivity {
                             break;
                         case R.id.bag:
                             if (Utils.INSTANCE.isUserAuthenticated()){
-                                ScreenRouter.route(HomeActivity.this, new CartClickActionEvent());
+                                Intent intent = new Intent(HomeActivity.this, CartActivity.class);
+                                intent.putExtra("title","Bag");
+                                startActivity(intent);
                             }else {
                                 User_Login.launchActivity(HomeActivity.this);
                                 finish();
