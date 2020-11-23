@@ -99,7 +99,7 @@ public class OrderFragment extends Fragment {
         linearLayoutNoOrders = view.findViewById(R.id.linear_no_orders);
         buttonContinueShopping = view.findViewById(R.id.button_continue_shopping);
 
-        ((HomeActivity) getContext()).changeTitleByActivity(getContext(),false,"My Order");
+        ((HomeActivity) getContext()).changeTitleByActivity(getContext(),false,"My Order",true);
 
 
         recyclerView.setHasFixedSize(true);

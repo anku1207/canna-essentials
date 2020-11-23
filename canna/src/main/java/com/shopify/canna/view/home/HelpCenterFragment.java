@@ -80,7 +80,7 @@ public class HelpCenterFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView=view.findViewById(R.id.recyclerView);
-        ((HomeActivity) getContext()).changeTitleByActivity(getContext(),false,"Help");
+        ((HomeActivity) getContext()).changeTitleByActivity(getContext(),false,"Help",true);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setNestedScrollingEnabled(false);
@@ -129,6 +129,8 @@ public class HelpCenterFragment extends Fragment {
             jsonObject.put("heading","Terms And Condition");
             jsonObject.put("desc","Terms And Condition");
             jsonArray.put(jsonObject);
+
+
 
 
             AccountDesignRecyclerViewAdapter accountDesignRecyclerViewAdapter=new AccountDesignRecyclerViewAdapter(getContext(), jsonArray,R.layout.account_desing);

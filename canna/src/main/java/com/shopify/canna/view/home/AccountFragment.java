@@ -87,7 +87,7 @@ public class AccountFragment extends Fragment {
         textViewName = view.findViewById(R.id.text_name);
         textViewEmail = view.findViewById(R.id.text_email);
 
-        ((HomeActivity) getContext()).changeTitleByActivity(getContext(),false,"Account");
+        ((HomeActivity) getContext()).changeTitleByActivity(getContext(),false,"Account",false);
 
         textViewName.setText(String.format("%s %s", customer.getFirstName(), customer.getLastName()));
         textViewEmail.setText(customer.getEmail());
@@ -140,6 +140,12 @@ public class AccountFragment extends Fragment {
             jsonObject.put("desc","+91-8447826306");
             jsonArray.put(jsonObject);
 
+
+            jsonObject = new JSONObject();
+            jsonObject.put("image","terms_and_condition");
+            jsonObject.put("heading","Logout");
+            jsonObject.put("desc","Logout");
+            jsonArray.put(jsonObject);
 
             AccountDesignRecyclerViewAdapter accountDesignRecyclerViewAdapter=new AccountDesignRecyclerViewAdapter(getContext(), jsonArray,R.layout.account_desing);
             recyclerView.setAdapter(accountDesignRecyclerViewAdapter);

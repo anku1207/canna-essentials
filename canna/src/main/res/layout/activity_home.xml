@@ -10,6 +10,10 @@
     android:orientation="vertical"
     >
 
+
+
+
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/my_awesome_toolbar"
         android:layout_height="?attr/actionBarSize"
@@ -22,11 +26,45 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+
+
+        <ImageView
+            android:id="@+id/back_activity_button1"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:scaleType="center"
+            android:src="@drawable/rof_backbutton"
+            android:textStyle="bold"
+            android:tint="@color/black"
+            android:foreground="?android:attr/selectableItemBackground"
+            />
+
+        <LinearLayout
+            android:id="@+id/saveshipmenticonintop"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:orientation="vertical"
+           >
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="15dp"
+                android:paddingBottom="0dp"
+                android:tint="@color/white"
+                />
+
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:id="@+id/home_title_bar">
+            android:id="@+id/home_title_bar"
+            android:gravity="center"
+            >
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
         <LinearLayout

@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -37,6 +38,7 @@ public class HomeActivity extends AppCompatActivity {
     BottomNavigationView navigation;
     Boolean doubleBackpress = false;
     LinearLayout home_title_bar;
+    ImageView back_activity_button1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,18 +47,34 @@ public class HomeActivity extends AppCompatActivity {
         if(getSupportActionBar()!=null) getSupportActionBar().hide();
 
         navigation=findViewById(R.id.navigation);
+        back_activity_button1=findViewById(R.id.back_activity_button1);
         home_title_bar=findViewById(R.id.home_title_bar);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        changeTitleByActivity(HomeActivity.this,true,null);
+        changeTitleByActivity(HomeActivity.this,true,null,false);
         navigation.setSelectedItemId(R.id.shop);
+
+
+        back_activity_button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
     }
-    public  void changeTitleByActivity(Context context , boolean imageTitle,String title){
+    public  void changeTitleByActivity(Context context , boolean imageTitle,String title ,boolean showBackBtn){
         home_title_bar.removeAllViews();
         if(imageTitle){
             home_title_bar.addView(getImageViewTitle());
         }else {
             home_title_bar.addView(getTextView(context,title));
+        }
+
+        if(showBackBtn){
+            back_activity_button1.setVisibility(View.VISIBLE);
+        }else {
+            back_activity_button1.setVisibility(View.GONE);
+
         }
     }
 
