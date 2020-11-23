@@ -38,8 +38,6 @@ public interface CartHeaderViewModel {
 
   LiveData<BigDecimal> cartTotalLiveData();
 
-  LiveData<List<CartItem>> cartItemsLiveData();
-
   void webCheckout();
 
   void androidPayCheckout();

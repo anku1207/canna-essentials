@@ -150,6 +150,7 @@ public final class RealCartViewModel extends BaseViewModel implements CartDetail
 
   private void onCartUpdated(final Cart cart) {
     cartLiveData.setValue(cart);
+    cartItemsLiveData.setValue(cart);
   }
 
   private void createCheckout(final int requestId, final Cart cart) {

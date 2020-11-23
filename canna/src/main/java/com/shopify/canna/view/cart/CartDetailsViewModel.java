@@ -25,11 +25,16 @@
 package com.shopify.canna.view.cart;
 
 import android.os.Bundle;
+
+import androidx.lifecycle.LiveData;
+
 import com.shopify.canna.domain.model.Cart;
+import com.shopify.canna.domain.model.CartItem;
 import com.shopify.canna.domain.model.Checkout;
 import com.shopify.canna.view.LifeCycleBoundCallback;
 import com.shopify.canna.view.ViewModel;
 
+import java.util.List;
 import java.util.UUID;
 
 @SuppressWarnings("WeakerAccess")
@@ -46,6 +51,8 @@ public interface CartDetailsViewModel extends ViewModel {
   LifeCycleBoundCallback<CartDetailsViewModel.AndroidPayCheckout> androidPayCheckoutCallback();
 
   LifeCycleBoundCallback<Cart> androidPayStartCheckoutCallback();
+
+  LiveData<List<CartItem>> cartItemsLiveData();
 
 //  void handleMaskedWalletResponse(int requestCode, int resultCode, @Nullable Intent data);
 

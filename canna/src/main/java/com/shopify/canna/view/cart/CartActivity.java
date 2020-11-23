@@ -27,7 +27,9 @@ package com.shopify.canna.view.cart;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -57,6 +59,7 @@ public final class CartActivity extends AppCompatActivity {
   @BindView(R2.id.cart_header) CartHeaderView cartHeaderView;
   @BindView(R2.id.cart_list) CartListView cartListView;
   @BindView(R2.id.toolbar) Toolbar toolbarView;
+  @BindView(R2.id.linear_cart_empty) LinearLayout linearLayoutEmptyCart;
 
   private CartDetailsViewModel cartDetailsViewModel;
   private CartHeaderViewModel cartHeaderViewModel;
@@ -149,6 +152,11 @@ public final class CartActivity extends AppCompatActivity {
 //            , confirmation.maskedWallet));
       }
     });
+
+    cartDetailsViewModel.cartItemsLiveData().observe(this, cartItems -> {
+      Log.d("TRIGGER_CART",""+cartItems.size());
+    });
+
     cartDetailsViewModel.progressLiveData().observe(this, progress -> {
       if (progress != null) {
         if (progress.show) {
