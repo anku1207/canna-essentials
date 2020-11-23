@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kotlin.Unit;
+import kotlin.reflect.jvm.internal.impl.renderer.ClassifierNamePolicy;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -156,7 +157,7 @@ public class SearchFragment extends Fragment implements SearchItemRecyclerViewAd
                                 .edges(collectionEdgeQuery -> collectionEdgeQuery
                                         .node(collectionQuery -> collectionQuery
                                                 .title()
-                                                .products(arg -> arg.first(10), productConnectionQuery -> productConnectionQuery
+                                                .products(arg ->  arg.first(10), productConnectionQuery -> productConnectionQuery
                                                         .edges(productEdgeQuery -> productEdgeQuery
                                                                 .node(productQuery -> productQuery
                                                                         .title()
@@ -176,19 +177,27 @@ public class SearchFragment extends Fragment implements SearchItemRecyclerViewAd
                         )
                 )
         );
-        SampleApplication.graphClient().queryGraph(query1).enqueue(new Handler(Looper.getMainLooper()), result -> {
+
+        Storefront.QueryRootQuery query = Storefront.query(root -> root.products(args2 -> args2.query(item).first(10),
+                args -> args.edges(productQuery -> productQuery.node(_queryBuilder -> _queryBuilder.title().availableForSale().priceRange(range -> range
+                .minVariantPrice(Storefront.MoneyV2Query::amount)).images(args1 ->  args1.first(1), imageConnection -> imageConnection
+                        .edges(imageEdge -> imageEdge
+                                .node(Storefront.ImageQuery::src)))))
+        ));
+
+        SampleApplication.graphClient().queryGraph(query).enqueue(new Handler(Looper.getMainLooper()), result -> {
             if (result instanceof GraphCallResult.Success){
                 List<Storefront.Product> products = new ArrayList<>();
 
-                if (((GraphCallResult.Success<Storefront.QueryRoot>) result).getResponse() != null){
-                    List<Storefront.Collection> collections = new ArrayList<>();
-                    for (Storefront.CollectionEdge collectionEdge : ((GraphCallResult.Success<Storefront.QueryRoot>) result).getResponse().getData().getShop().getCollections().getEdges()) {
-                        collections.add(collectionEdge.getNode());
-
-                        if (collectionEdge.getNode() != null && collectionEdge.getNode().getProducts() != null && collectionEdge.getNode().getProducts().getEdges() != null)
-                        for (Storefront.ProductEdge productEdge : collectionEdge.getNode().getProducts().getEdges()) {
-                            products.add(productEdge.getNode());
-                        }
+                if (((GraphCallResult.Success<Storefront.QueryRoot>) result).getResponse() != null &&
+                        ((GraphCallResult.Success<Storefront.QueryRoot>) result).getResponse().getData().getProducts() != null){
+                    for (Storefront.ProductEdge collectionEdge : ((GraphCallResult.Success<Storefront.QueryRoot>) result).getResponse().getData().getProducts().getEdges()) {
+                        products.add(collectionEdge.getNode());
+//                        collectionEdge.getNode()
+//                        if (collectionEdge.getNode() != null && collectionEdge.getNode().getProducts() != null && collectionEdge.getNode().getProducts().getEdges() != null)
+//                        for (Storefront.ProductEdge productEdge : collectionEdge.getNode().getProducts().getEdges()) {
+//                            products.add(productEdge.getNode());
+//                        }
                     }
 
                     volleyResponse.onSuccess(products);
