@@ -50,6 +50,7 @@
             android:textAlignment="center"
             android:gravity="center"
             android:layout_gravity="center"
+            android:fontFamily="@font/sweetsanspromedium"
             android:text="SubCategory"
             android:textStyle="bold"
             android:textSize="20dp"

@@ -82,6 +82,7 @@ public final class ProductDetailsActivity extends AppCompatActivity {
   @Override public boolean onCreateOptionsMenu(final Menu menu) {
     MenuInflater inflater = getMenuInflater();
     inflater.inflate(R.menu.menu, menu);
+    toolbarView.setTitleTextAppearance(ProductDetailsActivity.this, R.style.SweetSansMediumTextAppearance);
     menu.findItem(R.id.cart).getActionView().setOnClickListener(v -> {
       if (Utils.INSTANCE.isUserAuthenticated()){
         ScreenRouter.route(this, new CartClickActionEvent());

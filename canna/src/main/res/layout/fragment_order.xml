@@ -18,6 +18,7 @@
          android:layout_centerInParent="true"
          android:visibility="gone"/>
      <LinearLayout
+         android:visibility="gone"
          android:id="@+id/linear_no_orders"
          android:layout_width="match_parent"
          android:layout_height="wrap_content"

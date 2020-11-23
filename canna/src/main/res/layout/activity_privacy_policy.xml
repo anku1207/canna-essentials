@@ -55,6 +55,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:text=""
+            android:fontFamily="@font/sweetsanspromedium"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="20dp"

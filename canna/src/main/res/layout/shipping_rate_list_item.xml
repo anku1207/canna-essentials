@@ -47,6 +47,7 @@
         android:id="@+id/price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/sweetsanspromedium"
         android:textAppearance="@style/Shopify.BodyText.Inverse"
         android:textColor="@color/text_grey"
         tools:text="$59.60" />

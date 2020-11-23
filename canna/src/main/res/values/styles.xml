@@ -90,4 +90,9 @@
         <item name="android:fontFamily">@font/sweetsanspromedium</item>
         <item name="android:textSize">16sp</item>
     </style>
+
+    <style name="Widget.BottomNavigationView"
+        parent="Widget.Design.BottomNavigationView">
+        <item name="fontFamily">@font/sweetsanspromedium</item>
+    </style>
 </resources>

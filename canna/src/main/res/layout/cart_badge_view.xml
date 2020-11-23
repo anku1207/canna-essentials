@@ -19,6 +19,7 @@
         android:layout_marginTop="@dimen/default_padding_half"
         android:background="@drawable/count_badge"
         android:gravity="center"
+        android:fontFamily="@font/sweetsanspromedium"
         android:textColor="@android:color/white"
         android:textSize="12sp"
         android:textStyle="bold"

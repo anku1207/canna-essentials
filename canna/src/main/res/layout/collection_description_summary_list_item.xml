@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:fontFamily="@font/sweetsanspromedium"
     android:paddingLeft="@dimen/default_padding_half"
     android:paddingRight="@dimen/default_padding_half"
     android:paddingBottom="@dimen/default_padding_half"

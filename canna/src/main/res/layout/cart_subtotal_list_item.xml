@@ -23,6 +23,7 @@
         android:ellipsize="end"
         android:gravity="end"
         android:lines="1"
+        android:fontFamily="@font/sweetsanspromedium"
         android:textAppearance="@style/Shopify.BodyText.Inverse"
         tools:text="SubTotal: $50.99" />
 

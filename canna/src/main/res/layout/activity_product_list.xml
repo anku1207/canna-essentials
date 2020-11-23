@@ -45,6 +45,7 @@
                 android:layout_width="fill_parent"
                 android:textAlignment="center"
                 android:gravity="center"
+                android:fontFamily="@font/sweetsanspromedium"
                 android:layout_gravity="center"
                 android:text="SubCategory"
                 android:textStyle="bold"
