@@ -119,7 +119,7 @@ public class User_Login extends AppCompatActivity {
                     return Unit.INSTANCE;
                 });
             }else {
-                Utils.INSTANCE.showToast(User_Login.this, getString(R.string.invalid_input));
+                Utils.INSTANCE.showToast(User_Login.this, getString(R.string.check_email_pass));
                 progressBar.setVisibility(View.GONE);
             }
 
