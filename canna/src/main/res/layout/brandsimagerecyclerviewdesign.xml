@@ -8,12 +8,8 @@
     android:paddingBottom="15dp">
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/imageView"
-        android:maxHeight="300dp"
-        android:minHeight="260dp"
-        android:scaleType="fitXY"
-        android:adjustViewBounds="true"
-        >
+        android:adjustViewBounds="true">
     </ImageView>
 </LinearLayout>

@@ -27,6 +27,7 @@ import com.shopify.canna.SampleApplication;
 import com.shopify.canna.util.Prefs;
 import com.shopify.canna.util.Utils;
 import com.shopify.canna.util.VolleyResponse;
+import com.shopify.canna.view.base.EndlessRecyclerViewScrollListener;
 import com.shopify.canna.view.base.SearchItemRecyclerViewAdapter;
 import com.shopify.canna.view.base.SingleImageRecyclerViewAdapter;
 import com.shopify.canna.view.login.User_Login;
@@ -58,6 +59,10 @@ public class SearchFragment extends Fragment implements SearchItemRecyclerViewAd
     SearchItemRecyclerViewAdapter searchItemRecyclerViewAdapter;
     ProgressBar progressBar;
     AppCompatTextView textViewNoData;
+    String pageCursor = "";
+    LinearLayoutManager verticalLayoutManager;
+    String searchString = "";
+
     public SearchFragment() {
         // Required empty public constructor
     }
@@ -108,9 +113,10 @@ public class SearchFragment extends Fragment implements SearchItemRecyclerViewAd
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setNestedScrollingEnabled(false);
-        LinearLayoutManager verticalLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        verticalLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(verticalLayoutManager);
-
+        recyclerView.setNestedScrollingEnabled(true);
+        recyclerView.setHasFixedSize(true);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -131,7 +137,9 @@ public class SearchFragment extends Fragment implements SearchItemRecyclerViewAd
                     recyclerView.setAdapter(searchItemRecyclerViewAdapter);
                     recyclerView.getAdapter().notifyDataSetChanged();
                 }else {
-                    searchItemBykey(newText , new VolleyResponse((VolleyResponse.OnSuccess)(success)->{
+                    searchString = newText;
+                    pageCursor = "";
+                    searchItemBykey(searchString , new VolleyResponse((VolleyResponse.OnSuccess)(success)->{
                         List<Storefront.Product> collection = (List<Storefront.Product>) success;
                         Log.w("length",collection.size()+"");
                         if (collection.isEmpty()){
@@ -149,40 +157,70 @@ public class SearchFragment extends Fragment implements SearchItemRecyclerViewAd
             }
         });
 
+        recyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(verticalLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                Log.d("PAGINNATION",""+pageCursor+"\n"+totalItemsCount);
+                if (!searchString.isEmpty() && !pageCursor.isEmpty()){
+                    searchItemBykey(searchString , new VolleyResponse((VolleyResponse.OnSuccess)(success)->{
+                        List<Storefront.Product> collection = (List<Storefront.Product>) success;
+                        Log.w("length",collection.size()+"");
+                        if (collection.isEmpty()){
+                            textViewNoData.setVisibility(View.VISIBLE);
+                        }else {
+                            Log.d("PAGINATION",""+collection.size());
+                            textViewNoData.setVisibility(View.GONE);
+                            searchItemRecyclerViewAdapter.updateList(collection);
+                        }
+                    }), pageCursor);
+                }
+            }
+        });
     }
 
     public void searchItemBykey(String item , VolleyResponse volleyResponse){
         progressBar.setVisibility(View.VISIBLE);
-        Storefront.QueryRootQuery query1 = Storefront.query(rootQuery -> rootQuery
-                .shop(shopQuery -> shopQuery
-                        .collections(arg -> arg.first(10).query(item), collectionConnectionQuery -> collectionConnectionQuery
-                                .edges(collectionEdgeQuery -> collectionEdgeQuery
-                                        .node(collectionQuery -> collectionQuery
-                                                .title()
-                                                .products(arg ->  arg.first(10), productConnectionQuery -> productConnectionQuery
-                                                        .edges(productEdgeQuery -> productEdgeQuery
-                                                                .node(productQuery -> productQuery
-                                                                        .title()
-                                                                        .images(args ->  args.first(1), imageConnection -> imageConnection
-                                                                                .edges(imageEdge -> imageEdge
-                                                                                        .node(Storefront.ImageQuery::src)))
-                                                                        .productType()
-                                                                        .description()
-                                                                        .availableForSale()
-                                                                        .priceRange(range -> range
-                                                                        .minVariantPrice(Storefront.MoneyV2Query::amount))
-                                                                )
-                                                        )
-                                                )
-                                        )
-                                )
-                        )
-                )
-        );
 
         Storefront.QueryRootQuery query = Storefront.query(root -> root.products(args2 -> args2.query(item).first(10),
-                args -> args.edges(productQuery -> productQuery.node(_queryBuilder -> _queryBuilder.title().availableForSale().priceRange(range -> range
+                args -> args.edges(productQuery -> productQuery.cursor().node(_queryBuilder -> _queryBuilder.title().availableForSale().priceRange(range -> range
                 .minVariantPrice(Storefront.MoneyV2Query::amount)).images(args1 ->  args1.first(1), imageConnection -> imageConnection
+                        .pageInfo(Storefront.PageInfoQuery::hasNextPage)
+                        .edges(imageEdge -> imageEdge
+                                .node(Storefront.ImageQuery::src)))))
+        ));
+
+        SampleApplication.graphClient().queryGraph(query).enqueue(new Handler(Looper.getMainLooper()), result -> {
+            if (result instanceof GraphCallResult.Success){
+                List<Storefront.Product> products = new ArrayList<>();
+                if (((GraphCallResult.Success<Storefront.QueryRoot>) result).getResponse() != null &&
+                        ((GraphCallResult.Success<Storefront.QueryRoot>) result).getResponse().getData() != null &&
+                        ((GraphCallResult.Success<Storefront.QueryRoot>) result).getResponse().getData().getProducts() != null){
+                    for (Storefront.ProductEdge collectionEdge : ((GraphCallResult.Success<Storefront.QueryRoot>) result).getResponse().getData().getProducts().getEdges()) {
+                        if (collectionEdge.getCursor() != null){
+                            Log.d("CURSOR_PAGE",""+collectionEdge.getCursor());
+                            pageCursor = collectionEdge.getCursor();
+                        }
+                        products.add(collectionEdge.getNode());
+                    }
+
+                    volleyResponse.onSuccess(products);
+                }else {
+                    Utils.INSTANCE.showToast(getContext(), getString(R.string.something_wrong));
+                }
+                Utils.INSTANCE.showHideView(progressBar, View.GONE);
+            }else {
+                Utils.INSTANCE.showToast(getContext(), getString(R.string.something_wrong));
+                Utils.INSTANCE.showHideView(progressBar, View.GONE);
+            }
+            return Unit.INSTANCE;
+        });
+    }
+
+    public void searchItemBykey(String item , VolleyResponse volleyResponse, String pageCursor){
+        progressBar.setVisibility(View.VISIBLE);
+        Storefront.QueryRootQuery query = Storefront.query(root -> root.products(args2 -> args2.query(item).first(20).after(pageCursor),
+                args -> args.edges(productQuery -> productQuery.cursor().node(_queryBuilder -> _queryBuilder.title().availableForSale().priceRange(range -> range
+                        .minVariantPrice(Storefront.MoneyV2Query::amount)).images(args1 ->  args1.first(1), imageConnection -> imageConnection
                         .edges(imageEdge -> imageEdge
                                 .node(Storefront.ImageQuery::src)))))
         ));
@@ -192,14 +230,10 @@ public class SearchFragment extends Fragment implements SearchItemRecyclerViewAd
                 List<Storefront.Product> products = new ArrayList<>();
 
                 if (((GraphCallResult.Success<Storefront.QueryRoot>) result).getResponse() != null &&
+                        ((GraphCallResult.Success<Storefront.QueryRoot>) result).getResponse().getData() != null &&
                         ((GraphCallResult.Success<Storefront.QueryRoot>) result).getResponse().getData().getProducts() != null){
                     for (Storefront.ProductEdge collectionEdge : ((GraphCallResult.Success<Storefront.QueryRoot>) result).getResponse().getData().getProducts().getEdges()) {
                         products.add(collectionEdge.getNode());
-//                        collectionEdge.getNode()
-//                        if (collectionEdge.getNode() != null && collectionEdge.getNode().getProducts() != null && collectionEdge.getNode().getProducts().getEdges() != null)
-//                        for (Storefront.ProductEdge productEdge : collectionEdge.getNode().getProducts().getEdges()) {
-//                            products.add(productEdge.getNode());
-//                        }
                     }
 
                     volleyResponse.onSuccess(products);

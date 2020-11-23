@@ -51,27 +51,20 @@ public class SearchItemRecyclerViewAdapter extends  RecyclerView.Adapter<SearchI
             try {
                 Storefront.Product collectionEdge = productslist.get(position);
 
-                if(collectionEdge.getImages() !=null &&  !collectionEdge.getImages().getEdges().isEmpty()){
+                if (collectionEdge.getImages() != null && !collectionEdge.getImages().getEdges().isEmpty()) {
                     Picasso.with(mctx)
-                    .load(collectionEdge.getImages().getEdges().get(0).getNode().getSrc())
-                    .into(holder.image, new com.squareup.picasso.Callback() {
-                        @Override
-                        public void onSuccess() {
-                            //do smth when picture is loaded successfully
-                        }
-                        @Override
-                        public void onError() {
-                        }
-                    });
+                            .load(collectionEdge.getImages().getEdges().get(0).getNode().getSrc())
+                            .fit().centerCrop()
+                            .into(holder.image);
                 }
                 holder.desc.setText(collectionEdge.getTitle());
-                if (collectionEdge.getPriceRange().getMinVariantPrice() != null &&collectionEdge.getPriceRange().getMinVariantPrice() != null)
-                holder.price.setText(Currency.getInstance("INR").getSymbol()+collectionEdge.getPriceRange().getMinVariantPrice().getAmount());
+                if (collectionEdge.getPriceRange().getMinVariantPrice() != null && collectionEdge.getPriceRange().getMinVariantPrice() != null)
+                    holder.price.setText(Currency.getInstance("INR").getSymbol() + collectionEdge.getPriceRange().getMinVariantPrice().getAmount());
 
                 holder.itemView.setOnClickListener(v -> {
                     if (collectionEdge.getId() != null &&
-                            collectionEdge.getPriceRange().getMinVariantPrice() != null &&collectionEdge.getPriceRange().getMinVariantPrice() != null &&
-                            collectionEdge.getImages() !=null &&  !collectionEdge.getImages().getEdges().isEmpty()){
+                            collectionEdge.getPriceRange().getMinVariantPrice() != null && collectionEdge.getPriceRange().getMinVariantPrice() != null &&
+                            collectionEdge.getImages() != null && !collectionEdge.getImages().getEdges().isEmpty()) {
                         onItemClick.onSearchItemClick();
                         Intent intent = new Intent(mctx, ProductDetailsActivity.class);
                         intent.putExtra(ProductDetailsActivity.EXTRAS_PRODUCT_ID, collectionEdge.getId().toString());
@@ -81,8 +74,8 @@ public class SearchItemRecyclerViewAdapter extends  RecyclerView.Adapter<SearchI
                         mctx.startActivity(intent);
                     }
                 });
-            }catch (Exception e){
-                Toast.makeText(mctx, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                Toast.makeText(mctx, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -90,6 +83,12 @@ public class SearchItemRecyclerViewAdapter extends  RecyclerView.Adapter<SearchI
         public int getItemCount() {
             return productslist.size();
         }
+
+        public void updateList(List<Storefront.Product> list){
+            productslist.addAll(list);
+            notifyDataSetChanged();
+        }
+
         public  class ProdectViewHolder extends RecyclerView.ViewHolder {
             LinearLayout mainLayout;
             ImageView image;
