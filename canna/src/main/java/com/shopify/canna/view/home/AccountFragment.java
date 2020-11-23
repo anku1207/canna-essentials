@@ -87,7 +87,7 @@ public class AccountFragment extends Fragment {
         textViewName = view.findViewById(R.id.text_name);
         textViewEmail = view.findViewById(R.id.text_email);
 
-        ((HomeActivity) getContext()).changeTitleByActivity(getContext(),false,"Account");
+        ((HomeActivity) getContext()).changeTitleByActivity(getContext(),false,"Account",false);
 
         textViewName.setText(String.format("%s %s", customer.getFirstName(), customer.getLastName()));
         textViewEmail.setText(customer.getEmail());

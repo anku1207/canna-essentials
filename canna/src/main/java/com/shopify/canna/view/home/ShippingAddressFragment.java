@@ -111,7 +111,7 @@ public class ShippingAddressFragment extends Fragment implements View.OnClickLis
         add_address=view.findViewById(R.id.add_address);
         progress=view.findViewById(R.id.progress);
 
-        ((HomeActivity) getContext()).changeTitleByActivity(getContext(),false,"Shipping Address");
+        ((HomeActivity) getContext()).changeTitleByActivity(getContext(),false,"Shipping Address",true);
 
 
         add_address.setOnClickListener(this);

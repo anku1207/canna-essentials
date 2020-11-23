@@ -92,7 +92,7 @@ public class ShopFragment extends Fragment implements  SwipeRefreshLayout.OnRefr
         recyclerView=view.findViewById(R.id.recyclerView);
         // SwipeRefreshLayout
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
-        ((HomeActivity) getContext()).changeTitleByActivity(getContext(),true,null);
+        ((HomeActivity) getContext()).changeTitleByActivity(getContext(),true,null,false);
 
 
         mSwipeRefreshLayout.setOnRefreshListener(this);

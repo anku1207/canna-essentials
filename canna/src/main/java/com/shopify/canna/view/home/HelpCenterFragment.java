@@ -80,7 +80,7 @@ public class HelpCenterFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView=view.findViewById(R.id.recyclerView);
-        ((HomeActivity) getContext()).changeTitleByActivity(getContext(),false,"Help");
+        ((HomeActivity) getContext()).changeTitleByActivity(getContext(),false,"Help",true);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setNestedScrollingEnabled(false);
