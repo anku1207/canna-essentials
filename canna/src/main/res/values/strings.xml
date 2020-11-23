@@ -79,4 +79,6 @@
     <string name="no_order">No order placed!</string>
     <string name="continue_shopping">Continue Shopping</string>
     <string name="check_email_pass">Please check your email and password.</string>
+    <string name="sold_out">Sold out</string>
+    <string name="item_not_available">This item is no longer available.</string>
 </resources>

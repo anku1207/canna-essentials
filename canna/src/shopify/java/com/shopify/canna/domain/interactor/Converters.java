@@ -65,7 +65,7 @@ final class Converters {
           selectedOptions, variantEdge.getNode().getPrice());
       });
     return new ProductDetails(product.getId().toString(), product.getTitle(), product.getDescriptionHtml(), product.getTags(), images, options,
-      variants);
+      variants, product.getAvailableForSale());
   }
 
   static List<Collection> convertToCollections(final List<Storefront.CollectionEdge> edges) {

@@ -48,6 +48,7 @@ public final class RealProductByIdInteractor implements ProductByIdInteractor {
       .title()
       .descriptionHtml()
       .tags()
+      .availableForSale()
       .images(args ->  args.first(250), imageConnection -> imageConnection
         .edges(imageEdge -> imageEdge
           .node(Storefront.ImageQuery::src)

@@ -87,7 +87,13 @@ final class ProductListItemViewModel extends ListItemViewModel<Product> {
       super.bindModel(listViewItemModel, position);
       imageView.loadShopifyImage(listViewItemModel.payload().image);
       titleView.setText(listViewItemModel.payload().title);
-      priceView.setText(Currency.getInstance("INR").getSymbol()+listViewItemModel.payload().price);
+      if (listViewItemModel.payload().isAvailable){
+        priceView.setText(Currency.getInstance("INR").getSymbol()+listViewItemModel.payload().price);
+        priceView.setTextColor(priceView.getContext().getResources().getColor(R.color.green));
+      }else {
+        priceView.setTextColor(priceView.getContext().getResources().getColor(R.color.snackbar_error_background));
+        priceView.setText(priceView.getContext().getResources().getString(R.string.sold_out));
+      }
     }
 
     @SuppressWarnings("unchecked")

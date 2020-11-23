@@ -24,12 +24,17 @@
 
 package com.shopify.canna.view.product;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.Html;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.widget.NestedScrollView;
 
 import com.shopify.canna.R;
@@ -53,7 +58,7 @@ public final class ProductDescriptionView extends NestedScrollView {
   @BindView(R2.id.title) TextView titleView;
   @BindView(R2.id.price) TextView priceView;
   @BindView(R2.id.description) TextView descriptionView;
-  @BindView(R2.id.linear_price) LinearLayout linearLayoutPrice;
+  @BindView(R2.id.button_add_to_cart) AppCompatButton buttonAddToCart;
   private OnAddToCartClickListener onAddToCartClickListener;
 
   public ProductDescriptionView(final Context context) {
@@ -75,23 +80,34 @@ public final class ProductDescriptionView extends NestedScrollView {
 
   public void renderProduct(final String title, final double price) {
     titleView.setText(title);
-    priceView.setText(getResources().getString(R.string.price_from, String.valueOf(price)));
   }
 
+  @SuppressLint("ResourceType")
   public void renderProduct(final ProductDetails product) {
     titleView.setText(product.title);
-    priceView.setText(getResources().getString(R.string.price_from, String.valueOf(formatMinPrice(product))));
+    Log.d("AVAILABLE_PRODUCT",""+product.isAvailableForSale);
     descriptionView.setText(Html.fromHtml(product.description));
+    if (product.isAvailableForSale){
+      priceView.setTextColor(getResources().getColor(R.color.green));
+      priceView.setText(getResources().getString(R.string.price_from, String.valueOf(formatMinPrice(product))));
+      buttonAddToCart.setSelected(true);
+    }else {
+      priceView.setTextColor(getResources().getColor(R.color.snackbar_error_background));
+      priceView.setText(getResources().getString(R.string.sold_out));
+      buttonAddToCart.setSelected(false);
+    }
   }
 
   public void setOnAddToCartClickListener(final OnAddToCartClickListener onAddToCartClickListener) {
     this.onAddToCartClickListener = onAddToCartClickListener;
   }
 
-  @OnClick(R2.id.linear_price)
+  @OnClick({R2.id.button_add_to_cart})
   void onAddToCartClick() {
-    if (onAddToCartClickListener != null) {
+    if (onAddToCartClickListener != null && buttonAddToCart != null && buttonAddToCart.isSelected()) {
       onAddToCartClickListener.onAddToCartClick();
+    }else {
+      Toast.makeText(getContext(), getResources().getString(R.string.item_not_available),Toast.LENGTH_LONG).show();
     }
   }
 

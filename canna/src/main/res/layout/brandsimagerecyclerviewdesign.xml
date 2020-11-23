@@ -4,14 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/mailmenu"
-    android:paddingBottom="15dp"
-    android:minHeight="260dp"
-    >
+    android:foreground="?attr/selectableItemBackground"
+    android:paddingBottom="15dp">
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/imageView"
-        android:scaleType="fitXY"
         android:maxHeight="260dp"
         android:adjustViewBounds="true"
         android:minHeight="260dp">

@@ -9,69 +9,63 @@
     <TextView
         android:id="@+id/title"
         android:layout_width="0dp"
-        android:fontFamily="@font/sweetsansproregular"
+        android:fontFamily="@font/sweetsanspromedium"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/default_padding_half"
         android:layout_marginStart="@dimen/default_padding"
         android:textAppearance="@style/Shopify.HeaderText"
-        app:layout_constraintBottom_toBottomOf="@+id/linear_price"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/linear_price"
-        app:layout_constraintTop_toTopOf="@+id/linear_price"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="10dp"
         tools:text="Product Title"
-        android:textColor="@color/grey"/>
-
-    <LinearLayout
-        android:id="@+id/linear_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:layout_marginEnd="@dimen/default_padding"
-        android:background="?android:attr/colorAccent"
-        android:layout_marginTop="@dimen/default_padding"
-        android:paddingBottom="@dimen/default_padding_half"
-        android:paddingEnd="@dimen/default_padding"
-        android:paddingStart="@dimen/default_padding"
-        android:paddingTop="@dimen/default_padding_half"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
-        <TextView
-            android:id="@+id/price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/sweetsansproregular"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:gravity="center"
-            android:textAppearance="@style/Shopify.BodyText"
-            tools:text="@string/price_from"
-            android:textColor="@color/white"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/add_to_cart"
-            android:fontFamily="@font/sweetsansproregular"
-            android:textSize="12sp"/>
-    </LinearLayout>
+        android:textColor="@color/black"/>
 
     <TextView
+        android:id="@+id/price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/sweetsanspromedium"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:textAppearance="@style/Shopify.BodyText"
+        tools:text="@string/price_from"
+        android:textColor="@color/green"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintStart_toStartOf="@id/title"
+        android:layout_marginTop="10dp"/>
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_add_to_cart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_to_cart"
+        android:minHeight="0dp"
+        app:layout_constraintTop_toTopOf="@id/price"
+        app:layout_constraintBottom_toBottomOf="@id/price"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="20dp"
+        android:textAllCaps="false"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:background="@drawable/selector_button_add_to_cart"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp"
+        android:fontFamily="@font/sweetsanspromedium"
+        android:textSize="16sp"/>
+    <TextView
         android:id="@+id/description"
-        android:layout_width="365dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:fontFamily="@font/sweetsansproregular"
         android:layout_marginLeft="@dimen/default_padding"
-        android:layout_marginTop="@dimen/default_padding_half"
         android:layout_marginRight="@dimen/default_padding"
         android:textAppearance="@style/Shopify.BodyText"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/linear_price"
-        android:textColor="@color/grey"
+        app:layout_constraintTop_toBottomOf="@id/button_add_to_cart"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
         android:padding="10dp"
-
         tools:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
         dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
         It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.

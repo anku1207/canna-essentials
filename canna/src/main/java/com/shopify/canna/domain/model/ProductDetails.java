@@ -40,10 +40,11 @@ public final class ProductDetails {
   @NonNull public List<String> images;
   @NonNull public List<Option> options;
   @NonNull public List<Variant> variants;
+  @NonNull public Boolean isAvailableForSale;
 
   public ProductDetails(@NonNull final String id, @NonNull final String title, @NonNull final String description,
     @NonNull final List<String> tags, @NonNull final List<String> images, @NonNull final List<Option> options,
-    @NonNull final List<Variant> variants) {
+    @NonNull final List<Variant> variants, @NonNull final Boolean isAvailableForSale) {
     this.id = checkNotNull(id, "id == null");
     this.title = checkNotNull(title, "title == null");
     this.description = checkNotNull(description, "description == null");
@@ -51,6 +52,7 @@ public final class ProductDetails {
     this.images = unmodifiableList(checkNotNull(images, "images == null"));
     this.options = unmodifiableList(checkNotNull(options, "options == null"));
     this.variants = unmodifiableList(checkNotNull(variants, "variants == null"));
+    this.isAvailableForSale = checkNotNull(isAvailableForSale, "isAvailableForSale == null");
   }
 
   @Override public String toString() {

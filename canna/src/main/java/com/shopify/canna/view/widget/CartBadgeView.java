@@ -87,7 +87,11 @@ public final class CartBadgeView extends FrameLayout {
 
   private void onCartUpdate(final Cart cart) {
     final int totalQuantity = cart.totalQuantity();
-    countView.setVisibility(totalQuantity == 0 ? View.GONE : View.VISIBLE);
-    countView.setText(String.valueOf(totalQuantity));
+    try {
+      countView.setVisibility(totalQuantity == 0 ? View.GONE : View.VISIBLE);
+      countView.setText(String.valueOf(totalQuantity));
+    }catch (Throwable t){
+
+    }
   }
 }
