@@ -25,6 +25,7 @@ import com.shopify.canna.SampleApplication;
 import com.shopify.canna.util.Prefs;
 import com.shopify.canna.util.Utils;
 import com.shopify.canna.view.home.AddressFragment;
+import com.shopify.canna.view.home.HomeActivity;
 import com.shopify.canna.view.home.ShippingAddressFragment;
 import com.shopify.graphql.support.ID;
 import com.squareup.picasso.Picasso;

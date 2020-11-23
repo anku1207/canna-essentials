@@ -83,6 +83,7 @@ public class ShopFragment extends Fragment implements  SwipeRefreshLayout.OnRefr
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_shop, container, false);
+
     }
 
     @Override
@@ -91,6 +92,8 @@ public class ShopFragment extends Fragment implements  SwipeRefreshLayout.OnRefr
         recyclerView=view.findViewById(R.id.recyclerView);
         // SwipeRefreshLayout
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+        ((HomeActivity) getContext()).changeTitleByActivity(getContext(),true,null);
+
 
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,

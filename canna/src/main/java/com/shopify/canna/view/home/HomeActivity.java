@@ -2,19 +2,27 @@ package com.shopify.canna.view.home;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.shopify.canna.R;
 import com.shopify.canna.util.Prefs;
 import com.shopify.canna.util.Util;
+import com.shopify.canna.util.Utility;
 import com.shopify.canna.util.Utils;
 import com.shopify.canna.view.ScreenActionEvent;
 import com.shopify.canna.view.ScreenRouter;
@@ -28,6 +36,7 @@ import java.util.List;
 public class HomeActivity extends AppCompatActivity {
     BottomNavigationView navigation;
     Boolean doubleBackpress = false;
+    LinearLayout home_title_bar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +45,53 @@ public class HomeActivity extends AppCompatActivity {
         if(getSupportActionBar()!=null) getSupportActionBar().hide();
 
         navigation=findViewById(R.id.navigation);
+        home_title_bar=findViewById(R.id.home_title_bar);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+        changeTitleByActivity(HomeActivity.this,true,null);
         navigation.setSelectedItemId(R.id.shop);
     }
+    public  void changeTitleByActivity(Context context , boolean imageTitle,String title){
+        home_title_bar.removeAllViews();
+        if(imageTitle){
+            home_title_bar.addView(getImageViewTitle());
+        }else {
+            home_title_bar.addView(getTextView(context,title));
+        }
+    }
+
+
+    public ImageView getImageViewTitle(){
+        ImageView imageView = new ImageView(this);
+        LinearLayout.LayoutParams layoutparams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT
+        );
+        imageView.setLayoutParams(layoutparams);
+        imageView.setImageDrawable(this.getDrawable(R.drawable.headerlogo));
+        imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        return imageView;
+    }
+
+    public static TextView getTextView(Context context, String txt){
+        Typeface typeface = ResourcesCompat.getFont(context, R.font.sweetsanspromedium);
+        TextView tv = new TextView(context);
+        tv.setText(txt);
+        tv.setTypeface(typeface);
+        tv.setLayoutParams(getLayoutparams(context,0,0,0,0));
+        tv.setGravity(Gravity.CENTER);
+        tv.setTextColor(context.getResources().getColor(R.color.black) );
+        tv.setTextSize(18);
+        return tv;
+    }
+    public static LinearLayout.LayoutParams getLayoutparams(Context context, int left, int top, int right, int bottom){
+        LinearLayout.LayoutParams layoutparams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT
+        );
+        return layoutparams;
+    }
+
 
     BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {

@@ -111,6 +111,9 @@ public class ShippingAddressFragment extends Fragment implements View.OnClickLis
         add_address=view.findViewById(R.id.add_address);
         progress=view.findViewById(R.id.progress);
 
+        ((HomeActivity) getContext()).changeTitleByActivity(getContext(),false,"Shipping Address");
+
+
         add_address.setOnClickListener(this);
 
         recyclerView.setHasFixedSize(true);

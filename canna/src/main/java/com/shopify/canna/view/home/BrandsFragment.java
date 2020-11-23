@@ -97,6 +97,8 @@ public class BrandsFragment extends Fragment implements  SwipeRefreshLayout.OnRe
         recyclerView=view.findViewById(R.id.recyclerView);
         // SwipeRefreshLayout
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+        ((HomeActivity) getContext()).changeTitleByActivity(getContext(),true,null);
+
 
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,

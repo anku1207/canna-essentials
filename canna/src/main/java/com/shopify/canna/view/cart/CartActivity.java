@@ -78,7 +78,7 @@ public final class CartActivity extends AppCompatActivity {
 
     setSupportActionBar(toolbarView);
     getSupportActionBar().setTitle(getIntent().getStringExtra("title")!=null?getIntent().getStringExtra("title"):"Cart");
-    getSupportActionBar().setHomeAsUpIndicator(getIntent().getStringExtra("title")!=null?R.drawable.rof_backbutton:R.drawable.ic_close);
+    getSupportActionBar().setHomeAsUpIndicator(R.drawable.rof_backbutton);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     progressDialogHelper = new ProgressDialogHelper(this);
 

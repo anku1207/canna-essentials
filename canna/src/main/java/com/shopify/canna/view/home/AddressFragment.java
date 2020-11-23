@@ -125,11 +125,13 @@ public class AddressFragment extends Fragment {
         progress=view.findViewById(R.id.progress);
 
         TextView title = view.findViewById(R.id.title);
-
-
         title.setText("Add Address");
+
+        title.setVisibility(View.GONE);
+        ((HomeActivity) getContext()).changeTitleByActivity(getContext(),false,"Add Address");
         textInputEditTexts = new TextInputEditText[]{edt_first_name,edit_last_name,address,apartment,city,country,province,postal,phone_number};
         if((getArguments() != null ? getArguments().getSerializable(EXTRAS_ADDRESS_DETAILS) : null) !=null){
+            ((HomeActivity) getContext()).changeTitleByActivity(getContext(),false,"Update Address");
             title.setText(getArguments().getString(EXTRAS_TITLE) );
             collectionEdge = (Storefront.MailingAddress) getArguments().getSerializable(EXTRAS_ADDRESS_DETAILS);
             setDateInEditText(collectionEdge);
