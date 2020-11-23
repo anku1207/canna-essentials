@@ -164,7 +164,7 @@ public class AccountDesignRecyclerViewAdapter extends  RecyclerView.Adapter<Acco
                     public void onClick(DialogInterface dialog, int id) {
                         Prefs.INSTANCE.clear();
                         User_Login.launchActivity(mctx);
-                        ((Activity)mctx).finish();
+                        ((Activity)mctx).finishAffinity();
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {

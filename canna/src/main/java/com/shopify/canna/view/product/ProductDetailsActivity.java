@@ -88,7 +88,7 @@ public final class ProductDetailsActivity extends AppCompatActivity {
         ScreenRouter.route(this, new CartClickActionEvent());
       }else {
         User_Login.launchActivity(ProductDetailsActivity.this);
-        finish();
+        finishAffinity();
       }
     });
     return true;

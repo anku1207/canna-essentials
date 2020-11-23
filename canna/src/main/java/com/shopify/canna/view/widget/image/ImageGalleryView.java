@@ -27,6 +27,8 @@ package com.shopify.canna.view.widget.image;
 import android.content.Context;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
@@ -113,7 +115,29 @@ public final class ImageGalleryView extends FrameLayout implements RecyclerViewA
     pagerView.setHasFixedSize(true);
     pagerView.setAdapter(pagerAdapter);
     new PagerSnapHelper().attachToRecyclerView(pagerView);
+    pagerView.setOnClickListener(c -> {
+      Log.d("TOUCH_RECYCLE","click called");
+    });
+    pagerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+      @Override
+      public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+        if (e.getAction() == MotionEvent.ACTION_UP){
 
+        }
+        return false;
+      }
+
+      @Override
+      public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+        Log.d("TOUCH_RECYCLE","toch"+e.getAction());
+
+      }
+
+      @Override
+      public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+        Log.d("TOUCH_RECYCLE","disalow");
+      }
+    });
     pagerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
       @Override public void onScrolled(final RecyclerView recyclerView, final int dx, final int dy) {
         int index = ((LinearLayoutManager) pagerView.getLayoutManager()).findFirstVisibleItemPosition();
@@ -165,6 +189,7 @@ public final class ImageGalleryView extends FrameLayout implements RecyclerViewA
 
     @Override public ListItemViewHolder<String, ListItemViewModel<String>> createViewHolder(
       final ListItemViewHolder.OnClickListener onClickListener) {
+      Log.d("","");
       return new PagerListItemModel.ItemViewHolder(onClickListener);
     }
 
@@ -183,6 +208,7 @@ public final class ImageGalleryView extends FrameLayout implements RecyclerViewA
       @SuppressWarnings("unchecked") @OnClick(R2.id.image)
       void onImageClick() {
         onClickListener().onClick(itemModel());
+        Log.d("IMAGE_CLICK","CALLED IN IMAGE");
       }
     }
   }
@@ -214,6 +240,7 @@ public final class ImageGalleryView extends FrameLayout implements RecyclerViewA
 
       @SuppressWarnings("unchecked") @OnClick(R2.id.image)
       void onImageClick() {
+        Log.d("IMAGE_CLICK","CALLED 1");
         onClickListener().onClick(itemModel());
       }
     }

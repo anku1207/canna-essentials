@@ -134,7 +134,7 @@ public class HomeActivity extends AppCompatActivity {
                                 startActivity(intent);
                             }else {
                                 User_Login.launchActivity(HomeActivity.this);
-                                finish();
+                                finishAffinity();
                             }
                             break;
                         case R.id.account:
@@ -142,7 +142,7 @@ public class HomeActivity extends AppCompatActivity {
                                 fragment=new AccountFragment();
                             }else {
                                 User_Login.launchActivity(HomeActivity.this);
-                                finish();
+                                finishAffinity();
                             }
                             break;
                     }
