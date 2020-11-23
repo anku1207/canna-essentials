@@ -108,6 +108,8 @@ public class SearchFragment extends Fragment implements SearchItemRecyclerViewAd
         recyclerView=view.findViewById(R.id.recyclerView);
         progressBar=view.findViewById(R.id.progress);
         textViewNoData = view.findViewById(R.id.text_no_data);
+        ((HomeActivity) getContext()).changeTitleByActivity(getContext(),true,null);
+
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setNestedScrollingEnabled(false);

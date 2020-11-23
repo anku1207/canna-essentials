@@ -77,10 +77,9 @@ public final class CartActivity extends AppCompatActivity {
     ButterKnife.bind(this);
 
     setSupportActionBar(toolbarView);
-    getSupportActionBar().setTitle("Cart");
-    getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close);
+    getSupportActionBar().setTitle(getIntent().getStringExtra("title")!=null?getIntent().getStringExtra("title"):"Cart");
+    getSupportActionBar().setHomeAsUpIndicator(R.drawable.rof_backbutton);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
     progressDialogHelper = new ProgressDialogHelper(this);
 
     initViewModels();
