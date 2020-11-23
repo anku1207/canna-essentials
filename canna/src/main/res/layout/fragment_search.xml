@@ -26,6 +26,7 @@
         android:layout_height="match_parent"
         android:id="@+id/recyclerView"
         android:layout_below="@id/search_view"
+        android:nestedScrollingEnabled="true"
         android:layout_marginHorizontal="10dp"
         />
 
