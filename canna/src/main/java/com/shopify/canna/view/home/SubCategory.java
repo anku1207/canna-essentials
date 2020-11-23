@@ -8,6 +8,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.shopify.canna.Interface.VolleyResponse;
@@ -24,6 +25,7 @@ public class SubCategory extends AppCompatActivity implements View.OnClickListen
     SwipeRefreshLayout mSwipeRefreshLayout;
     SingleImageRecyclerViewAdapter singleImageRecyclerViewAdapter;
     JSONObject jsonObjectData;
+    TextView title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,9 @@ public class SubCategory extends AppCompatActivity implements View.OnClickListen
         if(getSupportActionBar()!=null) getSupportActionBar().hide();
         back_activity_button=findViewById(R.id.back_activity_button);
         recyclerView=findViewById(R.id.recyclerView);
+        title=findViewById(R.id.title);
+
+        title.setText(getIntent().getStringExtra("title"));
 
         back_activity_button.setOnClickListener(this);
         // SwipeRefreshLayout

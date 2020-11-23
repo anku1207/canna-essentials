@@ -29,7 +29,9 @@ import com.shopify.buy3.GraphCallResult;
 import com.shopify.buy3.Storefront;
 import com.shopify.canna.R;
 import com.shopify.canna.SampleApplication;
+import com.shopify.canna.constant.ApplicationConstant;
 import com.shopify.canna.util.Prefs;
+import com.shopify.canna.util.Utility;
 import com.shopify.canna.util.Utils;
 import com.shopify.canna.util.VolleyResponse;
 import com.shopify.graphql.support.ID;
@@ -138,6 +140,15 @@ public class AddressFragment extends Fragment {
             public void onClick(View view) {
                 if(validInput(textInputEditTexts)){
                     try {
+                        if (!phone_number.getText().toString().equals("") &&  Utility.validatePattern(phone_number.getText().toString().trim(), ApplicationConstant.MOBILENO_VALIDATION)!=null){
+                            phone_number.setError(Utility.validatePattern(phone_number.getText().toString().trim(),ApplicationConstant.MOBILENO_VALIDATION));
+                            return;
+                        }
+                        if(!postal.getText().toString().isEmpty() && postal.getText().toString().length()<6){
+                            postal.setError("postal code accepts only number and length should be 6");
+                            return;
+                        }
+
                         JSONObject jsonObject = new JSONObject();
                         jsonObject.put("firstname",edt_first_name.getText().toString().trim());
                         jsonObject.put("lastname",edit_last_name.getText().toString().trim());

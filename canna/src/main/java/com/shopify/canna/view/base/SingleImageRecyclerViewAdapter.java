@@ -66,7 +66,7 @@ public class SingleImageRecyclerViewAdapter extends  RecyclerView.Adapter<Single
                     public void onClick(View view) {
                         try {
                             if(jsonObject.has("sub_catg_data") && jsonObject.getJSONArray("sub_catg_data").length()>0){
-                                ((Activity)mctx).startActivity(new Intent(mctx, SubCategory.class).putExtra("data",jsonObject.toString()));
+                                ((Activity)mctx).startActivity(new Intent(mctx, SubCategory.class).putExtra("data",jsonObject.toString()).putExtra("title",jsonObject.getString("cb_name")));
                             }else if(jsonObject.has("cb_id") && jsonObject.has("image") && jsonObject.has("cb_name")){
                                 Intent intent = new Intent(mctx, ProductListActivity.class);
                                 intent.putExtra(ProductListActivity.EXTRAS_COLLECTION_ID,jsonObject.getString("encode_id"));

@@ -89,6 +89,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
+import com.shopify.canna.constant.ApplicationConstant;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -204,6 +205,27 @@ public class Utility {
             drawable=null;
         }
         return drawable;
+    }
+
+    public static String validatePattern(String value, String key ){
+        try{
+            JSONObject valid = new JSONObject(key);
+            if(value == null){
+                return  valid.getString("msg");
+            }
+            Pattern ptrn = Pattern.compile(valid.getString("pattern"));
+            Matcher matcher = ptrn.matcher(value);
+            String errorMsg=null;
+
+            if(! matcher.matches()){
+                errorMsg= valid.getString("msg");
+            }
+            return errorMsg;
+        }catch(Exception e){
+
+            Log.w("error",e);
+            return   ApplicationConstant.SOMETHINGWRONG;
+        }
     }
 
 }
