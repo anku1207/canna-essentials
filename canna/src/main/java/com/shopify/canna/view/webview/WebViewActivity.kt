@@ -32,8 +32,7 @@ class WebViewActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_web_view)
         if (intent.hasExtra(TITLE)) {
-            toolbar.setTitleTextAppearance(this@WebViewActivity, R.style.SweetSansMediumTextAppearance)
-            toolbar.title = intent.getStringExtra(TITLE)
+            titleToolbar.text = intent.getStringExtra(TITLE)
             toolbar.setNavigationOnClickListener {
                 onBackPressed()
             }
@@ -41,7 +40,7 @@ class WebViewActivity : AppCompatActivity() {
             toolbar.visibility = View.GONE
         }
         val url = intent.getStringExtra(URL)
-        Timber.d("URL : "+url)
+        Timber.d("URL : $url")
 
         webview_url.settings.javaScriptEnabled = true
         webview_url.settings.builtInZoomControls = true

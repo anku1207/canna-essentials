@@ -70,6 +70,7 @@ public final class RealCartViewModel extends BaseViewModel implements CartDetail
 
   public RealCartViewModel(ShopSettings shopSettings) {
     this.shopSettings = shopSettings;
+    onCartUpdated(null);
     registerRequest(
       REQUEST_ID_UPDATE_CART,
       cartWatchInteractor.execute()

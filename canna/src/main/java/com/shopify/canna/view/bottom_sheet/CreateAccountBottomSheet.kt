@@ -157,7 +157,7 @@ class CreateAccountBottomSheet : BaseRoundedBottomSheetFragment() {
                // WebViewActivity.launchActivity(startingActivity = requireActivity(), title = getString(R.string.terms_conditions_text), url = getString(R.string.terms_url))
                 val intent = Intent(requireActivity(), WebView::class.java)
                 intent.putExtra("url", "file:///android_asset/terms_of_service.html")
-                intent.putExtra("title", "Terms And Condition")
+                intent.putExtra("title", "Terms & Conditions")
                 (requireActivity() as Activity).startActivity(intent)
             }
 

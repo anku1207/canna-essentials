@@ -147,7 +147,7 @@ public class AddressFragment extends Fragment {
                             return;
                         }
                         if(!postal.getText().toString().isEmpty() && postal.getText().toString().length()<6){
-                            postal.setError("postal code accepts only number and length should be 6");
+                            postal.setError("Postal code accepts only number and length should be 6");
                             return;
                         }
 

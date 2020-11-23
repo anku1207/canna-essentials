@@ -7,7 +7,7 @@
     <string name="android_pay">Android Pay</string>
     <string name="web_checkout">Web Checkout</string>
     <string name="cart_subtotal_title">SubTotal</string>
-    <string name="cart_subtotal_subtitle">Shipping and taxes are calculated at checkout</string>
+    <string name="cart_subtotal_subtitle">Excludes taxes and applicable discount.</string>
     <string name="cart_subtotal_price">SubTotal: %s</string>
     <string name="progress_loading">Loading…</string>
     <string name="checkout_title">Order Confirmation</string>

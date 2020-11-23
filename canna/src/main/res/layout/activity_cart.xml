@@ -1,23 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/activitybackground"
     xmlns:android="http://schemas.android.com/apk/res/android" >
     <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginTop="30dp"
-        android:background="@color/activitybackground">
+        android:layout_marginTop="30dp">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
             app:contentInsetStartWithNavigation="0dp"
-            app:titleTextColor="@color/black"
             android:background="@color/white"
-            />
+            >
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Bag"
+                android:textSize="18sp"
+                android:layout_marginEnd="40dp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/sweetsanspromedium"
+                android:gravity="center_horizontal"/>
+        </androidx.appcompat.widget.Toolbar>
 
         <com.shopify.canna.view.cart.CartHeaderView
             android:id="@+id/cart_header"
@@ -53,6 +62,8 @@
         android:visibility="gone"
         android:id="@+id/linear_cart_empty"
         android:layout_width="match_parent"
+        android:clickable="true"
+        android:focusable="true"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:orientation="vertical">

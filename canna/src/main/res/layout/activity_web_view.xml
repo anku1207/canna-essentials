@@ -15,7 +15,19 @@
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/rof_backbutton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/titleToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Checkout"
+            android:textSize="18sp"
+            android:layout_marginEnd="50dp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/sweetsanspromedium"
+            android:gravity="center_horizontal"/>
+    </androidx.appcompat.widget.Toolbar>
 
     <WebView
         android:id="@+id/webview_url"

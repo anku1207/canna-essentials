@@ -34,6 +34,7 @@ import android.widget.LinearLayout;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleRegistry;
@@ -50,9 +51,11 @@ import com.shopify.canna.domain.model.ShopSettings;
 import com.shopify.canna.view.ProgressDialogHelper;
 import com.shopify.canna.view.ScreenRouter;
 import com.shopify.canna.view.checkout.CheckoutViewModel;
+import com.shopify.canna.view.webview.WebViewActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public final class CartActivity extends AppCompatActivity {
   @BindView(R2.id.root) View rootView;
@@ -60,6 +63,8 @@ public final class CartActivity extends AppCompatActivity {
   @BindView(R2.id.cart_list) CartListView cartListView;
   @BindView(R2.id.toolbar) Toolbar toolbarView;
   @BindView(R2.id.linear_cart_empty) LinearLayout linearLayoutEmptyCart;
+  @BindView(R2.id.button_continue_shopping)
+  AppCompatButton buttonContinueShopping;
 
   private CartDetailsViewModel cartDetailsViewModel;
   private CartHeaderViewModel cartHeaderViewModel;
@@ -80,11 +85,12 @@ public final class CartActivity extends AppCompatActivity {
     ButterKnife.bind(this);
 
     setSupportActionBar(toolbarView);
-    getSupportActionBar().setTitle(getIntent().getStringExtra("title")!=null?getIntent().getStringExtra("title"):"Cart");
     getSupportActionBar().setHomeAsUpIndicator(R.drawable.rof_backbutton);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     progressDialogHelper = new ProgressDialogHelper(this);
-
+    buttonContinueShopping.setOnClickListener(v -> {
+        onSupportNavigateUp();
+    });
     initViewModels();
 //    connectGoogleApiClient();
 
@@ -154,7 +160,16 @@ public final class CartActivity extends AppCompatActivity {
     });
 
     cartDetailsViewModel.cartItemsLiveData().observe(this, cartItems -> {
-      Log.d("TRIGGER_CART",""+cartItems.size());
+      Log.d("TRIGGER_CART",""+cartItems);
+      if (cartItems != null && cartItems.size() > 0){
+        linearLayoutEmptyCart.setVisibility(View.GONE);
+        cartListView.setVisibility(View.VISIBLE);
+        cartHeaderView.setVisibility(View.VISIBLE);
+      }else {
+        linearLayoutEmptyCart.setVisibility(View.VISIBLE);
+        cartHeaderView.setVisibility(View.GONE);
+        cartListView.setVisibility(View.GONE);
+      }
     });
 
     cartDetailsViewModel.progressLiveData().observe(this, progress -> {
@@ -190,8 +205,9 @@ public final class CartActivity extends AppCompatActivity {
   }
 
   private void onWebCheckoutConfirmation(final Checkout checkout) {
-    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(checkout.webUrl));
-    startActivity(intent);
+    WebViewActivity.Companion.launchActivity(CartActivity.this, "Checkout", checkout.webUrl);
+//    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(checkout.webUrl));
+//    startActivity(intent);
   }
 
   private void showError(final int requestId, final Throwable t, final String message) {
@@ -221,17 +237,4 @@ public final class CartActivity extends AppCompatActivity {
     snackbar.getView().setBackgroundResource(R.color.snackbar_error_background);
     snackbar.show();
   }
-
-//  private void connectGoogleApiClient() {
-//    if (PayHelper.isAndroidPayEnabledInManifest(this)) {
-//      googleApiClient = new GoogleApiClient.Builder(this)
-//        .addApi(Wallet.API, new Wallet.WalletOptions.Builder()
-//          .setEnvironment(BuildConfig.ANDROID_PAY_ENVIRONMENT)
-//          .setTheme(WalletConstants.THEME_DARK)
-//          .build())
-//        .addConnectionCallbacks(this)
-//        .build();
-//      googleApiClient.connect();
-//    }
-//  }
 }
