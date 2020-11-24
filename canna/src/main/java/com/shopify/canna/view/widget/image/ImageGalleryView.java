@@ -25,12 +25,14 @@
 package com.shopify.canna.view.widget.image;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -43,6 +45,7 @@ import com.shopify.canna.util.Util;
 import com.shopify.canna.view.base.ListItemViewHolder;
 import com.shopify.canna.view.base.ListItemViewModel;
 import com.shopify.canna.view.base.RecyclerViewAdapter;
+import com.shopify.canna.view.home.PopapSingleImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +60,8 @@ public final class ImageGalleryView extends FrameLayout implements RecyclerViewA
   @BindView(R2.id.pager) RecyclerView pagerView;
   @BindView(R2.id.pager_indicator) RecyclerView pagerIndicatorView;
   @BindView(R2.id.pager_indicator_frame) View pagerIndicatorFrameView;
+
+  ArrayList<String> imagesList=null;
 
   private final RecyclerViewAdapter pagerAdapter = new RecyclerViewAdapter();
   private final RecyclerViewAdapter pagerIndicatorAdapter = new RecyclerViewAdapter(this);
@@ -86,11 +91,12 @@ public final class ImageGalleryView extends FrameLayout implements RecyclerViewA
     checkNotNull(images, "images == null");
 
     List<ListItemViewModel> items = new ArrayList<>();
+    imagesList=new ArrayList<>();
     for (String image : images) {
       items.add(new PagerListItemModel(image));
+      imagesList.add(image);
     }
     pagerAdapter.swapItemsAndNotify(items, itemComparator);
-
     items = new ArrayList<>();
     for (String image : images) {
       items.add(new PagerIndicatorListItemModel(image));
@@ -116,13 +122,12 @@ public final class ImageGalleryView extends FrameLayout implements RecyclerViewA
     pagerView.setAdapter(pagerAdapter);
     new PagerSnapHelper().attachToRecyclerView(pagerView);
     pagerView.setOnClickListener(c -> {
-      Log.d("TOUCH_RECYCLE","click called");
     });
     pagerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
       @Override
       public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
         if (e.getAction() == MotionEvent.ACTION_UP){
-
+          getContext().startActivity(new Intent(getContext(), PopapSingleImageView.class).putStringArrayListExtra("data",imagesList));
         }
         return false;
       }
@@ -130,12 +135,14 @@ public final class ImageGalleryView extends FrameLayout implements RecyclerViewA
       @Override
       public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
         Log.d("TOUCH_RECYCLE","toch"+e.getAction());
+        Toast.makeText(getContext(), "TOUCH_RECYCLE", Toast.LENGTH_SHORT).show();
 
       }
 
       @Override
       public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
         Log.d("TOUCH_RECYCLE","disalow");
+        Toast.makeText(getContext(), "onRequestDisallowInterceptTouchEvent", Toast.LENGTH_SHORT).show();
       }
     });
     pagerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -198,6 +205,7 @@ public final class ImageGalleryView extends FrameLayout implements RecyclerViewA
 
       ItemViewHolder(@NonNull final OnClickListener onClickListener) {
         super(onClickListener);
+
       }
 
       @Override public void bindModel(@NonNull final ListItemViewModel<String> listViewItemModel, final int position) {
