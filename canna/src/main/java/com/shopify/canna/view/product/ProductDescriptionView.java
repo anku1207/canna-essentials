@@ -29,8 +29,6 @@ import android.content.Context;
 import android.text.Html;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,7 +38,7 @@ import androidx.core.widget.NestedScrollView;
 import com.shopify.canna.R;
 import com.shopify.canna.R2;
 import com.shopify.canna.domain.model.ProductDetails;
-import com.shopify.canna.view.base.URLImageParser;
+import com.shopify.canna.view.base.HtmlImageGetter;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
@@ -87,7 +85,7 @@ public final class ProductDescriptionView extends NestedScrollView {
   public void renderProduct(final ProductDetails product) {
     titleView.setText(product.title);
     Log.d("AVAILABLE_PRODUCT",""+product.isAvailableForSale);
-    descriptionView.setText(Html.fromHtml(product.description, new URLImageParser(descriptionView, getContext()), null));
+    descriptionView.setText(Html.fromHtml(product.description, new HtmlImageGetter(descriptionView, getContext()), null));
     if (product.isAvailableForSale){
       priceView.setTextColor(getResources().getColor(R.color.green));
       priceView.setText(getResources().getString(R.string.price_from, String.valueOf(formatMinPrice(product))));

@@ -17,14 +17,13 @@
         android:background="@color/white"
         >
         <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
             android:src="@drawable/rof_backbutton"
-            android:gravity="center"
+            android:padding="8dp"
+            android:foreground="?android:attr/selectableItemBackground"
             android:textStyle="bold"
-            android:id="@+id/back_activity_button"
-            android:tint="@color/black"
-            />
+            android:id="@+id/back_activity_button" />
         <LinearLayout
             android:id="@+id/saveshipmenticonintop"
             android:layout_width="25dp"
