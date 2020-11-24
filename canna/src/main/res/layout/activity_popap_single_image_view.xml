@@ -21,14 +21,14 @@
             />
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/cancel"
-            android:tint="@color/white"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="15dp"
+            android:src="@drawable/cross_sign"
             android:layout_alignParentEnd="true"
             android:id="@+id/cancel_action"
-            android:layout_marginTop="?android:actionBarSize"
-            android:layout_marginEnd="30dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="20dp"
             android:foreground="?attr/selectableItemBackground"
 
 
@@ -46,6 +46,8 @@
             app:tabIndicatorHeight="0dp"
             android:orientation="horizontal"
             android:text=""
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/sweetsanspromedium"
             android:textColor="@color/white"
             android:gravity="center"
             android:textSize="20dp"

@@ -124,25 +124,42 @@ public final class ImageGalleryView extends FrameLayout implements RecyclerViewA
     pagerView.setOnClickListener(c -> {
     });
     pagerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+      private int CLICK_ACTION_THRESHOLD = 200;
+      private float startX;
+      private float startY;
       @Override
-      public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-        if (e.getAction() == MotionEvent.ACTION_UP){
-          getContext().startActivity(new Intent(getContext(), PopapSingleImageView.class).putStringArrayListExtra("data",imagesList));
+      public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent event) {
+        switch (event.getAction()) {
+          case MotionEvent.ACTION_DOWN:
+            startX = event.getX();
+            startY = event.getY();
+            break;
+          case MotionEvent.ACTION_UP:
+            float endX = event.getX();
+            float endY = event.getY();
+            if (isAClick(startX, endX, startY, endY)) {
+              getContext().startActivity(new Intent(getContext(), PopapSingleImageView.class).putStringArrayListExtra("data",imagesList));
+            }
+            break;
         }
+        rv.getParent().requestDisallowInterceptTouchEvent(true);
         return false;
       }
 
       @Override
       public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
         Log.d("TOUCH_RECYCLE","toch"+e.getAction());
-        Toast.makeText(getContext(), "TOUCH_RECYCLE", Toast.LENGTH_SHORT).show();
-
       }
 
       @Override
       public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
         Log.d("TOUCH_RECYCLE","disalow");
-        Toast.makeText(getContext(), "onRequestDisallowInterceptTouchEvent", Toast.LENGTH_SHORT).show();
+      }
+
+      private boolean isAClick(float startX, float endX, float startY, float endY) {
+        float differenceX = Math.abs(startX - endX);
+        float differenceY = Math.abs(startY - endY);
+        return !(differenceX > CLICK_ACTION_THRESHOLD/* =5 */ || differenceY > CLICK_ACTION_THRESHOLD);
       }
     });
     pagerView.addOnScrollListener(new RecyclerView.OnScrollListener() {

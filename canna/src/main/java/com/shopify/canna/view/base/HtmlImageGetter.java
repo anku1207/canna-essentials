@@ -35,7 +35,7 @@ public class HtmlImageGetter implements Html.ImageGetter {
     @Override
     public Drawable getDrawable(String source) {
         LevelListDrawable d = new LevelListDrawable();
-        Drawable empty = context.getResources().getDrawable(R.drawable.ic_app_logo);
+        Drawable empty = context.getResources().getDrawable(R.drawable.loadimage);
         d.addLevel(0, 0, empty);
         d.setBounds(0, 0, empty.getIntrinsicWidth(), empty.getIntrinsicHeight());
 

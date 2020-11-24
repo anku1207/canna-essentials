@@ -124,8 +124,7 @@ dependencies {
   implementation 'com.shopify.mobilebuysdk:buy3:5.0.0'
   implementation 'net.danlew:android.joda:2.10.7.2'
   implementation "org.jetbrains.kotlin:kotlin-reflect:1.3.21"
-  implementation 'com.shopify.mobilebuysdk:buy3:3.0.0'
-
+  implementation 'com.jsibbold:zoomage:1.3.1-SNAPSHOT'
   annotationProcessor dep.butterKnifeCompiler
   implementation(dep.fresco) {
     exclude group: 'com.android.support'
