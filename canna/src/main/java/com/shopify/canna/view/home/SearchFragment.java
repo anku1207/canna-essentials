@@ -34,6 +34,7 @@ import com.shopify.canna.view.login.User_Login;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import kotlin.Unit;
 import kotlin.reflect.jvm.internal.impl.renderer.ClassifierNamePolicy;
@@ -165,7 +166,7 @@ public class SearchFragment extends Fragment implements SearchItemRecyclerViewAd
                     searchItemBykey(searchString , new VolleyResponse((VolleyResponse.OnSuccess)(success)->{
                         List<Storefront.Product> collection = (List<Storefront.Product>) success;
                         Log.w("length",collection.size()+"");
-                        if (collection.isEmpty()){
+                        if (collection.isEmpty() && Objects.requireNonNull(recyclerView.getAdapter()).getItemCount() == 0){
                             textViewNoData.setVisibility(View.VISIBLE);
                         }else {
                             Log.d("PAGINATION",""+collection.size());
@@ -184,9 +185,8 @@ public class SearchFragment extends Fragment implements SearchItemRecyclerViewAd
         Storefront.QueryRootQuery query = Storefront.query(root -> root.products(args2 -> args2.query(item).first(10),
                 args -> args.edges(productQuery -> productQuery.cursor().node(_queryBuilder -> _queryBuilder.title().availableForSale().priceRange(range -> range
                 .minVariantPrice(Storefront.MoneyV2Query::amount)).images(args1 ->  args1.first(1), imageConnection -> imageConnection
-                        .pageInfo(Storefront.PageInfoQuery::hasNextPage)
                         .edges(imageEdge -> imageEdge
-                                .node(Storefront.ImageQuery::src)))))
+                                .node(Storefront.ImageQuery::src))))).pageInfo(Storefront.PageInfoQuery::hasNextPage)
         ));
 
         SampleApplication.graphClient().queryGraph(query).enqueue(new Handler(Looper.getMainLooper()), result -> {
@@ -195,6 +195,10 @@ public class SearchFragment extends Fragment implements SearchItemRecyclerViewAd
                 if (((GraphCallResult.Success<Storefront.QueryRoot>) result).getResponse() != null &&
                         ((GraphCallResult.Success<Storefront.QueryRoot>) result).getResponse().getData() != null &&
                         ((GraphCallResult.Success<Storefront.QueryRoot>) result).getResponse().getData().getProducts() != null){
+                    if (((GraphCallResult.Success<Storefront.QueryRoot>) result).getResponse().getData().getProducts().getPageInfo() != null &&
+                            ((GraphCallResult.Success<Storefront.QueryRoot>) result).getResponse().getData().getProducts().getPageInfo().getHasNextPage() != null){
+                        Log.d("CURSOR_PAGE",""+((GraphCallResult.Success<Storefront.QueryRoot>) result).getResponse().getData().getProducts().getPageInfo().getHasNextPage());
+                    }
                     for (Storefront.ProductEdge collectionEdge : ((GraphCallResult.Success<Storefront.QueryRoot>) result).getResponse().getData().getProducts().getEdges()) {
                         if (collectionEdge.getCursor() != null){
                             Log.d("CURSOR_PAGE",""+collectionEdge.getCursor());
@@ -216,13 +220,13 @@ public class SearchFragment extends Fragment implements SearchItemRecyclerViewAd
         });
     }
 
-    public void searchItemBykey(String item , VolleyResponse volleyResponse, String pageCursor){
+    public void searchItemBykey(String item , VolleyResponse volleyResponse, String cursor){
         progressBar.setVisibility(View.VISIBLE);
-        Storefront.QueryRootQuery query = Storefront.query(root -> root.products(args2 -> args2.query(item).first(20).after(pageCursor),
+        Storefront.QueryRootQuery query = Storefront.query(root -> root.products(args2 -> args2.query(item).first(20).after(cursor),
                 args -> args.edges(productQuery -> productQuery.cursor().node(_queryBuilder -> _queryBuilder.title().availableForSale().priceRange(range -> range
                         .minVariantPrice(Storefront.MoneyV2Query::amount)).images(args1 ->  args1.first(1), imageConnection -> imageConnection
                         .edges(imageEdge -> imageEdge
-                                .node(Storefront.ImageQuery::src)))))
+                                .node(Storefront.ImageQuery::src))))).pageInfo(Storefront.PageInfoQuery::hasNextPage)
         ));
 
         SampleApplication.graphClient().queryGraph(query).enqueue(new Handler(Looper.getMainLooper()), result -> {
@@ -232,7 +236,15 @@ public class SearchFragment extends Fragment implements SearchItemRecyclerViewAd
                 if (((GraphCallResult.Success<Storefront.QueryRoot>) result).getResponse() != null &&
                         ((GraphCallResult.Success<Storefront.QueryRoot>) result).getResponse().getData() != null &&
                         ((GraphCallResult.Success<Storefront.QueryRoot>) result).getResponse().getData().getProducts() != null){
+                    if (((GraphCallResult.Success<Storefront.QueryRoot>) result).getResponse().getData().getProducts().getPageInfo() != null &&
+                            ((GraphCallResult.Success<Storefront.QueryRoot>) result).getResponse().getData().getProducts().getPageInfo().getHasNextPage() != null){
+                        Log.d("CURSOR_PAGE",""+((GraphCallResult.Success<Storefront.QueryRoot>) result).getResponse().getData().getProducts().getPageInfo().getHasNextPage());
+                    }
                     for (Storefront.ProductEdge collectionEdge : ((GraphCallResult.Success<Storefront.QueryRoot>) result).getResponse().getData().getProducts().getEdges()) {
+                        if (collectionEdge.getCursor() != null){
+                            Log.d("CURSOR_PAGE",""+collectionEdge.getCursor());
+                            pageCursor = collectionEdge.getCursor();
+                        }
                         products.add(collectionEdge.getNode());
                     }
 

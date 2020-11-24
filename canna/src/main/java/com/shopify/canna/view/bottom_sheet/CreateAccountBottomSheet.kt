@@ -135,7 +135,6 @@ class CreateAccountBottomSheet : BaseRoundedBottomSheetFragment() {
         initialText.append(getString(R.string.privacy_policy))
         initialText.setSpan(object : ClickableSpan(){
             override fun onClick(widget: View) {
-               // WebViewActivity.launchActivity(startingActivity = requireActivity(), title = getString(R.string.privacy_policy), url = getString(R.string.privacy_policy_url))
                 val intent = Intent(requireActivity(), WebView::class.java)
                 intent.putExtra("url", "file:///android_asset/privacy_policy.html")
                 intent.putExtra("title", "Privacy Policy")
@@ -154,7 +153,6 @@ class CreateAccountBottomSheet : BaseRoundedBottomSheetFragment() {
         initialText.append(getString(R.string.terms_conditions_text))
         initialText.setSpan(object : ClickableSpan(){
             override fun onClick(widget: View) {
-               // WebViewActivity.launchActivity(startingActivity = requireActivity(), title = getString(R.string.terms_conditions_text), url = getString(R.string.terms_url))
                 val intent = Intent(requireActivity(), WebView::class.java)
                 intent.putExtra("url", "file:///android_asset/terms_of_service.html")
                 intent.putExtra("title", "Terms & Conditions")

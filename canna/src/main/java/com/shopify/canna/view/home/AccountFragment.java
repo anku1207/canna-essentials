@@ -142,7 +142,7 @@ public class AccountFragment extends Fragment {
 
 
             jsonObject = new JSONObject();
-            jsonObject.put("image","terms_and_condition");
+            jsonObject.put("image","logout");
             jsonObject.put("heading","Logout");
             jsonObject.put("desc","Logout");
             jsonArray.put(jsonObject);

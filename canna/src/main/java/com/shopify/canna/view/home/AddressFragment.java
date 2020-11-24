@@ -199,7 +199,7 @@ public class AddressFragment extends Fragment {
         boolean validate=true;
         for(TextInputEditText textInputEditText :textInputEditTexts ){
             if(textInputEditText.getText().toString().isEmpty()){
-                textInputEditText.setError(textInputEditText.getHint().toString()+"is required field");
+                textInputEditText.setError(textInputEditText.getHint().toString());
                 validate=false;
             }
         }
