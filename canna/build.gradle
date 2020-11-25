@@ -18,7 +18,7 @@ android {
   buildToolsVersion androidConfig.buildToolsVersion
 
   defaultConfig {
-    applicationId "com.shopify.sample"
+    applicationId "com.canna.shop"
     minSdkVersion androidConfig.minSdkVersion
     versionCode 1
     versionName "1.0"

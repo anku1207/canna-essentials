@@ -18,26 +18,35 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".view.home.PopapSingleImageView"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden"
             tools:ignore="LockedOrientationActivity"
             >
 
         </activity>
-        <activity android:name=".view.home.WebView" />
+        <activity android:name=".view.home.WebView"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".view.webview.WebViewActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.Custom" />
-        <activity android:name=".view.home.SubCategory" />
+        <activity android:name=".view.home.SubCategory"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".view.home.HomeActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_home" />
         <activity
             android:name=".view.login.User_Login"
             android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".view.splash.Splash_Screen"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -53,18 +62,23 @@
         <activity
             android:name=".view.collections.CollectionListActivity"
             android:icon="@drawable/ic_logo"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".view.products.ProductListActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".view.product.ProductDetailsActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".view.cart.CartActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".view.checkout.CheckoutActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 

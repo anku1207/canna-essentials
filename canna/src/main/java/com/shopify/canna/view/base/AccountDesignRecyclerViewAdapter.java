@@ -128,13 +128,14 @@ public class AccountDesignRecyclerViewAdapter extends  RecyclerView.Adapter<Acco
                                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
                                 shareIntent.setType("text/plain");
                                 shareIntent.putExtra(Intent.EXTRA_SUBJECT, mctx.getResources().getString(R.string.app_name));
-                                String shareMessage= "\nTry out this cool app\n\n";
+                                String shareMessage= "\nHey, I am inviting you to try Canna Essentials app. Click on the link to download the app.\n\n";
                                 shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID +"\n\n";
                                 shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
                                 ((FragmentActivity)mctx).startActivity(Intent.createChooser(shareIntent, "Share app"));
                             }else if (jsonObject.getString("heading").equalsIgnoreCase("Share Feedback")){
                                 Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:support@cannaessentials.in"));
-                                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Canna Essentials android app feedback");
+                                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Canna Essentials Android App Feedback");
+                                emailIntent.putExtra(Intent.EXTRA_TEXT, "Please write your feedback here...");
                                 ((FragmentActivity)mctx).startActivity(Intent.createChooser(emailIntent, ""));
                             }else if (jsonObject.getString("heading").equalsIgnoreCase("Logout")){
                                 myDialogDoubleButton(mctx,"Logout","myDialogDoubleButton");

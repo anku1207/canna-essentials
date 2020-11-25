@@ -55,7 +55,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
-                            android:maxLines="2"
+                            android:maxLines="3"
                             android:fontFamily="@font/sweetsanspromedium"
                             android:textAppearance="@style/Shopify.TitleText.Inverse"
                             tools:text="Product Title"
