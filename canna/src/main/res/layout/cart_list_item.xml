@@ -18,6 +18,7 @@
             android:layout_height="match_parent">
             <com.shopify.canna.view.widget.image.ShopifyDraweeView
                 android:id="@+id/image"
+                android:adjustViewBounds="true"
                 style="@style/ShopifyDraweeView"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -56,6 +57,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
+                            android:textSize="13sp"
+                            android:maxLines="3"
                             android:fontFamily="@font/sweetsanspromedium"
                             android:textAppearance="@style/Shopify.TitleText.Inverse"
                             tools:text="Product Title"
