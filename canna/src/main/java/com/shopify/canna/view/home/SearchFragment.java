@@ -1,5 +1,8 @@
 package com.shopify.canna.view.home;
 
+import android.app.Activity;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -12,12 +15,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.shopify.buy3.GraphCallResult;
@@ -119,6 +129,45 @@ public class SearchFragment extends Fragment implements SearchItemRecyclerViewAd
         recyclerView.setNestedScrollingEnabled(true);
         recyclerView.setHasFixedSize(true);
 
+
+
+
+        int searchViewPlateId = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+        EditText searchPlateEditText = (EditText) searchView.findViewById(searchViewPlateId);
+        searchPlateEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    if(!TextUtils.isEmpty(v.getText().toString())){
+                        hideKeyboard(getActivity());
+                        searchString = v.getText().toString();
+                        pageCursor = "";
+                        searchItemBykey(searchString , new VolleyResponse((VolleyResponse.OnSuccess)(success)->{
+                            List<Storefront.Product> collection = (List<Storefront.Product>) success;
+                            Log.w("length",collection.size()+"");
+                            if (collection.isEmpty()){
+                                textViewNoData.setVisibility(View.VISIBLE);
+                            }else {
+                                textViewNoData.setVisibility(View.GONE);
+                            }
+                            searchItemRecyclerViewAdapter=new SearchItemRecyclerViewAdapter(getContext(), collection,R.layout.product_search_design, SearchFragment.this);
+                            recyclerView.setAdapter(searchItemRecyclerViewAdapter);
+                            recyclerView.getAdapter().notifyDataSetChanged();
+                        }));
+                    }
+                    else {
+                        List<Storefront.Product> collection = new ArrayList<>();
+                        searchItemRecyclerViewAdapter=new SearchItemRecyclerViewAdapter(getContext(), collection,R.layout.product_search_design, SearchFragment.this);
+                        recyclerView.setAdapter(searchItemRecyclerViewAdapter);
+                        recyclerView.getAdapter().notifyDataSetChanged();
+                    }
+                }
+                return true;
+            }
+
+        });
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -131,13 +180,12 @@ public class SearchFragment extends Fragment implements SearchItemRecyclerViewAd
             @Override
             public boolean onQueryTextChange(String newText) {
                 // search goes here !!
-
-                if(newText==null || newText.isEmpty() || newText.length() < 3){
+                if(newText==null || newText.isEmpty()){
                     List<Storefront.Product> collection = new ArrayList<>();
                     searchItemRecyclerViewAdapter=new SearchItemRecyclerViewAdapter(getContext(), collection,R.layout.product_search_design, SearchFragment.this);
                     recyclerView.setAdapter(searchItemRecyclerViewAdapter);
                     recyclerView.getAdapter().notifyDataSetChanged();
-                }else {
+                }/*else {
                     searchString = newText;
                     pageCursor = "";
                     searchItemBykey(searchString , new VolleyResponse((VolleyResponse.OnSuccess)(success)->{
@@ -152,7 +200,7 @@ public class SearchFragment extends Fragment implements SearchItemRecyclerViewAd
                         recyclerView.setAdapter(searchItemRecyclerViewAdapter);
                         recyclerView.getAdapter().notifyDataSetChanged();
                     }));
-                }
+                }*/
 
                 return false;
             }
@@ -178,6 +226,19 @@ public class SearchFragment extends Fragment implements SearchItemRecyclerViewAd
             }
         });
     }
+
+
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
 
     public void searchItemBykey(String item , VolleyResponse volleyResponse){
         progressBar.setVisibility(View.VISIBLE);
