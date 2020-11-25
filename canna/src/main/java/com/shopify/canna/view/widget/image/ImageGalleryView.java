@@ -49,6 +49,7 @@ import com.shopify.canna.view.home.PopapSingleImageView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -138,7 +139,8 @@ public final class ImageGalleryView extends FrameLayout implements RecyclerViewA
             float endX = event.getX();
             float endY = event.getY();
             if (isAClick(startX, endX, startY, endY)) {
-              getContext().startActivity(new Intent(getContext(), PopapSingleImageView.class).putStringArrayListExtra("data",imagesList));
+              int index = ((LinearLayoutManager) Objects.requireNonNull(pagerView.getLayoutManager())).findFirstVisibleItemPosition();
+              getContext().startActivity(new Intent(getContext(), PopapSingleImageView.class).putExtra("currentPos",index).putStringArrayListExtra("data",imagesList));
             }
             break;
         }

@@ -63,9 +63,11 @@ public class PopapSingleImageView extends AppCompatActivity {
 
         stringArrayList = getIntent().getStringArrayListExtra("data");
 
+        int currentPos = getIntent().getIntExtra("currentPos", 0);
         viewPager.setAdapter(new BannerAdapter(this, stringArrayList));
 
-        indicator.setText(1+"/"+stringArrayList.size());
+        indicator.setText((currentPos+1)+"/"+stringArrayList.size());
+        viewPager.setCurrentItem(currentPos);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
