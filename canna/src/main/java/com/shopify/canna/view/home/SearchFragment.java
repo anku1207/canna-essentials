@@ -137,7 +137,6 @@ public class SearchFragment extends Fragment implements SearchItemRecyclerViewAd
         searchPlateEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     if(!TextUtils.isEmpty(v.getText().toString())){
                         hideKeyboard(getActivity());
@@ -155,8 +154,7 @@ public class SearchFragment extends Fragment implements SearchItemRecyclerViewAd
                             recyclerView.setAdapter(searchItemRecyclerViewAdapter);
                             recyclerView.getAdapter().notifyDataSetChanged();
                         }));
-                    }
-                    else {
+                    }else {
                         List<Storefront.Product> collection = new ArrayList<>();
                         searchItemRecyclerViewAdapter=new SearchItemRecyclerViewAdapter(getContext(), collection,R.layout.product_search_design, SearchFragment.this);
                         recyclerView.setAdapter(searchItemRecyclerViewAdapter);
