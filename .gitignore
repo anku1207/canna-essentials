@@ -49,3 +49,5 @@ sample/gen
 sample/build
 node_modules
 package.json
+/canna/class_files.txt
+/canna/shopify/release/output.json
