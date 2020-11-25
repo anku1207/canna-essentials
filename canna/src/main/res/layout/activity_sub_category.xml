@@ -10,27 +10,43 @@
     app:layout_constraintTop_toTopOf="parent"
     android:orientation="vertical">
 
-    <androidx.appcompat.widget.Toolbar
+    <RelativeLayout
         android:id="@+id/my_awesome_toolbar"
         android:layout_height="50dp"
         android:layout_width="match_parent"
         android:background="@color/white"
-        >
+        android:orientation="horizontal">
         <ImageView
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:src="@drawable/rof_backbutton"
-            android:padding="8dp"
+            android:padding="10dp"
             android:foreground="?android:attr/selectableItemBackground"
             android:textStyle="bold"
             android:id="@+id/back_activity_button" />
+
+        <TextView
+            android:layout_centerInParent="true"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:fontFamily="@font/sweetsanspromedium"
+            android:text="SubCategory"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:id="@+id/title"
+            android:textColor="@color/black" />
+
         <LinearLayout
             android:id="@+id/saveshipmenticonintop"
             android:layout_width="25dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
             android:layout_height="25dp"
+            android:layout_marginEnd="10dp"
             android:orientation="vertical"
-            android:layout_gravity="end"
-            android:layout_marginRight="10dp"
             >
             <ImageView
                 android:id="@+id/clear_notification"
@@ -42,24 +58,7 @@
                 android:visibility="gone"/>
 
         </LinearLayout>
-        <TextView
-            android:layout_centerInParent="true"
-            android:layout_height="match_parent"
-            android:layout_width="fill_parent"
-            android:textAlignment="center"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:fontFamily="@font/sweetsanspromedium"
-            android:text="SubCategory"
-            android:textStyle="bold"
-            android:textSize="20dp"
-            android:id="@+id/title"
-            android:textColor="@color/black"
-
-
-
-            />
-    </androidx.appcompat.widget.Toolbar>
+    </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -133,10 +133,18 @@ public class AccountDesignRecyclerViewAdapter extends  RecyclerView.Adapter<Acco
                                 shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
                                 ((FragmentActivity)mctx).startActivity(Intent.createChooser(shareIntent, "Share app"));
                             }else if (jsonObject.getString("heading").equalsIgnoreCase("Share Feedback")){
-                                Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:support@cannaessentials.in"));
+                                Intent selectorIntent = new Intent(Intent.ACTION_SENDTO);
+                                selectorIntent.setData(Uri.parse("mailto:"));
+                                final Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                                emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"support@cannaessentials.in"});
                                 emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Canna Essentials Android App Feedback");
                                 emailIntent.putExtra(Intent.EXTRA_TEXT, "Please write your feedback here...");
-                                ((FragmentActivity)mctx).startActivity(Intent.createChooser(emailIntent, ""));
+                                emailIntent.setSelector( selectorIntent );
+                                try {
+                                    ((FragmentActivity)mctx).startActivity(Intent.createChooser(emailIntent, ""));
+                                }catch (Throwable t){
+                                    Toast.makeText(((FragmentActivity)mctx), "Write to us at support@cannaessentials.in",Toast.LENGTH_LONG).show();
+                                }
                             }else if (jsonObject.getString("heading").equalsIgnoreCase("Logout")){
                                 myDialogDoubleButton(mctx,"Logout","myDialogDoubleButton");
                             }

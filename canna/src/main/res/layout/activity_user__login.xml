@@ -76,14 +76,20 @@
                 android:maxLines="1"
                 />
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/Recover_Password"
                 android:fontFamily="@font/sweetsanspromedium"
                 android:gravity="center"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:layout_gravity="center_horizontal"
                 android:textSize="16dp"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:onClick="recoverPassword"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="4dp"
                 android:textColor="@color/white">
             </TextView>
 
@@ -96,7 +102,7 @@
                 android:gravity="center"
                 android:textSize="16sp"
                 android:background="@drawable/cornerbutton"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="8dp"
                 android:textAllCaps="false"
                 />
             <TextView
