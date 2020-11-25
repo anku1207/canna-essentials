@@ -22,6 +22,7 @@ android {
     minSdkVersion androidConfig.minSdkVersion
     versionCode 1
     versionName "1.0"
+    multiDexEnabled true
     vectorDrawables.useSupportLibrary = true
   }
 
@@ -84,8 +85,8 @@ android {
       buildConfigField "String", "API_KEY", "\"" + apiKey.toString() + "\""
       buildConfigField "String", "DEFAULT_LOCALE", "\"" + locale.toString() + "\""
 
-      debuggable = true
-      minifyEnabled = false
+      debuggable = false
+      minifyEnabled = true
     }
   }
 
@@ -136,6 +137,8 @@ dependencies {
   implementation 'net.danlew:android.joda:2.10.7.2'
   implementation "org.jetbrains.kotlin:kotlin-reflect:1.3.21"
   implementation 'com.jsibbold:zoomage:1.3.1-SNAPSHOT'
+  implementation 'androidx.multidex:multidex:2.0.0'
+
   annotationProcessor dep.butterKnifeCompiler
   implementation(dep.fresco) {
     exclude group: 'com.android.support'

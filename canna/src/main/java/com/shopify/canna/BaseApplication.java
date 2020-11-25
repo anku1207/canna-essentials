@@ -25,8 +25,11 @@
 package com.shopify.canna;
 
 import android.app.Application;
+import android.content.Context;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.multidex.MultiDex;
 
 import com.facebook.cache.disk.DiskCacheConfig;
 import com.facebook.common.logging.FLog;
@@ -75,6 +78,12 @@ public abstract class BaseApplication extends Application {
     iniTimber();
     initFresco();
     fetchShopSettings();
+  }
+
+  @Override
+  protected void attachBaseContext(Context base) {
+    super.attachBaseContext(base);
+    MultiDex.install(this);
   }
 
   public UseCases useCases() {

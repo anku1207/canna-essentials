@@ -22,7 +22,6 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:gravity="center"
-        android:lines="3"
         android:fontFamily="@font/sweetsanspromedium"
         android:paddingLeft="@dimen/default_padding_half"
         android:paddingRight="@dimen/default_padding_half"
