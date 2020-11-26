@@ -91,7 +91,7 @@ final class Converters {
     Checkout.ShippingRate shippingLine = checkout.getShippingLine() != null ? convertToShippingRate(checkout.getShippingLine()) : null;
     return new Checkout(checkout.getId().toString(), checkout.getWebUrl(), checkout.getCurrencyCode().toString(),
       checkout.getRequiresShipping(), lineItems, convertToShippingRates(checkout.getAvailableShippingRates()),
-      shippingLine, checkout.getTotalTax(), checkout.getSubtotalPrice(), checkout.getTotalPrice());
+      shippingLine, checkout.getTotalTax(), checkout.getSubtotalPrice(), checkout.getTotalPrice(), checkout.getEmail(), checkout.getShippingAddress());
   }
 
   static Checkout.ShippingRates convertToShippingRates(final Storefront.AvailableShippingRates availableShippingRates) {

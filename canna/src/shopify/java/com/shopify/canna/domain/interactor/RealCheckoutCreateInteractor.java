@@ -24,19 +24,27 @@
 
 package com.shopify.canna.domain.interactor;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.shopify.buy3.Storefront;
+import com.shopify.canna.domain.model.Address;
+import com.shopify.canna.util.Prefs;
 import com.shopify.graphql.support.ID;
 import com.shopify.canna.SampleApplication;
 import com.shopify.canna.domain.model.Checkout;
 import com.shopify.canna.domain.model.UserMessageError;
 import com.shopify.canna.domain.repository.CheckoutRepository;
 import com.shopify.canna.domain.repository.UserError;
+import com.shopify.graphql.support.Input;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import io.reactivex.Single;
+import kotlin.Unit;
 
 import static com.shopify.canna.util.Util.checkNotEmpty;
 import static com.shopify.canna.util.Util.mapItems;
@@ -50,15 +58,16 @@ public final class RealCheckoutCreateInteractor implements CheckoutCreateInterac
 
   @Override public Single<Checkout> execute(@NonNull final List<Checkout.LineItem> lineItems) {
     checkNotEmpty(lineItems, "lineItems can't be empty");
-
     List<Storefront.CheckoutLineItemInput> storefrontLineItems = mapItems(lineItems, lineItem ->
       new Storefront.CheckoutLineItemInput(lineItem.quantity, new ID(lineItem.variantId)));
+    Log.d("CHECKOUT_VALUES",""+Objects.requireNonNull(Prefs.INSTANCE.fetchCustomerDetails()).getEmail());
 
-    Storefront.CheckoutCreateInput input = new Storefront.CheckoutCreateInput().setLineItems(storefrontLineItems);
-
-    return repository
-      .create(input, q -> q.checkout(new CheckoutCreateFragment()))
-      .map(Converters::convertToCheckout)
-      .onErrorResumeNext(t -> Single.error((t instanceof UserError) ? new UserMessageError(t.getMessage()) : t));
+    Storefront.CheckoutCreateInput input = new Storefront.CheckoutCreateInput()
+            .setEmail(Objects.requireNonNull(Prefs.INSTANCE.fetchCustomerDetails()).getEmail())
+            .setLineItems(storefrontLineItems);
+    return repository.create(input, q -> q.checkout(new CheckoutCreateFragment())).map(Converters::convertToCheckout)
+            .onErrorResumeNext(t -> {
+              return Single.error((t instanceof UserError) ? new UserMessageError(t.getMessage()) : t);
+            });
   }
 }

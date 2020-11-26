@@ -27,24 +27,29 @@ package com.shopify.canna.domain.interactor;
 import com.shopify.buy3.Storefront;
 
 final class CheckoutCreateFragment implements Storefront.CheckoutQueryDefinition {
-  @Override public void define(final Storefront.CheckoutQuery query) {
-    query
-      .webUrl()
-      .requiresShipping()
-      .currencyCode()
-      .lineItems(args ->  args.first(250),
-        lineItemConnection -> lineItemConnection.edges(
-          lineItemEdge -> lineItemEdge.node(
-            lineItemNode -> lineItemNode
-              .variant(variant -> variant.price())
-              .quantity()
-              .title()
-          )
-        )
-      )
-      .totalPrice()
-      .totalTax()
-      .subtotalPrice()
-      .shippingLine(new CheckoutShippingRateFragment());
-  }
+    @Override
+    public void define(final Storefront.CheckoutQuery query) {
+        query
+                .webUrl()
+                .email()
+                .requiresShipping()
+                .currencyCode()
+                .lineItems(args -> args.first(250),
+                        lineItemConnection -> lineItemConnection.edges(
+                                lineItemEdge -> lineItemEdge.node(
+                                        lineItemNode -> lineItemNode
+                                                .variant(variant -> variant.price())
+                                                .quantity()
+                                                .title()
+                                )
+                        )
+                )
+//                .shippingAddress(addressQuery -> {
+//                    addressQuery.address1().city().country().firstName().lastName().province().zip();
+//                })
+                .totalPrice()
+                .totalTax()
+                .subtotalPrice()
+                .shippingLine(new CheckoutShippingRateFragment());
+    }
 }

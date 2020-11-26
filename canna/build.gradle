@@ -85,8 +85,14 @@ android {
       buildConfigField "String", "API_KEY", "\"" + apiKey.toString() + "\""
       buildConfigField "String", "DEFAULT_LOCALE", "\"" + locale.toString() + "\""
 
-      debuggable = false
-      minifyEnabled = true
+      debuggable = true
+      minifyEnabled = false
+    }
+
+    release {
+      minifyEnabled true
+      shrinkResources true
+      debuggable false
     }
   }
 

@@ -27,6 +27,8 @@ package com.shopify.canna.domain.model;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.shopify.buy3.Storefront;
+
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -45,10 +47,14 @@ public final class Checkout {
   @NonNull public final BigDecimal taxPrice;
   @NonNull public final BigDecimal subtotalPrice;
   @NonNull public final BigDecimal totalPrice;
+  @NonNull public final String email;
+  public Storefront.MailingAddress mailingAddress;
+//  @NonNull public final Storefront.Customer customer;
 
   public Checkout(@NonNull final String id, @NonNull final String webUrl, @NonNull final String currency, final boolean requiresShipping,
     @NonNull final List<LineItem> lineItems, @NonNull final ShippingRates shippingRates, @Nullable final ShippingRate shippingLine,
-    @NonNull final BigDecimal taxPrice, @NonNull final BigDecimal subtotalPrice, @NonNull final BigDecimal totalPrice) {
+    @NonNull final BigDecimal taxPrice, @NonNull final BigDecimal subtotalPrice, @NonNull final BigDecimal totalPrice,@NonNull final String email/*,
+                  @NonNull final Storefront.Customer customer*/,final Storefront.MailingAddress mailingAddress) {
     this.id = checkNotNull(id, "id == null");
     this.webUrl = checkNotNull(webUrl, "webUrl == null");
     this.currency = checkNotNull(currency, "currency == null");
@@ -59,6 +65,11 @@ public final class Checkout {
     this.taxPrice = checkNotNull(taxPrice, "taxPrice == null");
     this.subtotalPrice = checkNotNull(subtotalPrice, "subtotalPrice == null");
     this.totalPrice = checkNotNull(totalPrice, "totalPrice == null");
+    this.email = checkNotNull(email, "email == null");
+    if (mailingAddress != null){
+      this.mailingAddress = checkNotNull(mailingAddress, "email == null");
+    }
+//    this.customer = checkNotNull(customer, "email == null");
   }
 
   @Override public String toString() {
@@ -73,6 +84,8 @@ public final class Checkout {
       ", taxPrice=" + taxPrice +
       ", subtotalPrice=" + subtotalPrice +
       ", totalPrice=" + totalPrice +
+      ", email=" + email +
+//      ", customer=" + customer +
       '}';
   }
 

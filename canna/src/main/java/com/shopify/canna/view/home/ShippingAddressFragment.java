@@ -129,7 +129,7 @@ public class ShippingAddressFragment extends Fragment implements View.OnClickLis
             ShippingAddressRecyclerViewAdapter s = new ShippingAddressRecyclerViewAdapter(getActivity(),customerAddress,R.layout.shipping_address_design,ShippingAddressFragment.this);
             recyclerView.setAdapter(s);
             recyclerView.getAdapter().notifyDataSetChanged();
-        }));
+        }) );
     }
 
     public void getCustomerAddressList(String tokenId, VolleyResponse volleyResponse){

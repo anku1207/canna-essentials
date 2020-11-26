@@ -27,6 +27,8 @@ package com.shopify.canna.view.cart;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -43,19 +45,30 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.shopify.buy3.GraphCallResult;
+import com.shopify.buy3.Storefront;
 import com.shopify.canna.BaseApplication;
 import com.shopify.canna.R;
 import com.shopify.canna.R2;
+import com.shopify.canna.SampleApplication;
 import com.shopify.canna.domain.model.Checkout;
 import com.shopify.canna.domain.model.ShopSettings;
+import com.shopify.canna.util.Prefs;
+import com.shopify.canna.util.Utils;
 import com.shopify.canna.view.ProgressDialogHelper;
 import com.shopify.canna.view.ScreenRouter;
 import com.shopify.canna.view.checkout.CheckoutViewModel;
 import com.shopify.canna.view.webview.WebViewActivity;
+import com.shopify.graphql.support.ID;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import kotlin.Unit;
+import kotlinx.coroutines.CoroutineScope;
+import kotlinx.coroutines.Dispatchers;
 
 public final class CartActivity extends AppCompatActivity {
   @BindView(R2.id.root) View rootView;
@@ -106,16 +119,7 @@ public final class CartActivity extends AppCompatActivity {
       progressDialogHelper = null;
     }
 
-//    if (googleApiClient != null) {
-//      googleApiClient.disconnect();
-//      googleApiClient = null;
-//    }
   }
-
-//  @Override protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-//    super.onActivityResult(requestCode, resultCode, data);
-//    cartDetailsViewModel.handleMaskedWalletResponse(requestCode, resultCode, data);
-//  }
 
   @Override protected void onSaveInstanceState(final Bundle outState) {
     super.onSaveInstanceState(outState);
@@ -144,7 +148,85 @@ public final class CartActivity extends AppCompatActivity {
 
     cartDetailsViewModel.webCheckoutCallback().observe(this.getLifecycle(), checkout -> {
       if (checkout != null) {
-        onWebCheckoutConfirmation(checkout);
+
+        Storefront.QueryRootQuery queryAddress = Storefront.query(root -> root
+                .customer(Prefs.INSTANCE.getAccessToken(), customer -> customer
+                        .addresses(arg -> arg.first(30), connection -> connection
+                                .edges(edge -> edge
+                                        .node(node -> node
+                                                .address1()
+                                                .address2()
+                                                .city()
+                                                .province()
+                                                .country()
+                                                .firstName()
+                                                .lastName()
+                                                .phone()
+                                                .zip()
+                                        )
+                                )
+                        )
+                )
+        );
+        SampleApplication.graphClient().queryGraph(queryAddress).enqueue(new Handler(Looper.getMainLooper()), resultAddress -> {
+          if (resultAddress instanceof GraphCallResult.Success){
+            if (((GraphCallResult.Success<Storefront.QueryRoot>) resultAddress).getResponse() != null &&
+                    ((GraphCallResult.Success<Storefront.QueryRoot>) resultAddress).getResponse().getData().getCustomer() != null &&
+                    ((GraphCallResult.Success<Storefront.QueryRoot>) resultAddress).getResponse().getData().getCustomer().getAddresses() != null &&
+                    !((GraphCallResult.Success<Storefront.QueryRoot>) resultAddress).getResponse().getData().getCustomer().getAddresses().getEdges().isEmpty()){
+
+              Storefront.MailingAddressEdge mailingAddressEdge = ((GraphCallResult.Success<Storefront.QueryRoot>) resultAddress).getResponse().getData().getCustomer().getAddresses().getEdges().get(
+                      ((GraphCallResult.Success<Storefront.QueryRoot>) resultAddress).getResponse().getData().getCustomer().getAddresses().getEdges().size() - 1);
+
+              Storefront.MailingAddressInput input = new Storefront.MailingAddressInput()
+                      .setAddress1(mailingAddressEdge.getNode().getAddress1())
+                      .setAddress2(mailingAddressEdge.getNode().getAddress2())
+                      .setCity(mailingAddressEdge.getNode().getCity())
+                      .setCountry("IN")
+                      .setFirstName(mailingAddressEdge.getNode().getFirstName())
+                      .setLastName(mailingAddressEdge.getNode().getLastName())
+                      .setPhone(mailingAddressEdge.getNode().getPhone())
+                      .setProvince(mailingAddressEdge.getNode().getProvince())
+                      .setZip(mailingAddressEdge.getNode().getZip());
+              List<Storefront.MailingAddressEdge> customer= ((GraphCallResult.Success<Storefront.QueryRoot>) resultAddress).getResponse().getData().getCustomer().getAddresses().getEdges();
+              Storefront.MutationQuery query = Storefront.mutation((mutationQuery -> mutationQuery
+                              .checkoutShippingAddressUpdate(input, new ID(checkout.id), shippingAddressUpdatePayloadQuery -> shippingAddressUpdatePayloadQuery
+                                      .checkout(Storefront.CheckoutQuery::webUrl
+                                      )
+                                      .userErrors(userErrorQuery -> userErrorQuery
+                                              .field()
+                                              .message()
+                                      )
+                              )
+                      )
+              );
+
+              SampleApplication.graphClient().mutateGraph(query).enqueue(result -> {
+                if (result instanceof GraphCallResult.Success){
+                  if (((GraphCallResult.Success<Storefront.Mutation>) result).getResponse() != null &&
+                          ((GraphCallResult.Success<Storefront.Mutation>) result).getResponse().getData() != null &&
+                          ((GraphCallResult.Success<Storefront.Mutation>) result).getResponse().getData().getCheckoutShippingAddressUpdate() != null &&
+                          ((GraphCallResult.Success<Storefront.Mutation>) result).getResponse().getData().getCheckoutShippingAddressUpdate().getCheckout().getWebUrl() != null){
+                    WebViewActivity.Companion.launchActivity(CartActivity.this,"",
+                            ((GraphCallResult.Success<Storefront.Mutation>) result).getResponse().getData().getCheckoutShippingAddressUpdate().getCheckout().getWebUrl());
+                  }else {
+                    onWebCheckoutConfirmation(checkout);
+                  }
+                }else {
+                  onWebCheckoutConfirmation(checkout);
+                }
+                Log.d("address_update",""+result);
+                return Unit.INSTANCE;
+              });
+            }else {
+              onWebCheckoutConfirmation(checkout);
+            }
+          }else {
+            onWebCheckoutConfirmation(checkout);
+          }
+          return Unit.INSTANCE;
+        });
+
       }
     });
     cartDetailsViewModel.androidPayStartCheckoutCallback().observe(this.getLifecycle(), payCart -> {

@@ -60,13 +60,4 @@ class WebViewActivity : AppCompatActivity() {
             }
         }
     }
-
-    open class AppWebViewClient : WebViewClient(){
-        val progressBar : ProgressBar? = null
-
-        override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
-
-            return super.shouldOverrideUrlLoading(view, request)
-        }
-    }
 }

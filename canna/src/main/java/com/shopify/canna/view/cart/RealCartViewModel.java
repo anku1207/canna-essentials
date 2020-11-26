@@ -31,6 +31,10 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+
+import com.shopify.buy3.Storefront;
+import com.shopify.canna.BaseApplication;
+import com.shopify.canna.SampleApplication;
 import com.shopify.canna.domain.interactor.CartWatchInteractor;
 import com.shopify.canna.domain.interactor.CheckoutCreateInteractor;
 import com.shopify.canna.domain.interactor.RealCartWatchInteractor;
@@ -39,10 +43,14 @@ import com.shopify.canna.domain.model.Cart;
 import com.shopify.canna.domain.model.CartItem;
 import com.shopify.canna.domain.model.Checkout;
 import com.shopify.canna.domain.model.ShopSettings;
+import com.shopify.canna.domain.repository.CheckoutRepository;
 import com.shopify.canna.util.WeakObserver;
 import com.shopify.canna.view.BaseViewModel;
 import com.shopify.canna.view.LifeCycleBoundCallback;
+import com.shopify.graphql.support.ID;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import kotlin.Unit;
 import timber.log.Timber;
 
 import java.math.BigDecimal;
@@ -173,7 +181,11 @@ public final class RealCartViewModel extends BaseViewModel implements CartDetail
                       .toObservable()
                       .observeOn(AndroidSchedulers.mainThread())
                       .subscribeWith(WeakObserver.<RealCartViewModel, Checkout>forTarget(this)
-                              .delegateOnNext((presenter, checkout) -> presenter.onCreateCheckout(requestId, checkout))
+                              .delegateOnNext((presenter, checkout) -> {
+
+
+                                presenter.onCreateCheckout(requestId, checkout);
+                              })
                               .delegateOnError((presenter, t) -> presenter.onCreateCheckoutError(requestId, t))
                               .create())
       );
