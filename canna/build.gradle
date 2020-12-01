@@ -20,7 +20,7 @@ android {
   defaultConfig {
     applicationId "com.canna.shop"
     minSdkVersion androidConfig.minSdkVersion
-    versionCode 1
+    versionCode 3
     versionName "1.0"
     multiDexEnabled true
     vectorDrawables.useSupportLibrary = true

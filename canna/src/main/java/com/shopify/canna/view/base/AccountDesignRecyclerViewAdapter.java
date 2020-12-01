@@ -98,10 +98,10 @@ public class AccountDesignRecyclerViewAdapter extends  RecyclerView.Adapter<Acco
                                 intent.putExtra("title","About Us");
 
                                 ((Activity)mctx).startActivity(intent);
-                            }else if(jsonObject.getString("heading").equalsIgnoreCase("Terms And Condition")){
+                            }else if(jsonObject.getString("heading").equalsIgnoreCase("Terms And Conditions")){
                                 Intent intent = new Intent(mctx, WebView.class);
                                 intent.putExtra("url","file:///android_asset/terms_of_service.html");
-                                intent.putExtra("title","Terms And Condition");
+                                intent.putExtra("title","Terms And Conditions");
 
                                 ((Activity)mctx).startActivity(intent);
                             }else if(jsonObject.getString("heading").equalsIgnoreCase("Shipping")){

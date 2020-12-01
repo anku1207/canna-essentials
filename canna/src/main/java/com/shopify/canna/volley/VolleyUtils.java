@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -72,7 +73,7 @@ public class VolleyUtils {
             }
 
         }
-
+        Log.d("URL_APP",""+ApplicationConstant.getHttpURL(context)+"/"+connectionVO.getMethodName());
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (connectionVO.getRequestType(), ApplicationConstant.getHttpURL(context)+"/"+connectionVO.getMethodName()
                         , jsonParams, response -> {

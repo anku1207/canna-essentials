@@ -126,8 +126,8 @@ public class HelpCenterFragment extends Fragment {
 
             jsonObject = new JSONObject();
             jsonObject.put("image","terms_and_condition");
-            jsonObject.put("heading","Terms And Condition");
-            jsonObject.put("desc","Terms And Condition");
+            jsonObject.put("heading","Terms And Conditions");
+            jsonObject.put("desc","Terms And Conditions");
             jsonArray.put(jsonObject);
 
 

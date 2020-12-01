@@ -142,7 +142,7 @@ public class BrandsFragment extends Fragment implements  SwipeRefreshLayout.OnRe
                 recyclerView.getAdapter().notifyDataSetChanged();
                 mSwipeRefreshLayout.setRefreshing(false);
             }catch (Exception e ){
-                Toast.makeText(getContext(), "sdfsdfsf", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
             }
         }));
     }
@@ -165,7 +165,7 @@ public class BrandsFragment extends Fragment implements  SwipeRefreshLayout.OnRe
                 }
             });
         }catch (Exception e){
-            Toast.makeText(getContext(), "sdfsdfsf", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getText(R.string.something_wrong), Toast.LENGTH_SHORT).show();
         }
 
     }
